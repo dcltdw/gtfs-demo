@@ -56,6 +56,10 @@ See [SECURITY.md](SECURITY.md) for the disclosure process and threat model. Demo
 
 **Polite-consumer principle**: the realtime fetcher sends a `User-Agent` that names the app, the maintainer, and a public disclosure email; outbound fetches are limited to one per feed per 10 seconds via a per-URL token bucket; transient failures retry with exponential backoff (2–8s, three attempts). MBTA ops can see who's talking and how often; we don't hammer the CDN. See [docs/agent-spec/F-002-gtfs-rt-fetcher.md](docs/agent-spec/F-002-gtfs-rt-fetcher.md).
 
+**Authentication**: single seeded user via `streamlit-authenticator` + bcrypt-hashed password loaded from `.env`. The cookie HMAC key is a separate setting from the password hash so "someone read the hash" and "someone can forge sessions" remain distinct threats. Auth events (`auth.login.success`, `auth.login.failure` with reason, `auth.logout`) emit as structured stdlib logs; the password is never written to any record. See [docs/agent-spec/F-007-auth-validation.md](docs/agent-spec/F-007-auth-validation.md). Real user accounts (DB-backed), OAuth/SSO, MFA, account lockout, and a durable audit log are all explicit post-demo follow-ons (#35–#38).
+
+**Input validation**: `gtfs_dleung.validation.validate_stop_id` rejects any stop ID outside the demo corridor's 16 parent stations, as defence-in-depth against arbitrary lookups bypassing the UI.
+
 ## Operational notes
 
 > Runbook lands as `DEMO.md` in PR #14.

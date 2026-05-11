@@ -23,6 +23,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `docs/agent-spec/F-004-vehiclepositions.md` — VehiclePositions spec at the correct F-004 slot (the originating issue's `F-003-vehiclepositions-parser` name conflicted with TripUpdates).
 - ServiceAlerts parser (`gtfs_dleung.parser.alerts.parse`) returning typed `ServiceAlert` rows. Two layered filters — scope (informed_entity touches Red / Green-E / corridor parent station) + active-period (overlaps `now`). `now` is a required argument so tests pin time without monkey-patching.
 - Feed-health tracker (`gtfs_dleung.fetcher.health.HealthTrackedFetcher`) wrapping the stateless `fetch_feed` with last-success caching, graceful degradation, transition logging, and a metrics dict (`fetches_total`, `fetch_errors_total`, `feed_age_seconds`). Module-level singleton + `fetch_with_health` / `get_feed_health` / `get_metrics` / `reset_tracker_for_tests` thin wrappers.
+- `gtfs_dleung.auth` module — `verify_credentials` (bcrypt-checked, three named failure reasons), `build_authenticator_config` (returns the credentials/cookie config the Streamlit page wires up in #11), `log_auth_event` (structured INFO records; raises if a caller passes `password=`).
+- `gtfs_dleung.validation.validate_stop_id` — defence-in-depth allow-list of corridor parent stations; rejects platform-level IDs and out-of-scope stops.
+- `Settings.gtfs_demo_username`, `gtfs_demo_password_bcrypt`, `gtfs_cookie_key`, `gtfs_cookie_expiry_days` — env-backed. Cookie key is intentionally separate from the password hash.
+- `docs/agent-spec/F-007-auth-validation.md` — auth + validation + structured-logging spec (absorbs NF-003/004/005 from the issue's wording).
+- `docs/SECURITY.md` gains an expanded rotation checklist (including cookie-key rotation) and an Auth-event-logging section listing the three emitted events.
 - `gtfs_dleung.models.feed_health.{FeedHealth, FeedType}` — typed surface for the health panel. `is_stale` and `is_degraded` are independent flags (data age vs fetch failure).
 - `Settings.gtfs_stale_threshold_s` (env: `GTFS_STALE_THRESHOLD_S`, default 30) — threshold beyond which feed data is flagged stale.
 - `docs/agent-spec/F-006-feed-staleness.md` — staleness + degradation + metrics spec (absorbs NF-008/NF-009 from the issue's wording).

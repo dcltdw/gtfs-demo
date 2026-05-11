@@ -32,6 +32,19 @@ class Settings(BaseSettings):
     gtfs_stale_threshold_s: int = Field(default=30, ge=1)
     """Seconds: data older than this is considered stale. MBTA publishes ~5s; 30s is a real problem."""
 
+    gtfs_demo_username: str = Field(default="demo")
+    """Single seeded username for the demo Streamlit app. See ``docs/SECURITY.md``."""
+
+    gtfs_demo_password_bcrypt: str = Field(
+        default="$2b$12$nGiMs9lnemij6sGDk6MNCOGm0ycfLJpBY8keXWIIIuYdc7Fle.xZ6"
+    )
+    """Bcrypt hash of the demo password (default is the public placeholder; production .env overrides)."""
+
+    gtfs_cookie_key: str = Field(default="gtfs-dleung-demo-cookie-key-rotate-me")
+    """HMAC key for streamlit-authenticator's session cookie. Rotate alongside the password."""
+
+    gtfs_cookie_expiry_days: int = Field(default=1, ge=0)
+
 
 def get_settings() -> Settings:
     """Return a freshly-loaded settings instance.

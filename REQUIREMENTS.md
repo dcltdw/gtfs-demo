@@ -40,7 +40,7 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
 - **F-004 VehiclePositions**: parse current vehicle positions, scope-filter to Red Line + Green-E, surface a typed `VehiclePosition` model. See [docs/agent-spec/F-004-vehiclepositions.md](docs/agent-spec/F-004-vehiclepositions.md). Map rendering is post-demo (#15).
 - **F-005 ServiceAlerts**: parse + scope-filter alerts; surface only those whose `informed_entity` touches Red Line / Green-E / a corridor parent station, and whose `active_period` overlaps `now`. See [docs/agent-spec/F-005-servicealerts.md](docs/agent-spec/F-005-servicealerts.md).
 - **F-006 Feed staleness detection + graceful degradation + metrics**: detect stale feeds (data age > threshold), serve cached last-good message when a fetch fails (`is_degraded`), expose per-feed health + metrics dict. See [docs/agent-spec/F-006-feed-staleness.md](docs/agent-spec/F-006-feed-staleness.md). Prometheus translation is post-demo (#33).
-- **F-007 Authentication**: single demo user, bcrypt-hashed password from env.
+- **F-007 Authentication + input validation + structured logging**: single demo user via bcrypt + `streamlit-authenticator`; `validate_stop_id` defence-in-depth allow-list; `auth.login.{success,failure}` events with no password leakage. See [docs/agent-spec/F-007-auth-validation.md](docs/agent-spec/F-007-auth-validation.md).
 - **F-008 Inbound rate limiting**: sliding window per Streamlit session.
 - **F-009 Streamlit UI**: login → arrivals + alerts + feed-health panels.
 
