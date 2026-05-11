@@ -38,7 +38,27 @@ Out of scope: anything not exercised by the spike (real user accounts, multi-ten
 
   Update both `.env.example` (committed hash) and the deployed `.env` (real hash). The committed hash and the deployed hash are intentionally the same value during the spike; for any longer-lived deployment they should diverge.
 
+  **Rotation checklist** (per cycle):
+
+  1. Generate a fresh password manually (password manager, ≥16 chars).
+  2. Compute the bcrypt hash with the command above.
+  3. Update `GTFS_DEMO_PASSWORD_BCRYPT` in the deployed `.env`.
+  4. **Rotate `GTFS_COOKIE_KEY` at the same time** (`openssl rand -hex 32`) and update the deployed `.env`. Old cookies become invalid; users sign in again. This is intentional — coupling the rotations makes a single audit point for "everything tied to this cycle's credential is dead."
+  5. Restart the Streamlit app so the new env values are picked up.
+  6. Update `.env.example` with the new bcrypt hash (the committed placeholder mirrors the deployed hash during the spike, so the public placeholder always points at the current cycle).
+  7. Confirm the prior cycle's password no longer authenticates.
+
 - **MBTA feeds**: no rotation needed; the feeds are public and unauthenticated.
+
+## Auth event logging
+
+The `gtfs_dleung.auth` module emits structured records via the stdlib logger named `gtfs_dleung.auth`. Three events at INFO:
+
+- `auth.login.success` — `username`, plus stdlib's auto-attached timestamp.
+- `auth.login.failure` — `username`, `reason` (one of `unknown_user`, `wrong_password`, `invalid_hash`).
+- `auth.logout` — emitted by the Streamlit page (#11) on the logout button.
+
+**The password is never written to any log record.** :func:`gtfs_dleung.auth.log_auth_event` raises `ValueError` if a caller passes `password=` as an extra; the test `test_failure_log_does_not_contain_password` is a backstop that scans every produced record for the password substring. A durable audit log (post-demo #38) replaces the stdout sink with a database table.
 
 ## Public-repo posture
 
