@@ -35,6 +35,7 @@ from gtfs_dleung.feeds import (
     TRIP_UPDATES_URL,
     VEHICLE_POSITIONS_URL,
 )
+from gtfs_dleung.fetcher.fallback import load_snapshot_fallback
 from gtfs_dleung.fetcher.realtime import FeedFetchError, fetch_feed
 from gtfs_dleung.models.feed_health import FeedHealth, FeedType
 
@@ -57,21 +58,27 @@ class HealthTrackedFetcher:
         settings: Settings | None = None,
         fetch_fn: Any = None,
         now_fn: Any = None,
+        snapshot_loader: Any = None,
     ) -> None:
         """Constructor.
 
         ``fetch_fn`` overrides the default :func:`fetch_feed` (useful in tests).
         ``now_fn`` overrides ``datetime.now(tz=UTC)`` (useful in tests).
+        ``snapshot_loader`` overrides the default
+        :func:`gtfs_dleung.fetcher.fallback.load_snapshot_fallback`. Pass
+        ``lambda _url: None`` to disable hard-snapshot fallback entirely.
         """
         self._settings = settings or get_settings()
         self._fetch_fn = fetch_fn or fetch_feed
         self._now_fn = now_fn or (lambda: datetime.now(tz=UTC))
+        self._snapshot_loader = snapshot_loader or load_snapshot_fallback
 
         self._cache: dict[str, gtfs_realtime_pb2.FeedMessage] = {}
         self._last_success_at: dict[str, datetime] = {}
         self._last_message_timestamp: dict[str, datetime | None] = {}
         self._stale_state: dict[str, bool] = {}
         self._is_degraded: dict[str, bool] = {}
+        self._serving_from_snapshot: dict[str, bool] = {}
         self._metrics: dict[str, dict[str, int | float]] = {}
         self._lock = threading.Lock()
 
@@ -101,6 +108,27 @@ class HealthTrackedFetcher:
                     health.age_seconds,
                 )
                 return self._cache[feed_url], health
+            # No in-memory cache. Try the hard-snapshot fallback (#13).
+            snapshot = self._snapshot_loader(feed_url)
+            if snapshot is not None:
+                with self._lock:
+                    self._cache[feed_url] = snapshot
+                    self._is_degraded[feed_url] = True
+                    self._serving_from_snapshot[feed_url] = True
+                    if snapshot.header.HasField("timestamp"):
+                        self._last_message_timestamp[feed_url] = datetime.fromtimestamp(
+                            snapshot.header.timestamp, tz=UTC
+                        )
+                    else:
+                        self._last_message_timestamp[feed_url] = None
+                health = self._compute_health(feed_url)
+                logger.warning(
+                    "feed fetch failed AND no in-memory cache; serving snapshot "
+                    "url=%s age_seconds=%s",
+                    feed_url,
+                    health.age_seconds,
+                )
+                return snapshot, health
             raise
 
         # Success path.
@@ -108,6 +136,7 @@ class HealthTrackedFetcher:
             self._cache[feed_url] = msg
             self._last_success_at[feed_url] = self._now_fn()
             self._is_degraded[feed_url] = False
+            self._serving_from_snapshot[feed_url] = False
             if msg.header.HasField("timestamp"):
                 self._last_message_timestamp[feed_url] = datetime.fromtimestamp(
                     msg.header.timestamp, tz=UTC
@@ -165,6 +194,7 @@ class HealthTrackedFetcher:
             is_stale=is_stale,
             last_success_at=self._last_success_at.get(feed_url),
             is_degraded=self._is_degraded.get(feed_url, False),
+            is_snapshot=self._serving_from_snapshot.get(feed_url, False),
         )
 
     def _log_staleness_transition(self, feed_url: str, is_stale_now: bool) -> None:

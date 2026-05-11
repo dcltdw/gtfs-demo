@@ -104,14 +104,24 @@ def test_falls_back_to_cache_on_fetch_failure() -> None:
     assert health2.last_success_at == datetime(2026, 5, 11, 12, 0, tzinfo=UTC)
 
 
-def test_raises_when_first_fetch_fails_with_no_cache() -> None:
-    """No cache + fetch failure → the error propagates."""
+def test_raises_when_first_fetch_fails_with_no_cache_and_no_snapshot() -> None:
+    """No cache + no snapshot + fetch failure → the error propagates.
+
+    Pass a no-op ``snapshot_loader`` to opt out of the hard-snapshot fallback
+    that #13 added; the F-006 contract this test pins is "the upper-tier failure
+    path without any fallback present."
+    """
     clock = _ClockStub(datetime(2026, 5, 11, 12, 0, tzinfo=UTC))
 
     def fake_fetch(url: str, **_: object) -> gtfs_realtime_pb2.FeedMessage:
         raise TransientFeedError("no cache, no data")
 
-    tracker = HealthTrackedFetcher(settings=_settings(30), fetch_fn=fake_fetch, now_fn=clock.now)
+    tracker = HealthTrackedFetcher(
+        settings=_settings(30),
+        fetch_fn=fake_fetch,
+        now_fn=clock.now,
+        snapshot_loader=lambda _url: None,
+    )
 
     with pytest.raises(TransientFeedError):
         tracker.fetch(TRIP_UPDATES_URL)

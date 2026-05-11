@@ -278,10 +278,15 @@ def _render_feed_health_panel(healths: dict[FeedType, FeedHealth]) -> None:
         age = format_feed_age(health.age_seconds)
         label = ft.value.replace("_", " ").title()
         flags: list[str] = []
-        if health.is_stale:
-            flags.append("stale")
-        if health.is_degraded:
-            flags.append("degraded")
+        if health.is_snapshot:
+            # When serving from the committed snapshot, that's the most useful label —
+            # supersedes the "stale" / "degraded" pair (both of which are implied).
+            flags.append("from snapshot")
+        else:
+            if health.is_stale:
+                flags.append("stale")
+            if health.is_degraded:
+                flags.append("degraded")
         flag_str = f" · ({', '.join(flags)})" if flags else ""
         st.markdown(f"{icon} **{label}** — age **{age}**{flag_str}")
 

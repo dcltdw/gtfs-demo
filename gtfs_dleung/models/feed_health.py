@@ -53,3 +53,9 @@ class FeedHealth(BaseModel):
     """``True`` iff the most recent fetch attempt **failed** and the caller is
     being served stale-cached data. Independent of ``is_stale``: a fresh feed
     can be degraded if the network broke after the last good fetch."""
+
+    is_snapshot: bool = False
+    """``True`` when the data being served is from a committed snapshot under
+    ``examples/`` (the hard-fallback tier — see #13). Always implies
+    ``is_degraded=True``. The UI shows "serving from snapshot" instead of
+    "serving from in-memory cache" to set rider expectations."""
