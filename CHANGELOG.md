@@ -22,6 +22,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `make_vehiclepositions_feed` helper in `tests/helpers.py`.
 - `docs/agent-spec/F-004-vehiclepositions.md` — VehiclePositions spec at the correct F-004 slot (the originating issue's `F-003-vehiclepositions-parser` name conflicted with TripUpdates).
 - ServiceAlerts parser (`gtfs_dleung.parser.alerts.parse`) returning typed `ServiceAlert` rows. Two layered filters — scope (informed_entity touches Red / Green-E / corridor parent station) + active-period (overlaps `now`). `now` is a required argument so tests pin time without monkey-patching.
+- Feed-health tracker (`gtfs_dleung.fetcher.health.HealthTrackedFetcher`) wrapping the stateless `fetch_feed` with last-success caching, graceful degradation, transition logging, and a metrics dict (`fetches_total`, `fetch_errors_total`, `feed_age_seconds`). Module-level singleton + `fetch_with_health` / `get_feed_health` / `get_metrics` / `reset_tracker_for_tests` thin wrappers.
+- `gtfs_dleung.models.feed_health.{FeedHealth, FeedType}` — typed surface for the health panel. `is_stale` and `is_degraded` are independent flags (data age vs fetch failure).
+- `Settings.gtfs_stale_threshold_s` (env: `GTFS_STALE_THRESHOLD_S`, default 30) — threshold beyond which feed data is flagged stale.
+- `docs/agent-spec/F-006-feed-staleness.md` — staleness + degradation + metrics spec (absorbs NF-008/NF-009 from the issue's wording).
 - `gtfs_dleung.models.alert.{ServiceAlert, Cause, Effect, ActivePeriod, InformedEntity}` — typed surface for the alerts panel.
 - `tests/fixtures/alerts_sample.pb` — 42 KB trimmed real-feed snapshot (5 in-scope + 3 out-of-scope alerts).
 - `make_alerts_feed` helper in `tests/helpers.py`.
@@ -46,7 +50,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - README Quickstart and CONTRIBUTING now walk through the pre-commit + CI workflow.
 - README Architecture section now describes the static-vs-realtime split and points at the corridor filter.
 - README Security section adds the "polite consumer" principle (UA + rate limit + retry).
-- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, `current_status`, `informed_entity`, alert `cause`, alert `effect`, and `active_period` entries.
+- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, `current_status`, `informed_entity`, alert `cause`, alert `effect`, `active_period`, `feed staleness vs fetch degradation`, and `feed_age_seconds` entries.
+- README Operational notes gains the feed-staleness + degradation paragraph.
 - Default `User-Agent` updated from URL-style to maintainer-style (`<app>/<ver> (<name>; <email>)`) to match the §6 disclosure pattern; reflected in `gtfs_dleung/config.py` and `.env.example`.
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`) — default 10s.
 - README Architecture gains a paragraph describing the TripUpdates parser's two non-obvious behaviours.

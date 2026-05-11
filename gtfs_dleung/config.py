@@ -29,6 +29,8 @@ class Settings(BaseSettings):
         default="gtfs-dleung/0.0.1 (David Leung; claude.unraveled663@simplelogin.com)"
     )
     gtfs_rt_fetch_interval_seconds: int = Field(default=10, ge=1)
+    gtfs_stale_threshold_s: int = Field(default=30, ge=1)
+    """Seconds: data older than this is considered stale. MBTA publishes ~5s; 30s is a real problem."""
 
 
 def get_settings() -> Settings:
