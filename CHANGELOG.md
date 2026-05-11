@@ -26,6 +26,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `gtfs_dleung.auth` module — `verify_credentials` (bcrypt-checked, three named failure reasons), `build_authenticator_config` (returns the credentials/cookie config the Streamlit page wires up in #11), `log_auth_event` (structured INFO records; raises if a caller passes `password=`).
 - `gtfs_dleung.security.rate_limit.SessionRateLimiter` — sliding-window inbound rate limiter, per Streamlit session. In-memory `dict[str, deque[float]]`; lazy idle eviction at 1h. `acquire`, `remaining`, `session_count` API. Thread-safe via `threading.Lock`. Streamlit-page integration deferred to #11.
 - `gtfs_dleung/app.py` — Streamlit entrypoint composing login + arrivals board (Davis + Ball Square) + service-alerts panel + feed-health panel. Auto-refresh every 15s; inbound rate limit gates the refresh handler with fallback to cached `st.session_state` data.
+- Three MADR-lite ADRs under `docs/adr/`: 0001 (Streamlit not Flask), 0002 (no database), 0003 (strict GTFS-RT, not V3 REST).
+- `docs/UPGRADE-PATH.md` — the GTFS-RT → V3 REST staging plan (when to switch, gained/lost, 4 stages).
+- README Architecture gains a Mermaid `flowchart TD` diagram showing the data path (external feeds → fetcher → parser → models → presenter, plus auth + inbound RL gating).
+- GLOSSARY adds `FeedMessage`, `headway`, and `block`.
 - `gtfs_dleung/presenter/formatters.py` — pure display helpers (`format_arrival_row`, `format_alert_row`, `format_feed_age`, `delay_color_class`, `schedule_relationship_badge`, `feed_health_icon`, `should_show_stale_banner`). Streamlit-free, fully unit-tested.
 - `streamlit-autorefresh` added to runtime deps for the 15s page-refresh tick.
 - `live` pytest marker registered in `pyproject.toml`; PR CI's `test` job now runs `pytest -m 'not live'`. The first live-marker test (`tests/test_app_smoke.py::test_streamlit_app_starts_cleanly`) spawns a real `streamlit run` subprocess for ~8s — runs nightly via [#49](https://github.com/dcltdw/gtfs-dleung/issues/49).
