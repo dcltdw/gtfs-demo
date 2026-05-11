@@ -26,8 +26,9 @@ class Settings(BaseSettings):
     gtfs_cache_dir: Path = Field(default_factory=lambda: Path.home() / ".cache" / "gtfs-dleung")
     gtfs_static_ttl_days: int = Field(default=7, ge=1)
     gtfs_user_agent: str = Field(
-        default="gtfs-dleung/0.0.1 (https://github.com/dcltdw/gtfs-dleung)"
+        default="gtfs-dleung/0.0.1 (David Leung; claude.unraveled663@simplelogin.com)"
     )
+    gtfs_rt_fetch_interval_seconds: int = Field(default=10, ge=1)
 
 
 def get_settings() -> Settings:

@@ -32,7 +32,10 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
 > Each F-NNN below has a structured counterpart in `docs/agent-spec/F-NNN-*.md`.
 
 - **F-001 Static GTFS ingestion**: load the MBTA static feed, filter to Red Line + Green Line E branch. See [docs/agent-spec/F-001-load-static-feed.md](docs/agent-spec/F-001-load-static-feed.md).
-- **F-002 GTFS-RT fetcher**: subscribe to the three RT feeds with a polite outbound rate limit and identifying User-Agent.
+- **F-002 GTFS-RT fetcher**: fetch + decode the three RT feeds with an identifying User-Agent, a per-URL outbound rate limit (≤ 1 fetch / 10 s), and exponential-backoff retry on transient failures. See [docs/agent-spec/F-002-gtfs-rt-fetcher.md](docs/agent-spec/F-002-gtfs-rt-fetcher.md). Feed URLs:
+  - `TripUpdates`: `https://cdn.mbta.com/realtime/TripUpdates.pb`
+  - `VehiclePositions`: `https://cdn.mbta.com/realtime/VehiclePositions.pb`
+  - `Alerts`: `https://cdn.mbta.com/realtime/Alerts.pb`
 - **F-003 TripUpdates → arrivals board**: surface predicted arrival times scoped to the demo stops, with `schedule_relationship` honoured.
 - **F-004 VehiclePositions**: parse current vehicle positions (used by the live map post-demo, but stored at spike scope).
 - **F-005 ServiceAlerts**: surface active alerts that touch the demo scope.
