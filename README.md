@@ -1,5 +1,62 @@
 # gtfs-dleung
 
-A focused GTFS-RT exploration of the MBTA Red Line and Green Line E branch, built as a 4–6 hour spike.
+A focused GTFS-RT exploration of the MBTA Red Line (Park St ↔ Davis Sq) and the Green Line E branch (Park St ↔ Ball Sq), built as a 4–6 hour spike to demonstrate transit-data competence.
 
-Bootstrap commit only — the full scaffold (package layout, deps, conventions doc, docs, `.github/`, `justfile`, smoke tests) lands via the PR for [#1](https://github.com/dcltdw/gtfs-dleung/issues/1).
+## What and why
+
+This project exists as a focused, time-boxed demonstration of GTFS-RT competence:
+
+- Subscribe to MBTA's GTFS-RT feeds (TripUpdates, VehiclePositions, ServiceAlerts).
+- Parse them against the static GTFS bundle, scoped to the Red Line and the Green Line E branch.
+- Render an arrivals board, alerts panel, and feed-health panel via Streamlit.
+- Ship two artifacts: a rendered notebook (read-only, hostable) and a live Streamlit app.
+
+The deeper goal is to demonstrate the agent-and-human collaboration conventions in [docs/AI-COLLABORATION-CONVENTIONS.md](docs/AI-COLLABORATION-CONVENTIONS.md) — small, well-scoped tickets with disciplined PR hygiene.
+
+## Quickstart
+
+> Filled in by subsequent PRs as the surfaces land. Today: `uv sync --extra dev` then `just test`.
+
+## Architecture
+
+> ADRs, Mermaid diagram, and upgrade-path notes land in PR #12. The package layout is:
+>
+> - `gtfs_dleung/fetcher/` — static + realtime feed I/O
+> - `gtfs_dleung/parser/` — Protobuf → domain models
+> - `gtfs_dleung/store/` — snapshots and cached state
+> - `gtfs_dleung/presenter/` — Streamlit UI
+> - `gtfs_dleung/cli/` — one-shot scripts
+
+## Design decisions
+
+> Locked decisions are tracked in [REQUIREMENTS.md](REQUIREMENTS.md) and refined as ADRs land. Highlights:
+>
+> - Strict GTFS-RT (not the MBTA V3 REST API). Trade-off captured in `docs/UPGRADE-PATH.md` (PR #12).
+> - Python 3.13, uv-managed deps, MIT licence, public repo.
+> - Two MBTA branches only (Red + Green E).
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for the disclosure process and threat model. Demo-credential rotation policy lives in [docs/SECURITY.md](docs/SECURITY.md).
+
+## Operational notes
+
+> Runbook lands as `DEMO.md` in PR #14. Until then, treat this section as a placeholder for restart / rebuild / migration mechanics.
+
+## Future work
+
+The `post-demo` issues (#15–#41) sketch the natural follow-ons: live vehicle map, Docker packaging, observability, real auth, persistence, anomaly detection. They are explicitly out of scope for the spike.
+
+## Demo script
+
+> Two-paragraph runbook for the recruiter call lands in `DEMO.md` (PR #14) and `RECRUITER-NOTES.md` (same PR).
+
+## Repository conventions
+
+- All work routes through GitHub issues + PRs. See [docs/AI-COLLABORATION-CONVENTIONS.md](docs/AI-COLLABORATION-CONVENTIONS.md).
+- One issue per PR, sized to land in a single streaming-context turn.
+- Public repo: pre-PR secret/PII diff scan is mandatory.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE).

@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+develop-eggs/
+parts/
+sdist/
+wheels/
+*.manifest
+*.spec
+
+# uv / virtualenvs
+.venv/
+venv/
+env/
+ENV/
+.python-version.local
+
+# Test / coverage / caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.tox/
+.nox/
+
+# Secrets and env
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+Thumbs.db
+
+# Project-local snapshots and scratch
+/scratch/
+*.tmp
+*.bak
+
+# Streamlit local config (may contain secrets)
+.streamlit/secrets.toml

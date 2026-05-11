@@ -1,0 +1,52 @@
+name: Bug
+description: Something is broken or behaving incorrectly.
+title: "[bug] "
+labels:
+  - type:feature
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken, in one sentence?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Step-by-step. Include shell commands or screenshots.
+      placeholder: |
+        1. `just demo`
+        2. Log in as `demo`.
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, branch/commit.
+      placeholder: |
+        - OS: macOS 14.5
+        - Python: 3.13.2
+        - Branch / commit: main @ abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Logs, related issues, hypotheses.
