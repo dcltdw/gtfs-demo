@@ -48,9 +48,9 @@ def test_scope_corridor_stop_count(mbta_mini_unzipped: Path) -> None:
     for stop in filtered.stops:
         if stop.stop_id in ALL_CORRIDOR_PARENT_STATIONS:
             continue
-        assert stop.parent_station in ALL_CORRIDOR_PARENT_STATIONS, (
-            f"stop {stop.stop_id} kept but parent={stop.parent_station} is out of scope"
-        )
+        assert (
+            stop.parent_station in ALL_CORRIDOR_PARENT_STATIONS
+        ), f"stop {stop.stop_id} kept but parent={stop.parent_station} is out of scope"
 
     # Sanity: the kept set contains at least one stop from each corridor.
     kept_parents = {

@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `docs/agent-spec/NF-012-ci-pipeline.md` — the spec file for the CI gate.
 - `tests/test_typing.py::test_strict_mypy_clean_on_package` — placeholder marker (the CI `typecheck` job is the real gate).
 - Static GTFS feed loader (`gtfs_dleung.fetcher.static.fetch_static_feed`) with 7-day TTL cache, configurable cache dir + URL via `pydantic-settings`, identifying `User-Agent`, typed `StaticFeedError` on failure.
+- GTFS-RT HTTP fetcher (`gtfs_dleung.fetcher.realtime.fetch_feed`) returning a decoded `FeedMessage`. Per-URL outbound rate limit (10s default), tenacity exponential-backoff retry (2–8s, 3 attempts) on 5xx + timeouts, typed `TransientFeedError` / `PermanentFeedError`, structured per-attempt logging.
+- `gtfs_dleung.feeds` — `TRIP_UPDATES_URL`, `VEHICLE_POSITIONS_URL`, `SERVICE_ALERTS_URL` constants plus `ALL_FEED_URLS` tuple.
+- `gtfs_dleung.fetcher.rate_limit.OutboundRateLimiter` — per-URL minimum-interval limiter.
+- `tests/fixtures/tripupdates_sample.pb` — 11 KB protobuf snapshot (20 entities, trimmed from a real MBTA TripUpdates feed).
+- `docs/agent-spec/F-002-gtfs-rt-fetcher.md` — fetcher spec covering user-agent, rate-limit, and retry properties (absorbs what #4 originally split across NF-001/006/007 — those numbers were already taken).
 - Pydantic v2 models for `Stop`, `Route`, `Trip`, `StopTime`, `Shape`, plus a `StaticFeed` container (`gtfs_dleung.models.static`).
 - Scope constants for Red Line (Park ↔ Davis) and Green Line E (Park ↔ Ball Sq) corridors (`gtfs_dleung.scope`).
 - Route-aware corridor filter (`gtfs_dleung.parser.static.filter_to_scope`) that drops Green-B/C/D trips even where they share platforms with Green-E.
@@ -25,7 +30,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - README Quickstart and CONTRIBUTING now walk through the pre-commit + CI workflow.
 - README Architecture section now describes the static-vs-realtime split and points at the corridor filter.
+- README Security section adds the "polite consumer" principle (UA + rate limit + retry).
 - GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, and "trunk overlap" entries.
+- Default `User-Agent` updated from URL-style to maintainer-style (`<app>/<ver> (<name>; <email>)`) to match the §6 disclosure pattern; reflected in `gtfs_dleung/config.py` and `.env.example`.
+- `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`) — default 10s.
 
 ## [0.0.1] — 2026-05-11
 

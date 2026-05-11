@@ -52,6 +52,8 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 
 See [SECURITY.md](SECURITY.md) for the disclosure process and threat model. Demo-credential rotation policy lives in [docs/SECURITY.md](docs/SECURITY.md).
 
+**Polite-consumer principle**: the realtime fetcher sends a `User-Agent` that names the app, the maintainer, and a public disclosure email; outbound fetches are limited to one per feed per 10 seconds via a per-URL token bucket; transient failures retry with exponential backoff (2–8s, three attempts). MBTA ops can see who's talking and how often; we don't hammer the CDN. See [docs/agent-spec/F-002-gtfs-rt-fetcher.md](docs/agent-spec/F-002-gtfs-rt-fetcher.md).
+
 ## Operational notes
 
 > Runbook lands as `DEMO.md` in PR #14. Until then, treat this section as a placeholder for restart / rebuild / migration mechanics.
