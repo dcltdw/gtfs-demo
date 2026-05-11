@@ -65,4 +65,6 @@ jobs:
       - name: Install deps
         run: uv sync --extra dev
       - name: pytest
-        run: uv run pytest -v
+        # Exclude the `live` marker — those tests hit real network or spawn subprocesses;
+        # they run nightly via #49 (when filed) instead of on every PR.
+        run: uv run pytest -m 'not live' -v

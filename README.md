@@ -18,12 +18,14 @@ The deeper goal is to demonstrate the agent-and-human collaboration conventions 
 ```bash
 uv sync --extra dev           # install runtime + dev deps into a uv-managed venv
 uv run pre-commit install     # wire ruff / mypy / secrets-scan / file hygiene hooks
-just test                     # run the test suite (pytest -v)
+just test                     # fast test suite (pytest -m 'not live'); matches CI
 just lint                     # ruff format --check + ruff check
 just typecheck                # mypy --strict against gtfs_dleung + tests
+just demo                     # run the Streamlit app (login + arrivals + alerts + health)
+just test-live                # the live-marker subset (subprocess + real-feed); slow, opt-in
 ```
 
-The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `main` — see [.github/workflows/pr-tests.yml](.github/workflows/pr-tests.yml) and [docs/agent-spec/NF-012-ci-pipeline.md](docs/agent-spec/NF-012-ci-pipeline.md). Streamlit and CLI surfaces land in later PRs.
+The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `main` — see [.github/workflows/pr-tests.yml](.github/workflows/pr-tests.yml) and [docs/agent-spec/NF-012-ci-pipeline.md](docs/agent-spec/NF-012-ci-pipeline.md). The `live` pytest marker is registered in [pyproject.toml](pyproject.toml) and is **excluded** from the PR CI's `test` job; the nightly tier from [#49](https://github.com/dcltdw/gtfs-dleung/issues/49) runs `pytest -m live` against the real MBTA endpoints.
 
 ## Architecture
 
@@ -33,7 +35,7 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 > - `gtfs_dleung/parser/` — Protobuf and CSV → domain models. `static.load_feed_from_dir()` produces a `StaticFeed`; `static.filter_to_scope()` narrows to the demo corridors.
 > - `gtfs_dleung/models/` — Pydantic v2 models, the canonical typed boundary.
 > - `gtfs_dleung/store/` — snapshots and cached state (#26).
-> - `gtfs_dleung/presenter/` — Streamlit UI (#11).
+> - `gtfs_dleung/presenter/` — display helpers consumed by the Streamlit page (`formatters.py`) plus the pure `arrivals.next_n_arrivals` picker.
 > - `gtfs_dleung/cli/` — one-shot scripts.
 > - `gtfs_dleung/scope.py` — corridor constants.
 > - `gtfs_dleung/config.py` — settings via `pydantic-settings`.
@@ -41,6 +43,8 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 **Static vs. realtime split**: `gtfs_dleung.fetcher.static` handles the weekly-updated GTFS-static bundle from `cdn.mbta.com/MBTA_GTFS.zip` with a TTL-based cache. The realtime fetcher (`gtfs_dleung.fetcher.realtime.fetch_feed`) decodes the three RT feeds (TripUpdates, VehiclePositions, ServiceAlerts) with a polite interval (≤1 fetch / 10 s per feed). Each layer is independently testable: static via the committed `tests/fixtures/mbta-mini.zip`; realtime via captured protobuf snapshots (`tests/fixtures/tripupdates_sample.pb`).
 
 **TripUpdates parser**: `gtfs_dleung.parser.tripupdates.parse` joins RT TripUpdates with the scope-filtered static feed and returns typed `Arrival` rows. Two non-obvious GTFS-RT semantics are implemented and tested — **partial StopTimeUpdate propagation** (a delay on stop K propagates to downstream stops until the next explicit update) and **ADDED trips** (RT-introduced trips absent from the static feed are surfaced with `is_added=True`, not dropped). See [docs/agent-spec/F-003-tripupdates-arrivals.md](docs/agent-spec/F-003-tripupdates-arrivals.md).
+
+**Streamlit page**: [gtfs_dleung/app.py](gtfs_dleung/app.py) is the Streamlit entrypoint that composes everything — login gate, arrivals board (Davis + Ball Sq side-by-side), active alerts panel, feed-health panel. Auto-refreshes every 15s via `streamlit-autorefresh`; the inbound rate limiter from F-008 gates the refresh handler so a runaway session falls back to the last-rendered data rather than hammering MBTA's CDN. See [docs/agent-spec/F-009-streamlit-ui.md](docs/agent-spec/F-009-streamlit-ui.md). Run with `just demo`.
 
 ## Design decisions
 

@@ -23,6 +23,7 @@ dependencies = [
     "folium>=0.17.0",
     "streamlit>=1.36.0",
     "streamlit-authenticator>=0.3.2",
+    "streamlit-autorefresh>=1.0.0",
     "bcrypt>=4.2.0",
     "python-dotenv>=1.0.0",
     "tenacity>=9.0.0",
@@ -95,6 +96,7 @@ module = [
     "folium.*",
     "streamlit.*",
     "streamlit_authenticator.*",
+    "streamlit_autorefresh.*",
 ]
 ignore_missing_imports = true
 
@@ -105,4 +107,7 @@ addopts = "-ra -q --strict-markers --strict-config"
 filterwarnings = [
     "error",
     "ignore::DeprecationWarning:google.*",
+]
+markers = [
+    "live: opt-in tests that hit real MBTA endpoints or spawn real subprocesses (run nightly via #49; excluded from PR CI via `pytest -m 'not live'`)",
 ]
