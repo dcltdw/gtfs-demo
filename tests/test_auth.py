@@ -16,8 +16,8 @@ from gtfs_dleung.validation import validate_stop_id
 # Use cheap bcrypt rounds for test setup (~10ms vs ~250ms at rounds=12).
 _TEST_ROUNDS = 4
 _TEST_USERNAME = "test-user"
-_TEST_PASSWORD = "test-pass-correct-horse-battery-staple"
-_WRONG_PASSWORD = "wrong-password-xyzzy"
+_TEST_PASSWORD = "test-pass-correct-horse-battery-staple"  # pragma: allowlist secret
+_WRONG_PASSWORD = "wrong-password-xyzzy"  # pragma: allowlist secret
 
 
 def _settings_with_password(password: str) -> Settings:
@@ -102,7 +102,11 @@ def test_success_log_records_event(caplog: pytest.LogCaptureFixture) -> None:
 def test_log_auth_event_refuses_password_extra() -> None:
     """A caller passing ``password=...`` as an extra raises immediately."""
     with pytest.raises(ValueError, match="must not pass 'password'"):
-        log_auth_event("auth.login.success", username=_TEST_USERNAME, password="secret")
+        log_auth_event(
+            "auth.login.success",
+            username=_TEST_USERNAME,
+            password="this-test-value-is-not-a-real-secret",  # pragma: allowlist secret
+        )
 
 
 def test_build_authenticator_config_shape() -> None:

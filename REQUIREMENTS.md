@@ -41,7 +41,7 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
 - **F-005 ServiceAlerts**: parse + scope-filter alerts; surface only those whose `informed_entity` touches Red Line / Green-E / a corridor parent station, and whose `active_period` overlaps `now`. See [docs/agent-spec/F-005-servicealerts.md](docs/agent-spec/F-005-servicealerts.md).
 - **F-006 Feed staleness detection + graceful degradation + metrics**: detect stale feeds (data age > threshold), serve cached last-good message when a fetch fails (`is_degraded`), expose per-feed health + metrics dict. See [docs/agent-spec/F-006-feed-staleness.md](docs/agent-spec/F-006-feed-staleness.md). Prometheus translation is post-demo (#33).
 - **F-007 Authentication + input validation + structured logging**: single demo user via bcrypt + `streamlit-authenticator`; `validate_stop_id` defence-in-depth allow-list; `auth.login.{success,failure}` events with no password leakage. See [docs/agent-spec/F-007-auth-validation.md](docs/agent-spec/F-007-auth-validation.md).
-- **F-008 Inbound rate limiting**: sliding window per Streamlit session.
+- **F-008 Inbound rate limiting**: sliding window per Streamlit session; in-memory `dict[str, deque[float]]`; lazy idle eviction. See [docs/agent-spec/F-008-inbound-rate-limit.md](docs/agent-spec/F-008-inbound-rate-limit.md). Per-IP layer + Redis-backed shared state are post-demo (#40, ADR #41).
 - **F-009 Streamlit UI**: login → arrivals + alerts + feed-health panels.
 
 ## 4. Non-functional requirements

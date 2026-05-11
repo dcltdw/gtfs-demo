@@ -24,6 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - ServiceAlerts parser (`gtfs_dleung.parser.alerts.parse`) returning typed `ServiceAlert` rows. Two layered filters — scope (informed_entity touches Red / Green-E / corridor parent station) + active-period (overlaps `now`). `now` is a required argument so tests pin time without monkey-patching.
 - Feed-health tracker (`gtfs_dleung.fetcher.health.HealthTrackedFetcher`) wrapping the stateless `fetch_feed` with last-success caching, graceful degradation, transition logging, and a metrics dict (`fetches_total`, `fetch_errors_total`, `feed_age_seconds`). Module-level singleton + `fetch_with_health` / `get_feed_health` / `get_metrics` / `reset_tracker_for_tests` thin wrappers.
 - `gtfs_dleung.auth` module — `verify_credentials` (bcrypt-checked, three named failure reasons), `build_authenticator_config` (returns the credentials/cookie config the Streamlit page wires up in #11), `log_auth_event` (structured INFO records; raises if a caller passes `password=`).
+- `gtfs_dleung.security.rate_limit.SessionRateLimiter` — sliding-window inbound rate limiter, per Streamlit session. In-memory `dict[str, deque[float]]`; lazy idle eviction at 1h. `acquire`, `remaining`, `session_count` API. Thread-safe via `threading.Lock`. Streamlit-page integration deferred to #11.
+- `Settings.gtfs_inbound_limit_per_min` / `gtfs_inbound_window_s` / `gtfs_inbound_idle_evict_s` — env-backed (defaults 30 req / 60 s window / 3600 s idle eviction).
+- `docs/agent-spec/F-008-inbound-rate-limit.md` — inbound rate-limit spec (absorbs NF-002 from the issue's wording; the correct slot is F-008 per REQUIREMENTS.md).
 - `gtfs_dleung.validation.validate_stop_id` — defence-in-depth allow-list of corridor parent stations; rejects platform-level IDs and out-of-scope stops.
 - `Settings.gtfs_demo_username`, `gtfs_demo_password_bcrypt`, `gtfs_cookie_key`, `gtfs_cookie_expiry_days` — env-backed. Cookie key is intentionally separate from the password hash.
 - `docs/agent-spec/F-007-auth-validation.md` — auth + validation + structured-logging spec (absorbs NF-003/004/005 from the issue's wording).
@@ -57,6 +60,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - README Security section adds the "polite consumer" principle (UA + rate limit + retry).
 - GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, `current_status`, `informed_entity`, alert `cause`, alert `effect`, `active_period`, `feed staleness vs fetch degradation`, and `feed_age_seconds` entries.
 - README Operational notes gains the feed-staleness + degradation paragraph.
+- README Security gains the **dual rate limit** paragraph (inbound vs outbound) calling out the different threats each protects against.
+- `.env.example` rate-limit env-var names renamed for clarity: `GTFS_INBOUND_RATE_LIMIT_REQUESTS` → `GTFS_INBOUND_LIMIT_PER_MIN`, `GTFS_INBOUND_RATE_LIMIT_WINDOW_SECONDS` → `GTFS_INBOUND_WINDOW_S`, plus new `GTFS_INBOUND_IDLE_EVICT_S`.
 - Default `User-Agent` updated from URL-style to maintainer-style (`<app>/<ver> (<name>; <email>)`) to match the §6 disclosure pattern; reflected in `gtfs_dleung/config.py` and `.env.example`.
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`) — default 10s.
 - README Architecture gains a paragraph describing the TripUpdates parser's two non-obvious behaviours.
