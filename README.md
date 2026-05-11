@@ -133,7 +133,13 @@ See [SECURITY.md](SECURITY.md) for the disclosure process and threat model. Demo
 
 > Runbook lands as `DEMO.md` in PR #14.
 
-**Feed staleness & graceful degradation**: the realtime fetcher is wrapped by `gtfs_dleung.fetcher.health.HealthTrackedFetcher`, which caches the last successful `FeedMessage` per feed and exposes `FeedHealth(age_seconds, is_stale, last_success_at, is_degraded)`. Data older than `GTFS_STALE_THRESHOLD_S` (default 30s; MBTA publishes every ~5s) is flagged `is_stale`. When a fetch fails, the tracker returns the cached message + `is_degraded=True` so the UI keeps serving plausible data instead of going blank. The two flags are independent: fresh data over a broken connection is `is_stale=False, is_degraded=True`. Transition logs (fresh↔stale) are emitted at INFO; the per-fetch metrics dict (`fetches_total`, `fetch_errors_total`, `feed_age_seconds`) feeds the Streamlit health panel and is the input to the post-demo Prometheus exporter (#33). See [docs/agent-spec/F-006-feed-staleness.md](docs/agent-spec/F-006-feed-staleness.md).
+**Feed staleness & graceful degradation**: the realtime fetcher is wrapped by `gtfs_dleung.fetcher.health.HealthTrackedFetcher`, which caches the last successful `FeedMessage` per feed and exposes `FeedHealth(age_seconds, is_stale, last_success_at, is_degraded, is_snapshot)`. Data older than `GTFS_STALE_THRESHOLD_S` (default 30s; MBTA publishes every ~5s) is flagged `is_stale`. When a fetch fails, the tracker returns the cached message + `is_degraded=True` so the UI keeps serving plausible data instead of going blank. The two flags are independent: fresh data over a broken connection is `is_stale=False, is_degraded=True`. Transition logs (fresh↔stale) are emitted at INFO; the per-fetch metrics dict (`fetches_total`, `fetch_errors_total`, `feed_age_seconds`) feeds the Streamlit health panel and is the input to the post-demo Prometheus exporter (#33). See [docs/agent-spec/F-006-feed-staleness.md](docs/agent-spec/F-006-feed-staleness.md).
+
+**Three-tier data path** (top to bottom — each tier kicks in when the one above fails):
+
+1. **Live fetch** — the happy path. Fresh bytes from MBTA's CDN, polite outbound rate-limited (F-002).
+2. **Soft cache** — `HealthTrackedFetcher`'s in-memory `dict[str, FeedMessage]`. Survives transient network blips within a process lifetime; lost on restart.
+3. **Hard snapshot** — committed `.pb` files under [examples/](examples/). Loaded by [gtfs_dleung/fetcher/fallback.py](gtfs_dleung/fetcher/fallback.py) when the soft cache is empty AND live fetch fails. Stale by design (captured days/weeks ago) but keeps the app usable through a cold-start outage. `FeedHealth.is_snapshot=True` surfaces this in the UI's health panel. Regenerate with `just snapshot`; provenance in [examples/README.md](examples/README.md).
 
 ## Future work
 

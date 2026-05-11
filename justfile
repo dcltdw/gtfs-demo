@@ -44,6 +44,6 @@ secrets-baseline:
 demo:
     uv run streamlit run gtfs_dleung/app.py
 
-# Capture a snapshot of all three RT feeds for offline testing (placeholder).
+# Capture fresh GTFS-RT snapshots into examples/ (used as the hard-snapshot fallback tier).
 snapshot:
-    @echo "TODO: wire up the snapshot CLI once the fetcher lands (#4) and examples/ wiring lands (#13)."
+    uv run python scripts/capture_snapshots.py

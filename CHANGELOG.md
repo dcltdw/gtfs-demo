@@ -27,6 +27,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `gtfs_dleung.security.rate_limit.SessionRateLimiter` — sliding-window inbound rate limiter, per Streamlit session. In-memory `dict[str, deque[float]]`; lazy idle eviction at 1h. `acquire`, `remaining`, `session_count` API. Thread-safe via `threading.Lock`. Streamlit-page integration deferred to #11.
 - `gtfs_dleung/app.py` — Streamlit entrypoint composing login + arrivals board (Davis + Ball Square) + service-alerts panel + feed-health panel. Auto-refresh every 15s; inbound rate limit gates the refresh handler with fallback to cached `st.session_state` data.
 - Three MADR-lite ADRs under `docs/adr/`: 0001 (Streamlit not Flask), 0002 (no database), 0003 (strict GTFS-RT, not V3 REST).
+- `examples/` — committed real-feed snapshots (one `.pb` + `.json` twin per feed type), each truncated to 100 entities. Browseable data shape + hard-fallback source.
+- `scripts/capture_snapshots.py` + `just snapshot` recipe — regenerate the snapshots from live feeds.
+- `gtfs_dleung.fetcher.fallback.load_snapshot_fallback` — returns the most recent committed snapshot for a feed URL, or `None`.
+- `HealthTrackedFetcher` extended with an injectable `snapshot_loader`. When the soft cache is empty AND live fetch fails, the snapshot is loaded and served with `is_degraded=True` + `is_snapshot=True`. Disable per-instance with `snapshot_loader=lambda _url: None`.
+- `FeedHealth.is_snapshot` field — surfaces the snapshot-tier in the UI (the Streamlit feed-health panel shows "from snapshot" instead of generic "stale + degraded").
+- `examples/README.md` — provenance, regenerate command, the three-tier data-path explanation, storage-budget reasoning.
 - `docs/UPGRADE-PATH.md` — the GTFS-RT → V3 REST staging plan (when to switch, gained/lost, 4 stages).
 - README Architecture gains a Mermaid `flowchart TD` diagram showing the data path (external feeds → fetcher → parser → models → presenter, plus auth + inbound RL gating).
 - GLOSSARY adds `FeedMessage`, `headway`, and `block`.
