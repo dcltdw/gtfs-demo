@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- GitHub Pages source switched from `main/docs` to `main/` (root) so the recruiter-facing docs at the repo root — `README.md`, `DEMO.md`, `RETROSPECTIVE.md` — render at predictable URLs (`https://dcltdw.github.io/gtfs-dleung/`, `.../DEMO.html`, `.../RETROSPECTIVE.html`). Previously a 404 because `/docs` source can't reach parent directories. See [#58](https://github.com/dcltdw/gtfs-dleung/issues/58).
+
+### Added
+
+- `_config.yml` at the repo root — Jekyll config for the Pages site. Sets a title + description and an `exclude:` list that hides implementation noise (`tests/`, `.github/`, `scripts/`, `uv.lock`, the binary snapshot `.pb` + `.json` files, etc.) from the rendered site.
+
+### Changed
+
+- `README.md` adds a "Docs site" link near the top so the rendered URL is discoverable from in-repo viewers.
+- `docs/index.md` now describes itself as a curated index, pointing at the README as the landing page (since the rendered site now lands on the README at the root, not on `docs/index.html`).
+
 ## [0.1.0] — 2026-05-11 — recruiter demo
 
 The pre-demo set is complete. 14 issues filed, 14 PRs landed, all gated by CI; all conventions followed; the live Streamlit app boots, the three panels render, the demo is shareable.

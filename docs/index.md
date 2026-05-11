@@ -1,6 +1,6 @@
-# gtfs-dleung
+# gtfs-dleung — curated docs index
 
-A focused GTFS-RT exploration of the MBTA Red Line (Park St ↔ Davis Sq) and the Green Line E branch (Park St ↔ Ball Sq), built as a 4–6 hour spike to demonstrate transit-data competence.
+> The site landing page is the rendered [README](../README.md) — start there for the full overview, architecture diagram, and quickstart. This page is the curated link list across every doc in the repo.
 
 **Source repo**: <https://github.com/dcltdw/gtfs-dleung>
 **Live app**: run `just demo` after `just install` — opens at `http://localhost:8501`.
