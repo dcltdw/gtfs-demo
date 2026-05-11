@@ -60,6 +60,11 @@ See [SECURITY.md](SECURITY.md) for the disclosure process and threat model. Demo
 
 **Input validation**: `gtfs_dleung.validation.validate_stop_id` rejects any stop ID outside the demo corridor's 16 parent stations, as defence-in-depth against arbitrary lookups bypassing the UI.
 
+**Dual rate limit** — the project runs two unrelated rate limiters because the directions of traffic protect against different threats:
+
+- **Outbound** (`gtfs_dleung.fetcher.rate_limit.OutboundRateLimiter`, F-002): polite-neighbour limiter; ≤ 1 fetch / 10 s per feed URL via per-URL minimum-interval enforcement. Protects MBTA's CDN from us.
+- **Inbound** (`gtfs_dleung.security.rate_limit.SessionRateLimiter`, F-008): sliding-window limiter per Streamlit session; default 30 req / 60 s. Protects us from a misbehaving (or hostile) authenticated session. In-memory, lazy idle eviction at 1h. Per-IP and Redis-backed variants are post-demo (#40, ADR #41).
+
 ## Operational notes
 
 > Runbook lands as `DEMO.md` in PR #14.

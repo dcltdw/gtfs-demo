@@ -45,6 +45,15 @@ class Settings(BaseSettings):
 
     gtfs_cookie_expiry_days: int = Field(default=1, ge=0)
 
+    gtfs_inbound_limit_per_min: int = Field(default=30, ge=1)
+    """Inbound rate-limit budget per Streamlit session per window."""
+
+    gtfs_inbound_window_s: float = Field(default=60.0, gt=0)
+    """Sliding window size in seconds for the inbound rate limiter."""
+
+    gtfs_inbound_idle_evict_s: float = Field(default=3600.0, gt=0)
+    """Drop a session's bucket after this much idle time (bounds limiter memory)."""
+
 
 def get_settings() -> Settings:
     """Return a freshly-loaded settings instance.
