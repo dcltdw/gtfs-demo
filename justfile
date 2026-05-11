@@ -9,9 +9,13 @@ default:
 install:
     uv sync --extra dev
 
-# Run the test suite.
+# Run the fast test suite (excludes live-marker tests; matches CI).
 test:
-    uv run pytest
+    uv run pytest -m 'not live'
+
+# Run the live-marker tests (subprocess smoke, real feeds). Slow; not in PR CI.
+test-live:
+    uv run pytest -m live -v
 
 # Run ruff lint.
 lint:
@@ -36,9 +40,9 @@ secrets-baseline:
     uv run detect-secrets scan --exclude-files 'uv\.lock|\.venv/' > .secrets.baseline
     @echo "Baseline regenerated. Audit with: uv run detect-secrets audit .secrets.baseline"
 
-# Run the Streamlit demo app (placeholder until the presenter ships).
+# Run the Streamlit demo app (the recruiter-demo entrypoint).
 demo:
-    @echo "TODO: wire up `uv run streamlit run gtfs_dleung/presenter/app.py` once the presenter lands (#11)."
+    uv run streamlit run gtfs_dleung/app.py
 
 # Capture a snapshot of all three RT feeds for offline testing (placeholder).
 snapshot:
