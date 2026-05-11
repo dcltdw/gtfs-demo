@@ -2,6 +2,8 @@
 
 A focused GTFS-RT exploration of the MBTA Red Line (Park St ↔ Davis Sq) and the Green Line E branch (Park St ↔ Ball Sq), built as a 4–6 hour spike to demonstrate transit-data competence.
 
+**Docs site**: <https://dcltdw.github.io/gtfs-dleung/> (this README, rendered, with the architecture diagram + links to every other doc). Curated link list at <https://dcltdw.github.io/gtfs-dleung/docs/>.
+
 ## What and why
 
 This project exists as a focused, time-boxed demonstration of GTFS-RT competence:

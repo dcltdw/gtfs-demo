@@ -1,0 +1,42 @@
+# Jekyll configuration for the GitHub Pages site.
+# Source: this repo's `main` branch, root path.
+# See https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
+
+title: gtfs-dleung
+description: GTFS-RT exploration spike for the MBTA Red Line (Park ↔ Davis) and Green Line E branch (Park ↔ Ball Sq).
+
+# Render with one of GH's supported themes. `minima` is the default if omitted;
+# explicit for clarity.
+theme: minima
+
+# Files / directories excluded from the rendered site. These are either
+# implementation noise (tooling configs), too large to be useful (uv.lock),
+# or already exposed via the source repo where appropriate.
+exclude:
+  # Test surface — implementation detail
+  - tests/
+  # CI + GH templates — internal
+  - .github/
+  # Build / capture scripts — implementation detail
+  - scripts/
+  # Raw protobuf snapshots — binary, won't render anyway
+  - examples/*.pb
+  # JSON snapshot dumps — large + noisy for a recruiter audience
+  - examples/*.json
+  # Virtualenvs — not committed, defensive
+  - .venv/
+  - .python-version
+  # Dependency manifests — not rendered prose
+  - uv.lock
+  - pyproject.toml
+  # Tooling configs
+  - .pre-commit-config.yaml
+  - .gitignore
+  - .secrets.baseline
+  # The bcrypt placeholder; one-way but no point rendering it as a page
+  - .env.example
+  # Pages config itself
+  - _config.yml
+  # Local detritus
+  - .DS_Store
+  - "*.tmp"
