@@ -38,7 +38,9 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 > - `gtfs_dleung/scope.py` — corridor constants.
 > - `gtfs_dleung/config.py` — settings via `pydantic-settings`.
 
-**Static vs. realtime split**: `gtfs_dleung.fetcher.static` handles the weekly-updated GTFS-static bundle from `cdn.mbta.com/MBTA_GTFS.zip` with a TTL-based cache. The realtime fetchers (TripUpdates, VehiclePositions, ServiceAlerts) land in #4 and poll their own endpoints on a polite interval (≤1 fetch / 10 s per feed). Each layer is independently testable: static via the committed `tests/fixtures/mbta-mini.zip`; realtime via captured protobuf snapshots (#13).
+**Static vs. realtime split**: `gtfs_dleung.fetcher.static` handles the weekly-updated GTFS-static bundle from `cdn.mbta.com/MBTA_GTFS.zip` with a TTL-based cache. The realtime fetcher (`gtfs_dleung.fetcher.realtime.fetch_feed`) decodes the three RT feeds (TripUpdates, VehiclePositions, ServiceAlerts) with a polite interval (≤1 fetch / 10 s per feed). Each layer is independently testable: static via the committed `tests/fixtures/mbta-mini.zip`; realtime via captured protobuf snapshots (`tests/fixtures/tripupdates_sample.pb`).
+
+**TripUpdates parser**: `gtfs_dleung.parser.tripupdates.parse` joins RT TripUpdates with the scope-filtered static feed and returns typed `Arrival` rows. Two non-obvious GTFS-RT semantics are implemented and tested — **partial StopTimeUpdate propagation** (a delay on stop K propagates to downstream stops until the next explicit update) and **ADDED trips** (RT-introduced trips absent from the static feed are surfaced with `is_added=True`, not dropped). See [docs/agent-spec/F-003-tripupdates-arrivals.md](docs/agent-spec/F-003-tripupdates-arrivals.md).
 
 ## Design decisions
 
