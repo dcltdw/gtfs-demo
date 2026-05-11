@@ -16,6 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Static GTFS feed loader (`gtfs_dleung.fetcher.static.fetch_static_feed`) with 7-day TTL cache, configurable cache dir + URL via `pydantic-settings`, identifying `User-Agent`, typed `StaticFeedError` on failure.
 - GTFS-RT HTTP fetcher (`gtfs_dleung.fetcher.realtime.fetch_feed`) returning a decoded `FeedMessage`. Per-URL outbound rate limit (10s default), tenacity exponential-backoff retry (2–8s, 3 attempts) on 5xx + timeouts, typed `TransientFeedError` / `PermanentFeedError`, structured per-attempt logging.
 - TripUpdates parser (`gtfs_dleung.parser.tripupdates.parse`) returning typed `Arrival` rows. Handles trip-level + stop-level `schedule_relationship`, partial StopTimeUpdate propagation (downstream stops inherit the last explicit delay), and ADDED trips (RT references a `trip_id` absent from the static feed → `is_added=True`). Times are tz-aware `datetime` in `America/New_York`.
+- VehiclePositions parser (`gtfs_dleung.parser.vehicles.parse`) returning typed `VehiclePosition` rows; scope-filtered to Red + Green-E by `trip.route_id`. Keeps `vehicle_id` (system-internal), `vehicle_label` (rider-facing), and `trip_id` distinct.
+- `gtfs_dleung.models.vehicle.VehiclePosition` + `VehicleStatus` StrEnum (`INCOMING_AT` / `STOPPED_AT` / `IN_TRANSIT_TO`).
+- `tests/fixtures/vehiclepositions_sample.pb` — 2.2 KB trimmed real-feed snapshot (15 entities: 5 Red, 5 Green-E, 5 out-of-scope routes for filter coverage).
+- `make_vehiclepositions_feed` helper in `tests/helpers.py`.
+- `docs/agent-spec/F-004-vehiclepositions.md` — VehiclePositions spec at the correct F-004 slot (the originating issue's `F-003-vehiclepositions-parser` name conflicted with TripUpdates).
 - `gtfs_dleung.models.arrival.Arrival` + `ScheduleRelationship` enum — the user-facing typed boundary for the arrivals board.
 - `gtfs_dleung.presenter.arrivals.next_n_arrivals` — pure helper returning the next N future SCHEDULED-or-ADDED arrivals at a stop.
 - `tests/helpers.py` — programmatic `FeedMessage` and `StaticFeed` builders so tests can express GTFS-RT scenarios as Python dicts.
@@ -36,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - README Quickstart and CONTRIBUTING now walk through the pre-commit + CI workflow.
 - README Architecture section now describes the static-vs-realtime split and points at the corridor filter.
 - README Security section adds the "polite consumer" principle (UA + rate limit + retry).
-- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, and `partial StopTimeUpdate / propagation` entries.
+- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, and `current_status` entries.
 - Default `User-Agent` updated from URL-style to maintainer-style (`<app>/<ver> (<name>; <email>)`) to match the §6 disclosure pattern; reflected in `gtfs_dleung/config.py` and `.env.example`.
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`) — default 10s.
 - README Architecture gains a paragraph describing the TripUpdates parser's two non-obvious behaviours.
