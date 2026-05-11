@@ -142,6 +142,63 @@ def make_vehiclepositions_feed(
     return msg
 
 
+def make_alerts_feed(
+    *,
+    alerts: list[dict[str, Any]],
+    feed_timestamp: int = 0,
+) -> gtfs_realtime_pb2.FeedMessage:
+    """Build a ``FeedMessage`` with one ``alert`` entity per dict.
+
+    Each ``alerts`` entry is a dict with keys:
+
+    - ``header_text`` (str, optional) — sets the English translation of ``header_text``.
+    - ``description_text`` (str, optional).
+    - ``cause`` (Cause string name, optional).
+    - ``effect`` (Effect string name, optional).
+    - ``active_periods`` (list of ``{start: int, end: int}`` unix-seconds, optional).
+    - ``informed_entities`` (list of ``{agency_id, route_id, trip_id, stop_id}`` dicts, optional).
+    """
+    msg = gtfs_realtime_pb2.FeedMessage()
+    msg.header.gtfs_realtime_version = "2.0"
+    msg.header.incrementality = 0
+    if feed_timestamp:
+        msg.header.timestamp = feed_timestamp
+
+    for i, a in enumerate(alerts):
+        entity = msg.entity.add()
+        entity.id = f"alert-{i}"
+        alert = entity.alert
+        if "header_text" in a:
+            t = alert.header_text.translation.add()
+            t.language = "en"
+            t.text = a["header_text"]
+        if "description_text" in a:
+            t = alert.description_text.translation.add()
+            t.language = "en"
+            t.text = a["description_text"]
+        if "cause" in a:
+            alert.cause = gtfs_realtime_pb2.Alert.Cause.Value(a["cause"])
+        if "effect" in a:
+            alert.effect = gtfs_realtime_pb2.Alert.Effect.Value(a["effect"])
+        for ap in a.get("active_periods", []):
+            tr = alert.active_period.add()
+            if "start" in ap:
+                tr.start = ap["start"]
+            if "end" in ap:
+                tr.end = ap["end"]
+        for ie in a.get("informed_entities", []):
+            sel = alert.informed_entity.add()
+            if "agency_id" in ie:
+                sel.agency_id = ie["agency_id"]
+            if "route_id" in ie:
+                sel.route_id = ie["route_id"]
+            if "trip_id" in ie:
+                sel.trip.trip_id = ie["trip_id"]
+            if "stop_id" in ie:
+                sel.stop_id = ie["stop_id"]
+    return msg
+
+
 def make_static_feed(
     *,
     routes: list[dict[str, Any]] | None = None,
