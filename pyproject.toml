@@ -1,6 +1,6 @@
 [project]
 name = "gtfs-dleung"
-version = "0.0.1"
+version = "0.1.0"
 description = "GTFS-RT exploration spike for the MBTA Red Line + Green Line E branch — recruiter-demo deliverable."
 authors = [{ name = "David Leung" }]
 license = { text = "MIT" }

@@ -21,7 +21,7 @@ This spec absorbs what the originating issue (#4) called `NF-001-outbound-rate-l
 ## Inputs
 
 - `feed_url` (one of `gtfs_dleung.feeds.TRIP_UPDATES_URL`, `VEHICLE_POSITIONS_URL`, `SERVICE_ALERTS_URL`).
-- `Settings.gtfs_user_agent` (env: `GTFS_USER_AGENT`; default: `gtfs-dleung/0.0.1 (David Leung; claude.unraveled663@simplelogin.com)`).
+- `Settings.gtfs_user_agent` (env: `GTFS_USER_AGENT`; default: `gtfs-dleung/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)`).
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`; default: 10).
 - Optional injectable `rate_limiter` and `session` for tests.
 
