@@ -36,7 +36,7 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
   - `TripUpdates`: `https://cdn.mbta.com/realtime/TripUpdates.pb`
   - `VehiclePositions`: `https://cdn.mbta.com/realtime/VehiclePositions.pb`
   - `Alerts`: `https://cdn.mbta.com/realtime/Alerts.pb`
-- **F-003 TripUpdates → arrivals board**: surface predicted arrival times scoped to the demo stops, with `schedule_relationship` honoured.
+- **F-003 TripUpdates → arrivals board**: surface predicted arrival times scoped to the demo stops, with `schedule_relationship` honoured. Handles partial StopTimeUpdate propagation and ADDED trips. See [docs/agent-spec/F-003-tripupdates-arrivals.md](docs/agent-spec/F-003-tripupdates-arrivals.md).
 - **F-004 VehiclePositions**: parse current vehicle positions (used by the live map post-demo, but stored at spike scope).
 - **F-005 ServiceAlerts**: surface active alerts that touch the demo scope.
 - **F-006 Feed staleness detection**: detect stale feeds and degrade gracefully.
