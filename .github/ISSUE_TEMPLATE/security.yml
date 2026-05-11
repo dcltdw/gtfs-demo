@@ -1,0 +1,38 @@
+name: Security finding (non-sensitive)
+description: A security improvement or hardening item that is not itself sensitive disclosure. For active exploits or unfixed vulnerabilities, do NOT use this template — see SECURITY.md.
+title: "[security] "
+labels:
+  - type:security
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **If this is an unfixed vulnerability, stop and email the maintainer per `SECURITY.md`.**
+        > This template is for hardening items, posture improvements, and public-knowledge issues.
+  - type: textarea
+    id: finding
+    attributes:
+      label: Finding
+      description: What is the security concern, in one paragraph?
+    validations:
+      required: true
+  - type: textarea
+    id: threat
+    attributes:
+      label: Threat model
+      description: What is the realistic threat, and what is the attacker's gain if it lands?
+    validations:
+      required: true
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Proposed mitigation
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Pre-demo or post-demo?
+      description: Is this required for the recruiter demo or queued for after?
+    validations:
+      required: true

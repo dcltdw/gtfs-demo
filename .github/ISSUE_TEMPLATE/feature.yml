@@ -1,0 +1,57 @@
+name: Feature
+description: A new capability or behaviour to implement.
+title: "[feat] "
+labels:
+  - type:feature
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is the feature, and why is it needed?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Checklist of testable acceptance criteria. Each should be specific enough to verify.
+      placeholder: |
+        - [ ] Behaviour X happens when Y.
+        - [ ] `tests/test_foo.py::test_bar` covers the new path.
+    validations:
+      required: true
+  - type: textarea
+    id: tests_required
+    attributes:
+      label: Tests required
+      description: Which tests must land in the same PR (per §4b).
+    validations:
+      required: true
+  - type: textarea
+    id: docs_to_update
+    attributes:
+      label: Docs to update
+      description: Which docs must land in the same PR (per §4b-1).
+    validations:
+      required: true
+  - type: textarea
+    id: spec
+    attributes:
+      label: Linked spec
+      description: 'Link to the F-NNN or NF-NNN file under docs/agent-spec/, or "none yet".'
+    validations:
+      required: true
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of done
+      description: A reviewer should be able to scan this and decide "merge or not."
+      value: |
+        - [ ] All acceptance criteria checked.
+        - [ ] Tests pass locally and in CI.
+        - [ ] Docs updated per AI-COLLABORATION-CONVENTIONS.md §4b (or "no docs needed" stated explicitly).
+        - [ ] PR body has required sections (Files changed, Work breakdown, Operational impact).
+        - [ ] Status moved to In Progress on PR open, Done on merge.
+    validations:
+      required: true
