@@ -9,6 +9,9 @@ Terms specific to the GTFS ecosystem, the MBTA's flavour of it, and the conventi
   - **TripUpdates**: predicted arrival/departure times for in-service trips. Includes `schedule_relationship` per stop (`SCHEDULED`, `SKIPPED`, `NO_DATA`).
   - **VehiclePositions**: live vehicle locations (lat/lon, bearing, speed, occupancy).
   - **ServiceAlerts**: text alerts (planned closures, elevator outages, etc.) with informed-entity selectors.
+- **`FeedMessage`**: the top-level GTFS-RT protobuf envelope. Carries a `header` (with `gtfs_realtime_version`, `incrementality`, `timestamp`) plus a list of `entity` objects. Each entity wraps one of `trip_update` / `vehicle` / `alert`. The parser's input type is always `gtfs_realtime_pb2.FeedMessage`.
+- **Headway**: the time gap between consecutive trips on the same route + direction (e.g. "Red Line southbound runs every 6 minutes during rush hour" = a 6-minute headway). Distinct from delay, which is per-trip variance from the published schedule. The spike doesn't compute headways but the term appears in MBTA's published schedule data and in the `frequencies.txt` static GTFS file (which the spike intentionally ignores; the demo routes are fully scheduled, not frequency-based).
+- **Block**: a sequence of trips assigned to a single vehicle in a single service day (`block_id` in `trips.txt`). A train serving an outbound Red Line trip and then an inbound trip is the same block. Relevant for vehicle-tracking semantics — `vehicle.id` typically stays stable across all trips in a block. Not used by the spike's parsers, but the column appears in the static feed.
 - **Trip ID**: unique identifier for one specific trip (a single run of a route in one direction on one date). Must match between static and realtime feeds.
 - **Stop ID**: unique identifier for a stop. The MBTA uses suffixed IDs to distinguish platforms (e.g. `place-pktrm` vs `70075`).
 - **`schedule_relationship`**: a GTFS-RT label appearing in two places. **Trip-level** (`TripDescriptor.ScheduleRelationship`): `SCHEDULED`, `ADDED`, `UNSCHEDULED`, `CANCELED` (plus deprecated/experimental variants the parser maps to SCHEDULED). **Stop-level** (`StopTimeUpdate.ScheduleRelationship`): `SCHEDULED`, `SKIPPED`, `NO_DATA`, `UNSCHEDULED`. The arrivals parser collapses both into a single user-facing `gtfs_dleung.models.arrival.ScheduleRelationship` enum on each row.
@@ -34,7 +37,7 @@ Terms specific to the GTFS ecosystem, the MBTA's flavour of it, and the conventi
 - **Red Line**: heavy rail, branches to Ashmont and Braintree. Spike scope: Park St ↔ Davis Sq (downtown to Cambridge/Somerville).
 - **Green Line E branch**: light rail, the only Green Line branch that runs through Lechmere on the Medford/Tufts extension. Spike scope: Park St ↔ Ball Sq.
 - **Trunk overlap**: the four Green Line branches (B/C/D/E) share platforms downtown — Park Street, Boylston, Arlington, Copley. A scope filter using only stop IDs would incorrectly keep B/C/D trips; route-id filtering is required.
-- **MBTA V3 API**: the REST-shaped API that wraps GTFS-RT. The spike intentionally does NOT use it; see `docs/UPGRADE-PATH.md` (PR #12) for the trade-off.
+- **MBTA V3 API**: the REST-shaped API that wraps GTFS-RT (`https://api-v3.mbta.com/`). The spike intentionally does NOT use it; see [docs/UPGRADE-PATH.md](UPGRADE-PATH.md) and [ADR 0003](adr/0003-strict-gtfs-rt.md) for the trade-off.
 
 ## Project-specific terms
 

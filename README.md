@@ -29,7 +29,67 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 
 ## Architecture
 
-> ADRs, Mermaid diagram, and upgrade-path notes land in PR #12. The package layout is:
+```mermaid
+flowchart TD
+    subgraph external["🌐 External"]
+        MBTA_STATIC["cdn.mbta.com/MBTA_GTFS.zip<br/>(static feed, weekly)"]
+        MBTA_TU["cdn.mbta.com/realtime/TripUpdates.pb"]
+        MBTA_VP["cdn.mbta.com/realtime/VehiclePositions.pb"]
+        MBTA_AL["cdn.mbta.com/realtime/Alerts.pb"]
+    end
+
+    subgraph fetcher["fetcher/ (F-001, F-002, F-006)"]
+        STATIC_FETCH["static.fetch_static_feed<br/>7d TTL cache"]
+        RT_FETCH["realtime.fetch_feed<br/>UA + outbound RL + retry"]
+        HEALTH["health.HealthTrackedFetcher<br/>last-success cache + staleness"]
+    end
+
+    subgraph parser["parser/ (F-001, F-003, F-004, F-005)"]
+        STATIC_PARSE["static.load_feed_from_dir<br/>+ filter_to_scope"]
+        TU_PARSE["tripupdates.parse<br/>partial-update propagation"]
+        VP_PARSE["vehicles.parse"]
+        AL_PARSE["alerts.parse"]
+    end
+
+    subgraph models["models/ — Pydantic typed boundary"]
+        M["StaticFeed · Arrival · VehiclePosition · ServiceAlert · FeedHealth"]
+    end
+
+    subgraph presenter["presenter/ + app.py (F-009)"]
+        ARRIVALS["arrivals.next_n_arrivals"]
+        FORMATTERS["formatters.format_*<br/>delay color · badges · health icons"]
+        APP["app.py — Streamlit page"]
+    end
+
+    subgraph security["security/ + auth.py (F-007, F-008)"]
+        AUTH["auth.verify_credentials<br/>bcrypt + structured log"]
+        RL_IN["rate_limit.SessionRateLimiter<br/>sliding window per session"]
+        VAL["validation.validate_stop_id<br/>defence-in-depth allow-list"]
+    end
+
+    MBTA_STATIC --> STATIC_FETCH --> STATIC_PARSE --> M
+    MBTA_TU --> RT_FETCH
+    MBTA_VP --> RT_FETCH
+    MBTA_AL --> RT_FETCH
+    RT_FETCH --> HEALTH --> TU_PARSE
+    HEALTH --> VP_PARSE
+    HEALTH --> AL_PARSE
+    TU_PARSE --> M
+    VP_PARSE --> M
+    AL_PARSE --> M
+    M --> ARRIVALS --> FORMATTERS
+    M --> FORMATTERS
+    FORMATTERS --> APP
+    AUTH --> APP
+    RL_IN -. gates refresh .-> APP
+    VAL -. defence-in-depth .-> APP
+```
+
+The diagram is the data flow per fetch cycle (every 15 s by default — see F-009). Auth runs before any data path; the inbound rate limiter sits *in front of* the refresh handler so a runaway session falls back to cached state instead of hammering MBTA's CDN.
+
+> ADRs live in [docs/adr/](docs/adr/) — three short MADR-lite records covering Streamlit vs Flask (0001), no-database (0002), and strict GTFS-RT (0003). The corresponding upgrade story for the realtime-data side lives in [docs/UPGRADE-PATH.md](docs/UPGRADE-PATH.md).
+
+**Package layout:**
 >
 > - `gtfs_dleung/fetcher/` — static + realtime feed I/O. `static.fetch_static_feed()` downloads + caches the MBTA bundle.
 > - `gtfs_dleung/parser/` — Protobuf and CSV → domain models. `static.load_feed_from_dir()` produces a `StaticFeed`; `static.filter_to_scope()` narrows to the demo corridors.
