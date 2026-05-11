@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.0] — 2026-05-11 — recruiter demo
+
+The pre-demo set is complete. 14 issues filed, 14 PRs landed, all gated by CI; all conventions followed; the live Streamlit app boots, the three panels render, the demo is shareable.
+
+### Added
+
+- [DEMO.md](DEMO.md) — recruiter screen-share runbook with sequence, contingencies, and code-tour talking points.
+- [docs/RECRUITER-NOTES.md](docs/RECRUITER-NOTES.md) — file:line-cited talking points for the four code-tour anchors: partial-update propagation, dual rate-limiting, three-tier data path, never-log-passwords auth.
+- [RETROSPECTIVE.md](RETROSPECTIVE.md) — honest "what I learned / what surprised me / what I'd do differently" at the close of the pre-demo set.
+- [docs/index.md](docs/index.md) — landing page for the GitHub Pages site rendering the docs tree.
+- GitHub Pages enabled, sourcing from `main/docs`. Public URL: <https://dcltdw.github.io/gtfs-dleung/>.
+
+### Changed
+
+- Version bumped to **0.1.0** across `pyproject.toml`, `gtfs_dleung/__init__.py`, the User-Agent defaults in `config.py` and `.env.example`, the F-002 spec, and the smoke test that pins the version string.
+
 ### Added
 
 - CI pipeline (`.github/workflows/pr-tests.yml`) with parallel `lint` / `typecheck` / `test` jobs on Python 3.13 + uv; cancel-in-progress on PR commits, every push to `main` verified.
