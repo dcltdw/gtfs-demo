@@ -21,6 +21,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `tests/fixtures/vehiclepositions_sample.pb` — 2.2 KB trimmed real-feed snapshot (15 entities: 5 Red, 5 Green-E, 5 out-of-scope routes for filter coverage).
 - `make_vehiclepositions_feed` helper in `tests/helpers.py`.
 - `docs/agent-spec/F-004-vehiclepositions.md` — VehiclePositions spec at the correct F-004 slot (the originating issue's `F-003-vehiclepositions-parser` name conflicted with TripUpdates).
+- ServiceAlerts parser (`gtfs_dleung.parser.alerts.parse`) returning typed `ServiceAlert` rows. Two layered filters — scope (informed_entity touches Red / Green-E / corridor parent station) + active-period (overlaps `now`). `now` is a required argument so tests pin time without monkey-patching.
+- `gtfs_dleung.models.alert.{ServiceAlert, Cause, Effect, ActivePeriod, InformedEntity}` — typed surface for the alerts panel.
+- `tests/fixtures/alerts_sample.pb` — 42 KB trimmed real-feed snapshot (5 in-scope + 3 out-of-scope alerts).
+- `make_alerts_feed` helper in `tests/helpers.py`.
+- `docs/agent-spec/F-005-servicealerts.md` — ServiceAlerts spec at the correct F-005 slot.
 - `gtfs_dleung.models.arrival.Arrival` + `ScheduleRelationship` enum — the user-facing typed boundary for the arrivals board.
 - `gtfs_dleung.presenter.arrivals.next_n_arrivals` — pure helper returning the next N future SCHEDULED-or-ADDED arrivals at a stop.
 - `tests/helpers.py` — programmatic `FeedMessage` and `StaticFeed` builders so tests can express GTFS-RT scenarios as Python dicts.
@@ -41,7 +46,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - README Quickstart and CONTRIBUTING now walk through the pre-commit + CI workflow.
 - README Architecture section now describes the static-vs-realtime split and points at the corridor filter.
 - README Security section adds the "polite consumer" principle (UA + rate limit + retry).
-- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, and `current_status` entries.
+- GLOSSARY adds `route`, `trip`, `stop_time`, `service_id`, `shape`, `parent station`, "trunk overlap", expanded `schedule_relationship`, `ADDED trip`, `partial StopTimeUpdate / propagation`, `vehicle.id vs vehicle.label`, `current_status`, `informed_entity`, alert `cause`, alert `effect`, and `active_period` entries.
 - Default `User-Agent` updated from URL-style to maintainer-style (`<app>/<ver> (<name>; <email>)`) to match the §6 disclosure pattern; reflected in `gtfs_dleung/config.py` and `.env.example`.
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`) — default 10s.
 - README Architecture gains a paragraph describing the TripUpdates parser's two non-obvious behaviours.
