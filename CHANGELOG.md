@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- CI pipeline (`.github/workflows/pr-tests.yml`) with parallel `lint` / `typecheck` / `test` jobs on Python 3.13 + uv; cancel-in-progress on PR commits, every push to `main` verified.
+- `.pre-commit-config.yaml` with ruff, mypy, `detect-secrets`, and file-hygiene hooks; `.secrets.baseline` checked in.
+- `pre-commit` + `detect-secrets` added to dev deps; `just precommit` recipe runs the full hook suite.
+- `docs/agent-spec/NF-012-ci-pipeline.md` — the spec file for the CI gate.
+- `tests/test_typing.py::test_strict_mypy_clean_on_package` — placeholder marker (the CI `typecheck` job is the real gate).
+
+### Changed
+
+- README Quickstart and CONTRIBUTING now walk through the pre-commit + CI workflow.
+
 ## [0.0.1] — 2026-05-11
 
 ### Added

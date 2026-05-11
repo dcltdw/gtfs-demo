@@ -15,7 +15,15 @@ The deeper goal is to demonstrate the agent-and-human collaboration conventions 
 
 ## Quickstart
 
-> Filled in by subsequent PRs as the surfaces land. Today: `uv sync --extra dev` then `just test`.
+```bash
+uv sync --extra dev           # install runtime + dev deps into a uv-managed venv
+uv run pre-commit install     # wire ruff / mypy / secrets-scan / file hygiene hooks
+just test                     # run the test suite (pytest -v)
+just lint                     # ruff format --check + ruff check
+just typecheck                # mypy --strict against gtfs_dleung + tests
+```
+
+The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `main` — see [.github/workflows/pr-tests.yml](.github/workflows/pr-tests.yml) and [docs/agent-spec/NF-012-ci-pipeline.md](docs/agent-spec/NF-012-ci-pipeline.md). Streamlit and CLI surfaces land in later PRs.
 
 ## Architecture
 

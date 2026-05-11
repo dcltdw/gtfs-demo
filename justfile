@@ -27,6 +27,15 @@ fix:
 typecheck:
     uv run mypy gtfs_dleung tests
 
+# Run all pre-commit hooks against every file (matches CI's lint + typecheck minus pytest).
+precommit:
+    uv run pre-commit run --all-files
+
+# Refresh the detect-secrets baseline. Audit results before committing.
+secrets-baseline:
+    uv run detect-secrets scan --exclude-files 'uv\.lock|\.venv/' > .secrets.baseline
+    @echo "Baseline regenerated. Audit with: uv run detect-secrets audit .secrets.baseline"
+
 # Run the Streamlit demo app (placeholder until the presenter ships).
 demo:
     @echo "TODO: wire up `uv run streamlit run gtfs_dleung/presenter/app.py` once the presenter lands (#11)."
