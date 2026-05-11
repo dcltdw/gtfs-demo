@@ -29,11 +29,16 @@ The same three checks (`lint`, `typecheck`, `test`) run in CI on every PR into `
 
 > ADRs, Mermaid diagram, and upgrade-path notes land in PR #12. The package layout is:
 >
-> - `gtfs_dleung/fetcher/` — static + realtime feed I/O
-> - `gtfs_dleung/parser/` — Protobuf → domain models
-> - `gtfs_dleung/store/` — snapshots and cached state
-> - `gtfs_dleung/presenter/` — Streamlit UI
-> - `gtfs_dleung/cli/` — one-shot scripts
+> - `gtfs_dleung/fetcher/` — static + realtime feed I/O. `static.fetch_static_feed()` downloads + caches the MBTA bundle.
+> - `gtfs_dleung/parser/` — Protobuf and CSV → domain models. `static.load_feed_from_dir()` produces a `StaticFeed`; `static.filter_to_scope()` narrows to the demo corridors.
+> - `gtfs_dleung/models/` — Pydantic v2 models, the canonical typed boundary.
+> - `gtfs_dleung/store/` — snapshots and cached state (#26).
+> - `gtfs_dleung/presenter/` — Streamlit UI (#11).
+> - `gtfs_dleung/cli/` — one-shot scripts.
+> - `gtfs_dleung/scope.py` — corridor constants.
+> - `gtfs_dleung/config.py` — settings via `pydantic-settings`.
+
+**Static vs. realtime split**: `gtfs_dleung.fetcher.static` handles the weekly-updated GTFS-static bundle from `cdn.mbta.com/MBTA_GTFS.zip` with a TTL-based cache. The realtime fetchers (TripUpdates, VehiclePositions, ServiceAlerts) land in #4 and poll their own endpoints on a polite interval (≤1 fetch / 10 s per feed). Each layer is independently testable: static via the committed `tests/fixtures/mbta-mini.zip`; realtime via captured protobuf snapshots (#13).
 
 ## Design decisions
 

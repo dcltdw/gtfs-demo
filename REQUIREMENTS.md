@@ -31,7 +31,7 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
 
 > Each F-NNN below has a structured counterpart in `docs/agent-spec/F-NNN-*.md`.
 
-- **F-001 Static GTFS ingestion**: load the MBTA static feed, filter to Red Line + Green Line E branch.
+- **F-001 Static GTFS ingestion**: load the MBTA static feed, filter to Red Line + Green Line E branch. See [docs/agent-spec/F-001-load-static-feed.md](docs/agent-spec/F-001-load-static-feed.md).
 - **F-002 GTFS-RT fetcher**: subscribe to the three RT feeds with a polite outbound rate limit and identifying User-Agent.
 - **F-003 TripUpdates → arrivals board**: surface predicted arrival times scoped to the demo stops, with `schedule_relationship` honoured.
 - **F-004 VehiclePositions**: parse current vehicle positions (used by the live map post-demo, but stored at spike scope).
@@ -51,6 +51,7 @@ The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/i
 - **NF-004 Test cadence**: every issue PR ships its own tests; smoke test is the floor.
 - **NF-005 Public-repo posture**: no secrets, PII, or internal references in the tree or in diffs.
 - **NF-006 Rate limiting**: outbound ≤ 1 fetch / 10 s per feed; inbound configurable.
+- **NF-012 CI pipeline**: parallel `lint` / `typecheck` / `test` jobs run on every PR + push to `main`; pre-commit hooks reproduce the lint + typecheck + secrets-scan locally. See [docs/agent-spec/NF-012-ci-pipeline.md](docs/agent-spec/NF-012-ci-pipeline.md).
 
 ## 5. Routes (Streamlit pages)
 
