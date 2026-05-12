@@ -20,7 +20,7 @@ This spec absorbs what the originating issue (#9) called `NF-003-auth`, `NF-004-
 
 - `Settings.gtfs_demo_username` (env: `GTFS_DEMO_USERNAME`; default `demo`).
 - `Settings.gtfs_demo_password_bcrypt` (env: `GTFS_DEMO_PASSWORD_BCRYPT`; bcrypt hash, cost 12 in production).
-- `Settings.gtfs_cookie_key` (env: `GTFS_COOKIE_KEY`; HMAC key for the session cookie — **rotate alongside the password**).
+- `Settings.gtfs_cookie_key` (env: `GTFS_COOKIE_KEY`; HMAC key for the session cookie — **rotate alongside the password**, **≥32 bytes** so PyJWT's HMAC-SHA256 signer doesn't emit `InsecureKeyLengthWarning`; see `docs/SECURITY.md`).
 - `Settings.gtfs_cookie_expiry_days` (env: `GTFS_COOKIE_EXPIRY_DAYS`; default 1).
 
 ## Properties

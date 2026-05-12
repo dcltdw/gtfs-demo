@@ -124,3 +124,19 @@ def test_build_authenticator_config_shape() -> None:
     # The cookie key must NOT be the bcrypt hash — that would let anyone reading
     # the hash forge sessions. We use a separate setting.
     assert config["cookie"]["key"] != settings.gtfs_demo_password_bcrypt
+
+
+def test_default_cookie_key_meets_pyjwt_minimum_length() -> None:
+    """The shipped default key must be ≥32 bytes so PyJWT doesn't emit ``InsecureKeyLengthWarning``.
+
+    PyJWT signs the streamlit-authenticator session cookie with HMAC-SHA256, and
+    RFC 7518 §3.2 requires the key to be at least the digest length (32 bytes).
+    The committed example is public anyway, so cryptographic strength here is
+    documentation hygiene, not a real defense — but the warning is noisy in
+    stderr during the demo and a future shrink would silently regress that.
+    """
+    default_key = Settings().gtfs_cookie_key
+    assert len(default_key.encode("utf-8")) >= 32, (
+        f"Default GTFS_COOKIE_KEY is {len(default_key.encode('utf-8'))} bytes; "
+        "must be ≥32 to satisfy RFC 7518 §3.2 (HMAC-SHA256 minimum)."
+    )
