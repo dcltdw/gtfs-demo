@@ -50,8 +50,13 @@ class Settings(BaseSettings):
     )
     """Bcrypt hash of the demo password (default is the public placeholder; production .env overrides)."""
 
-    gtfs_cookie_key: str = Field(default="gtfs-demo-cookie-key-rotate-me")
-    """HMAC key for streamlit-authenticator's session cookie. Rotate alongside the password."""
+    gtfs_cookie_key: str = Field(default="gtfs-demo-cookie-key-rotate-me-please")
+    """HMAC key for streamlit-authenticator's session cookie. Rotate alongside the password.
+
+    Must be at least 32 bytes — PyJWT signs the cookie with HMAC-SHA256 and warns
+    when the key is shorter than the digest length (RFC 7518 §3.2). The default
+    above is 37 bytes; production ``.env`` should override with a fresh random key.
+    """
 
     gtfs_cookie_expiry_days: int = Field(default=1, ge=0)
 

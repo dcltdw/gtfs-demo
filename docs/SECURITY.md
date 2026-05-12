@@ -43,7 +43,12 @@ Out of scope: anything not exercised by the spike (real user accounts, multi-ten
   1. Generate a fresh password manually (password manager, ≥16 chars).
   2. Compute the bcrypt hash with the command above.
   3. Update `GTFS_DEMO_PASSWORD_BCRYPT` in the deployed `.env`.
-  4. **Rotate `GTFS_COOKIE_KEY` at the same time** (`openssl rand -hex 32`) and update the deployed `.env`. Old cookies become invalid; users sign in again. This is intentional — coupling the rotations makes a single audit point for "everything tied to this cycle's credential is dead."
+  4. **Rotate `GTFS_COOKIE_KEY` at the same time** and update the deployed `.env`. Old cookies become invalid; users sign in again. This is intentional — coupling the rotations makes a single audit point for "everything tied to this cycle's credential is dead." The key must be **at least 32 bytes** so PyJWT doesn't emit `InsecureKeyLengthWarning` (RFC 7518 §3.2 — HMAC-SHA256 minimum). Generate with either:
+
+     ```bash
+     openssl rand -hex 32                                      # 64-char hex (32 bytes raw → 64-byte string)
+     python -c "import secrets; print(secrets.token_urlsafe(32))"   # 43-char URL-safe base64
+     ```
   5. Restart the Streamlit app so the new env values are picked up.
   6. Update `.env.example` with the new bcrypt hash (the committed placeholder mirrors the deployed hash during the spike, so the public placeholder always points at the current cycle).
   7. Confirm the prior cycle's password no longer authenticates.
