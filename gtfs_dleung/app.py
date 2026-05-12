@@ -118,13 +118,19 @@ def main() -> None:
         config["cookie"]["expiry_days"],
     )
 
-    try:
-        authenticator.login(location="main")
-    except Exception as exc:  # pragma: no cover - streamlit-authenticator may raise on bad config
-        st.error(f"Login error: {exc}")
-        return
-
+    # First pass: validate the auth cookie without rendering the form. After the
+    # initial login, the cookie keeps the session alive across reruns; calling
+    # `login(location="main")` again would render a small "Welcome X" block
+    # under the title and waste vertical space above the data panels.
     status = st.session_state.get("authentication_status")
+    if status is not True:
+        try:
+            authenticator.login(location="main")
+        except Exception as exc:  # pragma: no cover - streamlit-authenticator may raise on bad config
+            st.error(f"Login error: {exc}")
+            return
+        status = st.session_state.get("authentication_status")
+
     if status is False:
         st.error("Username or password is incorrect.")
         return
@@ -243,13 +249,15 @@ def _render_arrivals_board(arrivals: list[Arrival]) -> None:
             _render_direction_subsection(arrivals, stop_id, direction_id=1)
 
 
+# How many arrivals each direction subsection shows inline before the rest collapse.
+# A rider boarding "soon" mostly cares about the next two or three; rows 4+ push
+# the second station / alerts panel below the fold. Anything past this goes into
+# a single st.expander so the data isn't lost — just out of the way.
+#
+# NB: do NOT change this to a bare-string docstring (`"""..."""`). Streamlit's
+# "magic" feature renders bare top-level expressions as markdown, which would
+# dump this text at the top of the page.
 _VISIBLE_ARRIVALS = 3
-"""How many arrivals each direction subsection shows before the rest collapse.
-
-A rider boarding 'soon' mostly cares about the next two or three; rows 4+
-push the second station / alerts panel below the fold. Anything past this
-goes into a single ``st.expander`` so the data isn't lost — just out of the way.
-"""
 
 
 def _render_direction_subsection(
