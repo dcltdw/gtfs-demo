@@ -53,6 +53,7 @@ from gtfs_dleung.presenter.formatters import (
     format_arrival_row,
     format_feed_age,
     should_show_stale_banner,
+    show_headsign,
 )
 from gtfs_dleung.security.rate_limit import SessionRateLimiter
 
@@ -294,17 +295,20 @@ def _render_direction_subsection(
 
     visible = picks[:_VISIBLE_ARRIVALS]
     hidden = picks[_VISIBLE_ARRIVALS:]
+    # Compute headsign-informative-ness once per subsection: it's a function of
+    # (stop_id, direction_id), so every row in this subsection has the same value.
+    show_hs = show_headsign(stop_id, direction_id)
 
     for arr in visible:
-        _render_arrival_row(format_arrival_row(arr))
+        _render_arrival_row(format_arrival_row(arr), show_headsign=show_hs)
 
     if hidden:
         with st.expander(f"More arrivals ({len(hidden)})", expanded=False):
             for arr in hidden:
-                _render_arrival_row(format_arrival_row(arr))
+                _render_arrival_row(format_arrival_row(arr), show_headsign=show_hs)
 
 
-def _render_arrival_row(row: dict[str, str | None]) -> None:
+def _render_arrival_row(row: dict[str, str | None], *, show_headsign: bool) -> None:
     color = row["color"]
     badge = row["badge"]
     badge_md = ""
@@ -319,7 +323,7 @@ def _render_arrival_row(row: dict[str, str | None]) -> None:
 
     text_color = _color_to_emoji(color)
     delay_md = f":{text_color}: :{text_color}[{row['delay']}]"
-    headsign_md = f" — _toward {row['headsign']}_" if row.get("headsign") else ""
+    headsign_md = f" — _toward {row['headsign']}_" if show_headsign and row.get("headsign") else ""
     # No leading `**Route** —` prefix: every row in a given column is the same
     # route (Davis = Red, Ball Sq = Green-E), so the times line up across rows.
     st.markdown(
