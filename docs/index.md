@@ -21,6 +21,13 @@ Three short MADR-lite records:
 
 The V3 staging plan is in [UPGRADE-PATH](UPGRADE-PATH.md) — additive across four stages, each replacing one surface without rewriting the parsers.
 
+## Architecture: spike-now vs. prod-Azure
+
+How this demo's spike-grade architecture would shift if rebuilt for production at MBTA scale on Azure, with AWS service equivalents annotated:
+
+- [AZURE-PROD-OVERVIEW](AZURE-PROD-OVERVIEW.md) — short (2–3 pages); demo scope only; one comparison table + four big-delta callouts.
+- [AZURE-PROD-DETAILED](AZURE-PROD-DETAILED.md) — medium (~6–10 pages); demo + post-demo backlog; mermaid architecture diagram; per-component deep-dives; cost order-of-magnitude bands; explicit non-goals.
+
 ## Functional + non-functional specs
 
 Each functional requirement has a one-page spec under [agent-spec/](agent-spec/):
