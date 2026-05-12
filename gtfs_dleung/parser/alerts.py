@@ -2,9 +2,15 @@
 
 Two layered filters:
 
-1. **Scope**: an alert survives only if at least one of its ``informed_entity``
-   selectors targets an in-scope route (``SCOPE_ROUTES``) or a corridor parent
-   station (``ALL_CORRIDOR_PARENT_STATIONS``).
+1. **Scope** (stop-aware route check): when an ``informed_entity`` carries a
+   ``stop_id``, at least one of those ``stop_id``s must be in
+   ``ALL_CORRIDOR_PARENT_STATIONS``. Only when *no* informed_entity has a
+   ``stop_id`` does a route-only match against ``SCOPE_ROUTES`` keep the alert
+   — that's the "systemwide / no stops named" case. The asymmetry is required
+   because MBTA tags every Red Line alert with ``route_id="Red"`` in addition
+   to specific stop selectors; a flat "any route OR any stop" check kept
+   alerts whose stops were entirely outside our corridor (e.g. Andrew, south
+   of Park St). See :func:`_touches_scope`.
 2. **Active-period**: an alert survives only if at least one of its
    ``active_period`` ranges overlaps the supplied ``now``. An alert with no
    ``active_period`` entries is considered always-on (per the GTFS-RT spec) and
@@ -94,12 +100,27 @@ def _touches_scope(
     scope_routes: frozenset[str],
     scope_stops: frozenset[str],
 ) -> bool:
-    for ie in informed:
-        if ie.route_id and ie.route_id in scope_routes:
-            return True
-        if ie.stop_id and ie.stop_id in scope_stops:
-            return True
-    return False
+    """Decide whether an alert geographically touches the demo's scope.
+
+    MBTA typically tags every Red Line alert with ``route_id="Red"`` in addition
+    to the specific ``stop_id`` selectors. A naive "any route OR any stop in
+    scope" check kept alerts whose stops were entirely south of Park St
+    (Andrew, JFK, Quincy, etc.) just because the route tag matched — leaking
+    out-of-corridor noise onto the board.
+
+    Semantics:
+
+    - If any informed entity carries a ``stop_id``, at least one of those
+      ``stop_id``s must be in ``scope_stops``. Otherwise the alert is
+      geographically out of corridor regardless of route tagging.
+    - If no informed entity has a ``stop_id`` at all (the "Red Line systemwide"
+      / "no stops named" case), a route-only match against ``scope_routes`` is
+      sufficient.
+    """
+    stop_ids = [ie.stop_id for ie in informed if ie.stop_id]
+    if stop_ids:
+        return any(sid in scope_stops for sid in stop_ids)
+    return any(ie.route_id in scope_routes for ie in informed if ie.route_id)
 
 
 def _is_active(active_period: list[ActivePeriod], now: datetime) -> bool:

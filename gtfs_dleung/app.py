@@ -126,7 +126,9 @@ def main() -> None:
     if status is not True:
         try:
             authenticator.login(location="main")
-        except Exception as exc:  # pragma: no cover - streamlit-authenticator may raise on bad config
+        except (
+            Exception
+        ) as exc:  # pragma: no cover - streamlit-authenticator may raise on bad config
             st.error(f"Login error: {exc}")
             return
         status = st.session_state.get("authentication_status")

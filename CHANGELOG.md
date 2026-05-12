@@ -8,10 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **Arrivals board UI polish** ([#64](https://github.com/dcltdw/gtfs-dleung/issues/64)): three small tweaks that tighten the column structure.
+- **Arrivals board UI polish + alert filter tightening** ([#64](https://github.com/dcltdw/gtfs-dleung/issues/64)): four small tweaks.
   - **Direction labels (Inbound / Outbound) are now center-aligned** in their column. Streamlit's pure-markdown surface has no center alignment, so this is a one-line `<div style="text-align: center">` wrapper rendered with `unsafe_allow_html=True`; the wrapped text is constant (`Inbound` / `Outbound` / `Unknown direction`), so the unsafe-HTML surface area is bounded.
   - **The `**Route** —` prefix is dropped from each arrival row.** Every row in a given column shares a single route (Davis = Red, Ball Sq = Green-E), so suppressing it lets the `sched`/`pred` times line up across rows. `format_arrival_row` still carries `route` in its dict for consumers that want it.
   - **Each direction subsection now shows the first 3 arrivals inline**, with any remaining arrivals (4th and beyond) inside a single collapsed `st.expander` labelled `More arrivals (N)`. The expander is omitted entirely when ≤3 arrivals are available — no empty `(0)` widget.
+  - **Alert scope filter tightened to respect the corridor when route-tagged**: `parser.alerts._touches_scope` no longer keeps an alert just because one informed entity has `route_id="Red"` — when *any* informed entity carries a `stop_id`, at least one of those `stop_id`s must be in `scope_stops`. The route-only path remains for systemwide alerts that name no stops at all. Pre-fix, MBTA's "elevator outage at Andrew" (south of Park, outside our Park ↔ Alewife corridor) was kept on the board because the alert was also route-tagged with `Red`. This is the southern corollary to #61's northern corridor extension.
 
 ### Changed (breaking config)
 

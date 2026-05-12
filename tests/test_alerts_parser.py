@@ -257,6 +257,66 @@ def test_medford_only_alert_is_kept() -> None:
     assert alerts[0].header_text == "Weekend shuttle terminating at Medford/Tufts"
 
 
+def test_red_line_alert_at_out_of_corridor_stop_is_dropped() -> None:
+    """A Red Line alert that only touches a stop south of Park St is dropped.
+
+    Pins #64 follow-up: MBTA tags every Red Line alert with ``route_id="Red"``
+    in addition to specific ``stop_id`` selectors. Pre-fix, the route tag was
+    enough to keep an Andrew-only alert on the board even though Andrew is
+    south of Park St and outside our Park ↔ Alewife corridor.
+    """
+    feed = make_alerts_feed(
+        alerts=[
+            {
+                "header_text": "Elevator outage at Andrew",
+                "informed_entities": [
+                    {"route_id": "Red", "stop_id": "place-andrw"},
+                ],
+                "active_periods": [{"start": _ts(NOW - timedelta(hours=1))}],
+            }
+        ]
+    )
+
+    alerts = parse(feed, now=NOW)
+    assert alerts == [], "out-of-corridor stop must override the route tag"
+
+
+def test_red_line_systemwide_alert_with_no_stops_is_kept() -> None:
+    """A route-only alert (no stop selectors anywhere) still passes — that's the systemwide case."""
+    feed = make_alerts_feed(
+        alerts=[
+            {
+                "header_text": "Red Line: residual delays",
+                "informed_entities": [{"route_id": "Red"}],
+                "active_periods": [{"start": _ts(NOW - timedelta(hours=1))}],
+            }
+        ]
+    )
+
+    alerts = parse(feed, now=NOW)
+    assert len(alerts) == 1
+    assert alerts[0].header_text == "Red Line: residual delays"
+
+
+def test_alert_touching_in_and_out_of_corridor_stops_is_kept() -> None:
+    """If any stop selector is in scope, the alert is kept — the in-scope stop saves it."""
+    feed = make_alerts_feed(
+        alerts=[
+            {
+                "header_text": "Red Line: shuttle Andrew <-> Davis",
+                "informed_entities": [
+                    {"route_id": "Red", "stop_id": "place-andrw"},
+                    {"route_id": "Red", "stop_id": "place-davis"},
+                ],
+                "active_periods": [{"start": _ts(NOW - timedelta(hours=1))}],
+            }
+        ]
+    )
+
+    alerts = parse(feed, now=NOW)
+    assert len(alerts) == 1
+
+
 def test_parses_real_fixture() -> None:
     """The committed real-feed fixture decodes; all kept alerts touch scope."""
     fixture = Path(__file__).parent / "fixtures" / "alerts_sample.pb"

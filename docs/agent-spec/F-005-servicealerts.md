@@ -25,7 +25,11 @@ This spec replaces what the originating issue called `F-004-servicealerts-parser
 
 ## Properties
 
-1. **Scope filter (route OR stop).** An alert is kept iff at least one of its `informed_entity` selectors has `route_id ∈ scope_routes` or `stop_id ∈ scope_stops`. Alerts with no informed_entity are dropped (they don't target anything we care about).
+1. **Scope filter (stop-aware route check).** An alert is kept iff one of:
+   - **(stops present)** any `informed_entity` carries a `stop_id` AND at least one such `stop_id` is in `scope_stops`; OR
+   - **(no stops)** no `informed_entity` carries a `stop_id` at all AND at least one carries `route_id ∈ scope_routes`.
+
+   This shape — rather than a flat "any route OR any stop" — is required because MBTA tags every Red Line alert with `route_id="Red"` in addition to specific `stop_id` selectors. A flat-OR filter kept alerts whose stops were entirely outside our Park ↔ Alewife corridor (e.g. "elevator outage at Andrew", south of Park) just because of the route tag. Alerts with no informed_entity are still dropped (they don't target anything we care about).
 2. **Active-period filter.** An alert is kept iff at least one of its `active_period` ranges covers `now`. Per the GTFS-RT spec, an alert with no `active_period` is considered always-on and survives. Missing `start` means "always active before `end`"; missing `end` means "always active after `start`".
 3. **Cause / Effect enums.** Both protobuf int enums (`Alert.Cause`, `Alert.Effect`) map to user-facing `StrEnum` classes (`Cause`, `Effect`). Unknown protobuf values fall back to `UNKNOWN_CAUSE` / `UNKNOWN_EFFECT` (don't break the parser when GTFS-RT extends the enum).
 4. **Translation preference.** `header_text` and `description_text` are GTFS-RT `TranslatedString` fields (potentially multi-language). The parser prefers `language == "en"`; falls back to the first translation if no English version is present.
@@ -57,6 +61,9 @@ This spec replaces what the originating issue called `F-004-servicealerts-parser
 
 - `tests/test_alerts_parser.py::test_basic_parse` — header/description/cause/effect/period/informed_entity all populate.
 - `tests/test_alerts_parser.py::test_filters_by_informed_route` — Red, Green-E, and corridor-stop alerts kept; Green-D, CR-Worcester, and no-informed_entity dropped.
+- `tests/test_alerts_parser.py::test_red_line_alert_at_out_of_corridor_stop_is_dropped` — `[{route_id: Red, stop_id: place-andrw}]` dropped despite the route tag (Andrew is south of Park, out of corridor).
+- `tests/test_alerts_parser.py::test_red_line_systemwide_alert_with_no_stops_is_kept` — `[{route_id: Red}]` kept (no stop selectors at all → route match is the gate).
+- `tests/test_alerts_parser.py::test_alert_touching_in_and_out_of_corridor_stops_is_kept` — a multi-stop alert hitting Andrew AND Davis is kept (the in-scope stop saves it).
 - `tests/test_alerts_parser.py::test_excludes_expired_alerts` — past + future weekend alerts dropped; only the alert covering `now` survives.
 - `tests/test_alerts_parser.py::test_alert_with_no_active_period_is_always_on` — empty `active_period` survives.
 - `tests/test_alerts_parser.py::test_alert_with_only_start_is_active_after_start` — open-ended-on-the-right TimeRange.
