@@ -25,6 +25,7 @@ from gtfs_dleung.presenter.formatters import (
     format_feed_age,
     schedule_relationship_badge,
     should_show_stale_banner,
+    show_headsign,
 )
 
 TZ = ZoneInfo("America/New_York")
@@ -93,6 +94,32 @@ def test_schedule_relationship_badge_returns_none_for_scheduled() -> None:
 )
 def test_direction_label(direction_id: int | None, expected: str) -> None:
     assert direction_label(direction_id) == expected
+
+
+# ---- show_headsign -----------------------------------------------------------
+
+
+def test_show_headsign_davis_inbound_returns_true() -> None:
+    """Red Line south of Davis splits Ashmont/Braintree — headsign is informative."""
+    assert show_headsign("place-davis", 0) is True
+
+
+def test_show_headsign_davis_outbound_returns_false() -> None:
+    """Every northbound Red Line train at Davis terminates at Alewife — headsign is redundant."""
+    assert show_headsign("place-davis", 1) is False
+
+
+def test_show_headsign_balsq_either_direction_returns_false() -> None:
+    """Green-E from Ball Sq has a single terminus each direction — headsign is redundant both ways."""
+    assert show_headsign("place-balsq", 0) is False
+    assert show_headsign("place-balsq", 1) is False
+
+
+def test_show_headsign_unknown_stop_or_direction_returns_false() -> None:
+    """Default-False semantics: anything not explicitly in the informative-pairs set is suppressed."""
+    assert show_headsign("place-unknown", 0) is False
+    assert show_headsign("place-davis", None) is False
+    assert show_headsign("place-davis", 99) is False
 
 
 @pytest.mark.parametrize(

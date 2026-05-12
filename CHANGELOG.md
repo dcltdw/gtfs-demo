@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- **Headsign suffix (`— toward Foo`) now only renders when informative** ([#69](https://github.com/dcltdw/gtfs-dleung/issues/69)): rendering is gated by a new `gtfs_dleung.presenter.formatters.show_headsign(stop_id, direction_id) -> bool` helper that defaults to False. For the demo's two stations, the only informative pair is Davis inbound (Red Line splits Ashmont/Braintree south of JFK); Davis outbound (always Alewife) and both Ball Sq directions (Green-E single terminus each way) drop the suffix so the row reads cleanly.
+
 - **Arrivals board UI polish + alert filter tightening** ([#64](https://github.com/dcltdw/gtfs-dleung/issues/64)): four small tweaks.
   - **Direction labels (Inbound / Outbound) are now center-aligned** in their column. Streamlit's pure-markdown surface has no center alignment, so this is a one-line `<div style="text-align: center">` wrapper rendered with `unsafe_allow_html=True`; the wrapped text is constant (`Inbound` / `Outbound` / `Unknown direction`), so the unsafe-HTML surface area is bounded.
   - **The `**Route** —` prefix is dropped from each arrival row.** Every row in a given column shares a single route (Davis = Red, Ball Sq = Green-E), so suppressing it lets the `sched`/`pred` times line up across rows. `format_arrival_row` still carries `route` in its dict for consumers that want it.

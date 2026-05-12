@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
 from datetime import datetime
-from typing import Any
+from typing import Any, Final
 
 from gtfs_dleung.models.alert import Effect, ServiceAlert
 from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
@@ -18,6 +18,22 @@ from gtfs_dleung.models.feed_health import FeedHealth
 # Color thresholds for the delay badge. Numbers from the AC.
 _DELAY_GREEN_S = 30.0
 _DELAY_YELLOW_S = 120.0
+
+# (stop_id, direction_id) pairs where the trip headsign tells the rider something
+# the column header doesn't. Default-False: if a pair isn't listed here, the
+# direction has a single terminus and the headsign is redundant.
+#
+# - ("place-davis", 0): Red Line southbound from Davis splits Ashmont/Braintree
+#   south of JFK; the headsign picks the branch and matters to the rider.
+#
+# Outbound from Davis (Alewife) and both directions from Ball Sq (single Green-E
+# terminus each way) are absent — headsign is non-informative there. If the demo
+# ever extends to a southern station with branching, add an entry here.
+_HEADSIGN_INFORMATIVE_PAIRS: Final[frozenset[tuple[str, int]]] = frozenset(
+    {
+        ("place-davis", 0),
+    }
+)
 
 
 def delay_color_class(delay_seconds: int | float | None) -> str:
@@ -56,6 +72,19 @@ def direction_label(direction_id: int | None) -> str:
     if direction_id == 1:
         return "Outbound"
     return "Unknown direction"
+
+
+def show_headsign(stop_id: str, direction_id: int | None) -> bool:
+    """Return ``True`` iff the trip headsign is informative at this ``(stop, direction)``.
+
+    Hides redundant ``— toward Foo`` suffixes on rows where every train in that
+    direction goes to the same terminus (Davis outbound → Alewife; Ball Sq either
+    direction → Green-E single terminus). Returns ``True`` only when the direction
+    has multiple possible termini (currently just Davis inbound → Ashmont/Braintree).
+    """
+    if direction_id is None:
+        return False
+    return (stop_id, direction_id) in _HEADSIGN_INFORMATIVE_PAIRS
 
 
 def schedule_relationship_badge(sr: ScheduleRelationship) -> str | None:
@@ -202,4 +231,5 @@ __all__ = (
     "format_feed_age",
     "schedule_relationship_badge",
     "should_show_stale_banner",
+    "show_headsign",
 )
