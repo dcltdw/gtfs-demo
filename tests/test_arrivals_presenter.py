@@ -132,6 +132,49 @@ def test_next_n_matches_by_direct_stop_id_backward_compat() -> None:
     assert len(out) == 2
 
 
+def test_next_n_filters_by_direction_id() -> None:
+    """Passing ``direction_id=0`` returns only inbound (south) arrivals; ``=1`` only outbound."""
+    arrivals = [
+        Arrival(
+            stop_id="70064",
+            parent_station="place-davis",
+            stop_name="Davis",
+            route_id="Red",
+            trip_id=f"T-outbound-{m}",
+            direction_id=1,
+            scheduled_at=NOW + timedelta(minutes=m),
+            predicted_at=NOW + timedelta(minutes=m),
+            delay_seconds=0,
+            schedule_relationship=ScheduleRelationship.SCHEDULED,
+        )
+        for m in (3, 8)
+    ] + [
+        Arrival(
+            stop_id="70063",
+            parent_station="place-davis",
+            stop_name="Davis",
+            route_id="Red",
+            trip_id=f"T-inbound-{m}",
+            direction_id=0,
+            scheduled_at=NOW + timedelta(minutes=m),
+            predicted_at=NOW + timedelta(minutes=m),
+            delay_seconds=0,
+            schedule_relationship=ScheduleRelationship.SCHEDULED,
+        )
+        for m in (5, 10)
+    ]
+
+    inbound = next_n_arrivals(arrivals, "place-davis", n=5, direction_id=0, now=NOW)
+    outbound = next_n_arrivals(arrivals, "place-davis", n=5, direction_id=1, now=NOW)
+
+    assert [a.trip_id for a in inbound] == ["T-inbound-5", "T-inbound-10"]
+    assert [a.trip_id for a in outbound] == ["T-outbound-3", "T-outbound-8"]
+
+    # No filter still returns everything, sorted.
+    both = next_n_arrivals(arrivals, "place-davis", n=10, now=NOW)
+    assert len(both) == 4
+
+
 def test_next_n_handles_arrival_with_no_parent() -> None:
     """A row whose ``parent_station`` is ``None`` doesn't crash the match logic."""
     arrivals = [

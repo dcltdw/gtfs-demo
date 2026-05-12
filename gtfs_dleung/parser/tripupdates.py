@@ -188,6 +188,7 @@ def _arrivals_for_scheduled_trip(
                 route_id=static_trip.route_id,
                 trip_id=static_trip.trip_id,
                 direction_id=static_trip.direction_id,
+                trip_headsign=static_trip.trip_headsign,
                 scheduled_at=scheduled_at,
                 predicted_at=predicted_at,
                 delay_seconds=delay,
@@ -207,6 +208,7 @@ def _arrivals_for_added_trip(
 ) -> list[Arrival]:
     """Build arrivals for an ADDED trip — stop sequence comes from RT itself."""
     out: list[Arrival] = []
+    rt_direction_id = int(tu.trip.direction_id) if tu.trip.HasField("direction_id") else None
     for stu in tu.stop_time_update:
         _, explicit_time = _extract_delay_and_time(stu)
         predicted_at = explicit_time
@@ -217,7 +219,8 @@ def _arrivals_for_added_trip(
                 stop_name=_lookup_stop_name(stops_by_id, stu.stop_id),
                 route_id=tu.trip.route_id,
                 trip_id=tu.trip.trip_id,
-                direction_id=None,
+                direction_id=rt_direction_id,
+                trip_headsign=None,  # ADDED trips have no static trip to read this from
                 scheduled_at=None,
                 predicted_at=predicted_at,
                 delay_seconds=None,

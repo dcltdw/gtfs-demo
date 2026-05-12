@@ -18,6 +18,7 @@ from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
 from gtfs_dleung.models.feed_health import FeedHealth, FeedType
 from gtfs_dleung.presenter.formatters import (
     delay_color_class,
+    direction_label,
     feed_health_icon,
     format_alert_row,
     format_arrival_row,
@@ -78,6 +79,22 @@ def test_schedule_relationship_badge_returns_none_for_scheduled() -> None:
     assert schedule_relationship_badge(ScheduleRelationship.SCHEDULED) is None
 
 
+# ---- direction_label ---------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "direction_id,expected",
+    [
+        (0, "Inbound (toward downtown)"),
+        (1, "Outbound (away from downtown)"),
+        (None, "Unknown direction"),
+        (2, "Unknown direction"),
+    ],
+)
+def test_direction_label(direction_id: int | None, expected: str) -> None:
+    assert direction_label(direction_id) == expected
+
+
 @pytest.mark.parametrize(
     "sr,expected",
     [
@@ -106,6 +123,16 @@ def test_format_arrival_row_basic() -> None:
     assert row["color"] == "yellow"
     assert row["badge"] is None
     assert row["trip_id"] == "T1"
+    assert row["headsign"] is None  # default fixture has no headsign set
+
+
+def test_format_arrival_row_carries_headsign() -> None:
+    """The Arrival's ``trip_headsign`` propagates to the display dict."""
+    arrival = _arr(delay=0)
+    # Pydantic model is frozen — construct a copy via model_copy.
+    arrival_with_headsign = arrival.model_copy(update={"trip_headsign": "Alewife"})
+    row = format_arrival_row(arrival_with_headsign)
+    assert row["headsign"] == "Alewife"
 
 
 def test_format_arrival_row_canceled_carries_badge() -> None:

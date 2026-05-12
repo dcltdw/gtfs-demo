@@ -219,6 +219,40 @@ def test_arrival_carries_parent_station() -> None:
     assert arrivals[0].parent_station == "place-davis"
 
 
+def test_arrival_carries_trip_headsign() -> None:
+    """The static trip's ``trip_headsign`` is propagated onto every Arrival row."""
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+            {
+                "stop_id": "70064",
+                "stop_name": "Davis - Red Line - Alewife",
+                "parent_station": "place-davis",
+            },
+        ],
+        trips=[
+            {
+                "route_id": "Red",
+                "service_id": "S1",
+                "trip_id": "T1",
+                "direction_id": 1,
+                "trip_headsign": "Alewife",
+            }
+        ],
+        stop_times=[
+            {"trip_id": "T1", "arrival_time": "08:00:00", "stop_id": "70064", "stop_sequence": 1},
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].direction_id == 1
+    assert arrivals[0].trip_headsign == "Alewife"
+
+
 def test_arrival_parent_station_none_for_top_level_stop() -> None:
     """A stop with no parent (the parent station itself) reports ``parent_station=None``."""
     static = make_static_feed(

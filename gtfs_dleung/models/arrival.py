@@ -54,6 +54,16 @@ class Arrival(BaseModel):
     route_id: str
     trip_id: str
     direction_id: int | None = None
+    """Per the GTFS spec, ``0`` and ``1`` identify the two directions of a route;
+    the *meaning* (north/south/inbound/outbound) is per-route and lives in MBTA's
+    ``directions.txt`` extension. For the demo's two stations (Davis and Ball Sq,
+    both north of Park St), ``0`` is inbound (toward downtown) and ``1`` is
+    outbound — see :func:`gtfs_dleung.presenter.formatters.direction_label`."""
+
+    trip_headsign: str | None = None
+    """The rider-facing destination label from the static feed
+    (e.g. ``"Alewife"`` for Red Line northbound). ``None`` for ADDED trips that
+    don't appear in the static feed."""
 
     scheduled_at: datetime | None
     """Static schedule time for this stop, in America/New_York. ``None`` for ADDED
