@@ -55,7 +55,7 @@ A non-exhaustive checklist of "you've outgrown the spike":
 
 This is additive — V3 can replace specific surfaces without rewriting the parsers:
 
-1. **Stage 1**: Add a `gtfs_dleung.fetcher.v3` module that wraps V3's `/predictions` endpoint. Keep the GTFS-RT path active in parallel. Compare the two during a soak test; reconcile any discrepancies.
+1. **Stage 1**: Add a `gtfs_demo.fetcher.v3` module that wraps V3's `/predictions` endpoint. Keep the GTFS-RT path active in parallel. Compare the two during a soak test; reconcile any discrepancies.
 2. **Stage 2**: Switch the Streamlit arrivals board's data source to V3 predictions (lower latency for users). Keep VehiclePositions + Alerts on GTFS-RT for now (they're cheaper through the existing parsers).
 3. **Stage 3**: Switch Alerts to V3 (server-side filter is meaningful for alerts at scale).
 4. **Stage 4**: Add V3's `/predictions/stream` SSE consumer; deprecate the 10-second poll path. At this point GTFS-RT becomes the static-feed loader only.

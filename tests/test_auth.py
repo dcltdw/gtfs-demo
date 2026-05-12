@@ -1,17 +1,17 @@
-"""Tests for ``gtfs_dleung.auth`` and ``gtfs_dleung.validation``."""
+"""Tests for ``gtfs_demo.auth`` and ``gtfs_demo.validation``."""
 
 from __future__ import annotations
 
 import bcrypt
 import pytest
 
-from gtfs_dleung.auth import (
+from gtfs_demo.auth import (
     build_authenticator_config,
     log_auth_event,
     verify_credentials,
 )
-from gtfs_dleung.config import Settings
-from gtfs_dleung.validation import validate_stop_id
+from gtfs_demo.config import Settings
+from gtfs_demo.validation import validate_stop_id
 
 # Use cheap bcrypt rounds for test setup (~10ms vs ~250ms at rounds=12).
 _TEST_ROUNDS = 4
@@ -78,7 +78,7 @@ def test_failure_log_does_not_contain_password(caplog: pytest.LogCaptureFixture)
     settings = _settings_with_password(_TEST_PASSWORD)
     sentinel = "totally-real-secret-please-do-not-leak"
 
-    caplog.set_level("INFO", logger="gtfs_dleung.auth")
+    caplog.set_level("INFO", logger="gtfs_demo.auth")
     verify_credentials(_TEST_USERNAME, sentinel, settings=settings)
     verify_credentials("ghost", sentinel, settings=settings)
 
@@ -90,7 +90,7 @@ def test_failure_log_does_not_contain_password(caplog: pytest.LogCaptureFixture)
 def test_success_log_records_event(caplog: pytest.LogCaptureFixture) -> None:
     """A successful login emits ``auth.login.success`` with the username, no password."""
     settings = _settings_with_password(_TEST_PASSWORD)
-    caplog.set_level("INFO", logger="gtfs_dleung.auth")
+    caplog.set_level("INFO", logger="gtfs_demo.auth")
     verify_credentials(_TEST_USERNAME, _TEST_PASSWORD, settings=settings)
 
     success_records = [r for r in caplog.records if "auth.login.success" in r.getMessage()]

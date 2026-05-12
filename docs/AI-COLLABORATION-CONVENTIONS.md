@@ -3,7 +3,7 @@
 Process conventions for working with an AI coding agent (Claude Code, Cursor, Aider, etc.) on this repository. Ported from the `annotated-maps` project, with project-specific rules dropped:
 
 - §7 (long-running branches), §7a (wave branches), §10 (midpoint audits), and §11 (burst mode) were dropped: this is a 4–6h spike with one-issue-per-PR all landing into `main`. Section numbering preserves the gap so memory-entry pointers stay valid.
-- Project-board IDs in §2 are gtfs-dleung's, not annotated-maps's.
+- Project-board IDs in §2 are gtfs-demo's, not annotated-maps's.
 - Examples have been adapted to the spike's stack (uv / Streamlit / pytest) where the annotated-maps versions assumed Docker / Vite / Playwright.
 
 These conventions overlap meaningfully with three established frameworks — **Definition of Done** (Scrum/Agile), **Google's "Small CLs" guidance** ([eng-practices](https://google.github.io/eng-practices/review/developer/small-cls.html)), and **Trunk-Based Development**'s feature-branch guidance ([trunkbaseddevelopment.com](https://trunkbaseddevelopment.com/)). Where relevant, that overlap is noted under each rule.
@@ -99,7 +99,7 @@ git branch -vv \
   | xargs -r -n1 git branch -D
 ```
 
-**Project-specific binding (gtfs-dleung "gtfs-dleung" board, project #2):**
+**Project-specific binding (gtfs-demo "gtfs-demo" board, project #2):**
 
 ```bash
 PROJECT_ID="PVT_kwHOAAdfes4BXZQn"
@@ -217,8 +217,8 @@ This is loosely covered by GitHub's own ["Writing a pull request"](https://docs.
 ```markdown
 ## Files changed
 
-- **gtfs_dleung/fetcher/static.py** — Adds the loader for the static GTFS bundle.
-- **gtfs_dleung/parser/trip_updates.py** — Parses TripUpdates protobufs to domain models.
+- **gtfs_demo/fetcher/static.py** — Adds the loader for the static GTFS bundle.
+- **gtfs_demo/parser/trip_updates.py** — Parses TripUpdates protobufs to domain models.
 - **tests/test_parser_trip_updates.py** — New 8-assertion suite covering the parser.
 ```
 
@@ -245,7 +245,7 @@ For refactors with no behavior change, new shared helpers/patterns still often w
 
 **§4b-2. New presenter surfaces need at least an import-and-render smoke check.** Backend / parser tests verify the data contract; they do not verify that a Streamlit page actually loads. When a PR adds a new presenter surface (page, panel, sidebar widget), ship a test in the same PR that at minimum imports the module and exercises any pure rendering helpers. If the surface is interactive (auth flow, form submit), consider scripting a `streamlit run` smoke check via `subprocess.run(..., timeout=10)` to catch import-time failures. A page that breaks at import time silently passes parser tests but breaks the demo.
 
-**Verify lint and typecheck per-file on the touched files**, not just project-wide. The annotated-maps source called out ESLint's daemon-cache staleness specifically; the gtfs-dleung stack has no equivalent daemon, but the general principle still applies — when in doubt, run the linter directly on the diff:
+**Verify lint and typecheck per-file on the touched files**, not just project-wide. The annotated-maps source called out ESLint's daemon-cache staleness specifically; the gtfs-demo stack has no equivalent daemon, but the general principle still applies — when in doubt, run the linter directly on the diff:
 
 ```bash
 git diff --name-only --diff-filter=AM main...HEAD \
@@ -480,7 +480,7 @@ When porting to another project:
 
 - **§1 (ticket sizing), §4a (Files changed), §4b (docs+tests), §4c (Test expectations)** are fully tooling-agnostic — the rule statements transfer directly.
 - **§4d (Work breakdown)** transfers as a concept; the specific name of the task-tracker tool (`TodoWrite` here) is Claude Code-specific. For other agents, swap in the equivalent tracker name.
-- **§4e (Operational impact)** transfers as a concept; the specific restart/rebuild commands assume the gtfs-dleung stack (uv + Streamlit). Substitute your stack's equivalents.
+- **§4e (Operational impact)** transfers as a concept; the specific restart/rebuild commands assume the gtfs-demo stack (uv + Streamlit). Substitute your stack's equivalents.
 - **§8 (doc as master)** transfers as a concept, but the specific memory-file format (`feedback_*.md` with frontmatter) is Claude Code-specific. For other agents, adapt the "thin replica" pointer shape to whatever per-rule storage that agent uses.
 - **§2 (status lifecycle)** carries a project-board GraphQL ID block in **How to apply** that needs replacement with the new project's IDs.
 - **§3 (default project)** has the project number / owner hardcoded — swap for your project's equivalents.

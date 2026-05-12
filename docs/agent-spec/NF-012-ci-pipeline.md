@@ -26,7 +26,7 @@ Three CI jobs run on every PR into `main` (and every push to `main`): `lint`, `t
 
 1. Every PR into `main` triggers `lint`, `typecheck`, and `test` jobs in parallel.
 2. `lint` runs `ruff format --check` followed by `ruff check` against the entire tree.
-3. `typecheck` runs `mypy --strict` against `gtfs_dleung/` and `tests/`.
+3. `typecheck` runs `mypy --strict` against `gtfs_demo/` and `tests/`.
 4. `test` runs `pytest -v` against the full test suite.
 5. Each job pins Python 3.13 via `uv python install 3.13`.
 6. Each job uses `astral-sh/setup-uv@v3` with `enable-cache: true` keyed off `uv.lock` for fast warm runs.

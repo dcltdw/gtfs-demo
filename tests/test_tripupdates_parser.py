@@ -1,13 +1,13 @@
-"""Tests for ``gtfs_dleung.parser.tripupdates.parse``."""
+"""Tests for ``gtfs_demo.parser.tripupdates.parse``."""
 
 from __future__ import annotations
 
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
-from gtfs_dleung.models.arrival import ScheduleRelationship
-from gtfs_dleung.models.static import StaticFeed
-from gtfs_dleung.parser.tripupdates import parse
+from gtfs_demo.models.arrival import ScheduleRelationship
+from gtfs_demo.models.static import StaticFeed
+from gtfs_demo.parser.tripupdates import parse
 from tests.helpers import make_static_feed, make_tripupdate_feed, yyyymmdd
 
 SERVICE_DATE = date(2026, 5, 11)

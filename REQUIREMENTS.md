@@ -1,6 +1,6 @@
 # Requirements
 
-This is the narrative specification for the gtfs-dleung spike. Functional requirements (F-NNN) and non-functional requirements (NF-NNN) have structured counterparts under [docs/agent-spec/](docs/agent-spec/); the contract for those files is in [docs/agent-spec/schema.md](docs/agent-spec/schema.md).
+This is the narrative specification for the gtfs-demo spike. Functional requirements (F-NNN) and non-functional requirements (NF-NNN) have structured counterparts under [docs/agent-spec/](docs/agent-spec/); the contract for those files is in [docs/agent-spec/schema.md](docs/agent-spec/schema.md).
 
 ## 1. Context
 
@@ -9,7 +9,7 @@ A 4–6 hour exploration spike built to demonstrate GTFS-RT competence to a tran
 1. A rendered notebook hosted via GitHub Pages — read-only walkthrough.
 2. A live Streamlit application — screen-shared during the recruiter call.
 
-The locked decisions in [project memory](https://github.com/dcltdw/gtfs-dleung/issues/1) capture the immovable choices. The summary below restates the contract the code must satisfy. Three load-bearing decisions get their own ADRs under [docs/adr/](docs/adr/):
+The locked decisions in [project memory](https://github.com/dcltdw/gtfs-demo/issues/1) capture the immovable choices. The summary below restates the contract the code must satisfy. Three load-bearing decisions get their own ADRs under [docs/adr/](docs/adr/):
 
 - **[ADR 0001](docs/adr/0001-streamlit-not-flask.md)** — Streamlit, not Flask. Right shape for a 4–6h time-box.
 - **[ADR 0002](docs/adr/0002-no-database.md)** — No database; in-memory state only. Forces every state container (last-success cache, rate-limit buckets) to live in the process.

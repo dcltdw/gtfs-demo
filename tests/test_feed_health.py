@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.fetcher.health.HealthTrackedFetcher``."""
+"""Tests for ``gtfs_demo.fetcher.health.HealthTrackedFetcher``."""
 
 from __future__ import annotations
 
@@ -8,11 +8,11 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.config import Settings
-from gtfs_dleung.feeds import SERVICE_ALERTS_URL, TRIP_UPDATES_URL
-from gtfs_dleung.fetcher.health import HealthTrackedFetcher
-from gtfs_dleung.fetcher.realtime import TransientFeedError
-from gtfs_dleung.models.feed_health import FeedType
+from gtfs_demo.config import Settings
+from gtfs_demo.feeds import SERVICE_ALERTS_URL, TRIP_UPDATES_URL
+from gtfs_demo.fetcher.health import HealthTrackedFetcher
+from gtfs_demo.fetcher.realtime import TransientFeedError
+from gtfs_demo.models.feed_health import FeedType
 
 
 def _settings(threshold: int = 30) -> Settings:
@@ -213,7 +213,7 @@ def test_staleness_transition_logs_once(caplog: pytest.LogCaptureFixture) -> Non
 
     tracker = HealthTrackedFetcher(settings=_settings(30), fetch_fn=fake_fetch, now_fn=clock.now)
 
-    caplog.set_level("INFO", logger="gtfs_dleung.fetcher.health")
+    caplog.set_level("INFO", logger="gtfs_demo.fetcher.health")
     for _ in range(5):
         tracker.fetch(TRIP_UPDATES_URL)
 
@@ -225,7 +225,7 @@ def test_staleness_transition_logs_once(caplog: pytest.LogCaptureFixture) -> Non
 
 def test_get_health_aggregates_across_feeds() -> None:
     """A tracker that's fetched both trip_updates and vehicle_positions reports both keys."""
-    from gtfs_dleung.feeds import VEHICLE_POSITIONS_URL
+    from gtfs_demo.feeds import VEHICLE_POSITIONS_URL
 
     clock = _ClockStub(datetime(2026, 5, 11, 12, 0, tzinfo=UTC))
 

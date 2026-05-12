@@ -3,10 +3,10 @@
 Run from a directory that contains a freshly-unzipped real MBTA GTFS feed:
 
     mkdir -p /tmp/mbta && cd /tmp/mbta && \
-        curl -sSL -A 'gtfs-dleung/0.0.1 (https://github.com/dcltdw/gtfs-dleung)' \
+        curl -sSL -A 'gtfs-demo/0.0.1 (https://github.com/dcltdw/gtfs-demo)' \
             -o MBTA_GTFS.zip https://cdn.mbta.com/MBTA_GTFS.zip && \
         unzip -q MBTA_GTFS.zip
-    cd /Users/dcltdw/Github/gtfs-dleung
+    cd /Users/dcltdw/Github/gtfs-demo
     uv run python scripts/build_test_fixture.py /tmp/mbta
 
 The script writes ``tests/fixtures/mbta-mini.zip`` and is safe to re-run.
@@ -31,7 +31,7 @@ KEEP_ROUTES = SCOPE_ROUTES | {OUT_OF_SCOPE_BUS}
 # Maximum trips kept per route. Keeps the fixture under ~50 KB.
 TRIPS_PER_ROUTE = 2
 
-# All corridor parent station IDs — see gtfs_dleung/scope.py for the authoritative list.
+# All corridor parent station IDs — see gtfs_demo/scope.py for the authoritative list.
 ALL_CORRIDOR_PARENT_STATIONS = {
     "place-pktrm",
     "place-chmnl",

@@ -2,7 +2,7 @@
 
 Covers two layers:
 
-1. :func:`gtfs_dleung.fetcher.fallback.load_snapshot_fallback` — the function
+1. :func:`gtfs_demo.fetcher.fallback.load_snapshot_fallback` — the function
    that scans ``examples/`` for the most recent committed snapshot.
 2. The integration with :class:`HealthTrackedFetcher` — when a live fetch
    fails AND no in-memory cache exists, the snapshot is loaded and ``is_snapshot``
@@ -17,12 +17,12 @@ from pathlib import Path
 import pytest
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.config import Settings
-from gtfs_dleung.feeds import TRIP_UPDATES_URL, VEHICLE_POSITIONS_URL
-from gtfs_dleung.fetcher.fallback import load_snapshot_fallback
-from gtfs_dleung.fetcher.health import HealthTrackedFetcher
-from gtfs_dleung.fetcher.realtime import TransientFeedError
-from gtfs_dleung.models.feed_health import FeedType
+from gtfs_demo.config import Settings
+from gtfs_demo.feeds import TRIP_UPDATES_URL, VEHICLE_POSITIONS_URL
+from gtfs_demo.fetcher.fallback import load_snapshot_fallback
+from gtfs_demo.fetcher.health import HealthTrackedFetcher
+from gtfs_demo.fetcher.realtime import TransientFeedError
+from gtfs_demo.models.feed_health import FeedType
 
 
 def _write_snapshot(

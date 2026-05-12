@@ -3,7 +3,7 @@
 Each file in this directory is a real capture of one of MBTA's three GTFS-RT feeds, truncated to ~100 entities and committed for two purposes:
 
 1. **Browseable data shape.** A reader who wants to know "what does a TripUpdate actually look like?" can open the `.json` twin in their editor — no Python, no protoc, no running server. The `.json` is the same protobuf message decoded via `google.protobuf.json_format.MessageToJson`.
-2. **Hard-snapshot fallback.** When the live MBTA CDN is unreachable AND the in-memory cache is empty (process just started during a network outage), [gtfs_dleung/fetcher/fallback.py](../gtfs_dleung/fetcher/fallback.py) loads the most recent `.pb` for each feed type from here. The Streamlit demo stays usable on a cold-start outage instead of going blank. See [docs/agent-spec/F-006-feed-staleness.md](../docs/agent-spec/F-006-feed-staleness.md) for the three-tier data path.
+2. **Hard-snapshot fallback.** When the live MBTA CDN is unreachable AND the in-memory cache is empty (process just started during a network outage), [gtfs_demo/fetcher/fallback.py](../gtfs_demo/fetcher/fallback.py) loads the most recent `.pb` for each feed type from here. The Streamlit demo stays usable on a cold-start outage instead of going blank. See [docs/agent-spec/F-006-feed-staleness.md](../docs/agent-spec/F-006-feed-staleness.md) for the three-tier data path.
 
 ## Files
 
@@ -25,7 +25,7 @@ just snapshot
 uv run python scripts/capture_snapshots.py
 ```
 
-The script fetches all three feeds via `gtfs_dleung.fetcher.realtime.fetch_feed` (so the same `User-Agent` + outbound rate limit apply), truncates each to 100 entities, and writes the `.pb` + `.json` pair into this directory.
+The script fetches all three feeds via `gtfs_demo.fetcher.realtime.fetch_feed` (so the same `User-Agent` + outbound rate limit apply), truncates each to 100 entities, and writes the `.pb` + `.json` pair into this directory.
 
 **When to regenerate:**
 
@@ -44,4 +44,4 @@ If a future feed exceeds the cap, lower the `_MAX_ENTITIES` constant in `scripts
 ## What's NOT committed here
 
 - **Test fixtures** for the parser tests live under [tests/fixtures/](../tests/fixtures/). Those are intentionally tinier (~5–40 KB) and shaped to cover specific parser edge cases. The examples here are for general browsing + production fallback; the test fixtures are for unit tests.
-- **The static GTFS bundle** is downloaded into `~/.cache/gtfs-dleung/` on first run; it's not committed (~17 MB unzipped).
+- **The static GTFS bundle** is downloaded into `~/.cache/gtfs-demo/` on first run; it's not committed (~17 MB unzipped).

@@ -1,0 +1,3230 @@
+{
+  "header": {
+    "gtfs_realtime_version": "2.0",
+    "incrementality": "FULL_DATASET",
+    "timestamp": "1778555772"
+  },
+  "entity": [
+    {
+      "id": "R-5489895B",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75861303",
+          "start_time": "22:47:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Red",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35266,
+          "longitude": -71.05536,
+          "bearing": 290.0
+        },
+        "current_stop_sequence": 130,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "70080",
+        "vehicle": {
+          "id": "R-5489895B",
+          "label": "1854"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1854",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1855",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1877",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1876",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1885",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1884",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "R-548970FC",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75861429",
+          "start_time": "23:21:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Red",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.20749,
+          "longitude": -71.00156,
+          "bearing": 10.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555370",
+        "stop_id": "Braintree-01",
+        "vehicle": {
+          "id": "R-548970FC",
+          "label": "1843"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1853",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1852",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1800",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1801",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1842",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1843",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1986",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75610487",
+          "start_time": "22:50:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "101",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.42587,
+          "longitude": -71.084595,
+          "bearing": 71.0
+        },
+        "current_stop_sequence": 33,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "5336",
+        "vehicle": {
+          "id": "y1986",
+          "label": "1986"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1997",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75521804",
+          "start_time": "23:13:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "75",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.37828,
+          "longitude": -71.12367,
+          "bearing": 315.0
+        },
+        "current_stop_sequence": 3,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "2172",
+        "vehicle": {
+          "id": "y1997",
+          "label": "1997"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "R-54898C93",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75861267",
+          "start_time": "22:51:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Red",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.34157,
+          "longitude": -71.05711,
+          "bearing": 175.0
+        },
+        "current_stop_sequence": 110,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555751",
+        "stop_id": "70083",
+        "vehicle": {
+          "id": "R-54898C93",
+          "label": "1956"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1956",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 9,
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1957",
+            "occupancy_status": "STANDING_ROOM_ONLY",
+            "occupancy_percentage": 15,
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1947",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 9,
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1946",
+            "occupancy_status": "STANDING_ROOM_ONLY",
+            "occupancy_percentage": 13,
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1927",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 6,
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1926",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 3,
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1889",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206670",
+          "start_time": "22:44:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "22",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.288998,
+          "longitude": -71.06692,
+          "bearing": 125.0
+        },
+        "current_stop_sequence": 26,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555768",
+        "stop_id": "428",
+        "vehicle": {
+          "id": "y1889",
+          "label": "1889"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "1820",
+      "vehicle": {
+        "trip": {
+          "trip_id": "ERMLTieJob-824549-89",
+          "start_time": "22:50:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Newburyport",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.46654,
+          "longitude": -70.937874,
+          "bearing": 57.0,
+          "speed": 13.4
+        },
+        "current_stop_sequence": 40,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555749",
+        "stop_id": "ER-0128-01",
+        "vehicle": {
+          "id": "1820",
+          "label": "1820"
+        }
+      }
+    },
+    {
+      "id": "y1645",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75762407",
+          "start_time": "23:20:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "32",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.30057,
+          "longitude": -71.1135,
+          "bearing": 180.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "875",
+        "vehicle": {
+          "id": "y1645",
+          "label": "1645"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1944",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609605",
+          "start_time": "23:25:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "93",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.36142,
+          "longitude": -71.05749,
+          "bearing": 0.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "117",
+        "vehicle": {
+          "id": "y1944",
+          "label": "1944"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1257",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75645717",
+          "start_time": "22:50:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "39",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.350674,
+          "longitude": -71.07546,
+          "bearing": 51.0
+        },
+        "current_stop_sequence": 25,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "143",
+        "vehicle": {
+          "id": "y1257",
+          "label": "1257"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1958",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609822",
+          "start_time": "22:37:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "109",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.43146,
+          "longitude": -71.026405,
+          "bearing": 73.0
+        },
+        "current_stop_sequence": 39,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555767",
+        "stop_id": "5532",
+        "vehicle": {
+          "id": "y1958",
+          "label": "1958"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "R-54897B24",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75861426",
+          "start_time": "22:43:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Red",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35526,
+          "longitude": -71.06016,
+          "bearing": 310.0
+        },
+        "current_stop_sequence": 140,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555729",
+        "stop_id": "70078",
+        "vehicle": {
+          "id": "R-54897B24",
+          "label": "1928"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1928",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 7,
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1929",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 3,
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1940",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 3,
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1941",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 4,
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1945",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 4,
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1944",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 4,
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "G-10041",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333830",
+          "start_time": "23:14:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.35929,
+          "longitude": -71.05951,
+          "bearing": 215.0
+        },
+        "current_stop_sequence": 60,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555708",
+        "stop_id": "70198",
+        "vehicle": {
+          "id": "G-10041",
+          "label": "3815-3692"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3815",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3692",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1260",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75644843",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "28",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.3261,
+          "longitude": -71.08341,
+          "bearing": 180.0
+        },
+        "current_stop_sequence": 7,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "40001",
+        "vehicle": {
+          "id": "y1260",
+          "label": "1260"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y0796",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75812193",
+          "start_time": "23:35:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "216",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.252064,
+          "longitude": -71.0059,
+          "bearing": 315.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555768",
+        "stop_id": "32002",
+        "vehicle": {
+          "id": "y0796",
+          "label": "0796"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y1777",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205760",
+          "start_time": "22:50:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "8",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.339203,
+          "longitude": -71.069786,
+          "bearing": 221.0
+        },
+        "current_stop_sequence": 26,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "21158",
+        "vehicle": {
+          "id": "y1777",
+          "label": "1777"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1784",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205761",
+          "start_time": "23:35:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "8",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.34897,
+          "longitude": -71.09551,
+          "bearing": 90.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "899",
+        "vehicle": {
+          "id": "y1784",
+          "label": "1784"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "B-54898B3D",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75833782",
+          "start_time": "23:08:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Blue",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.40781,
+          "longitude": -70.99249,
+          "bearing": 350.0
+        },
+        "current_stop_sequence": 100,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555746",
+        "stop_id": "70058",
+        "vehicle": {
+          "id": "B-54898B3D",
+          "label": "0708"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "0708",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "0709",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          },
+          {
+            "label": "0726",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 3
+          },
+          {
+            "label": "0727",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 4
+          },
+          {
+            "label": "0756",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 5
+          },
+          {
+            "label": "0757",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y2068",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75610136",
+          "start_time": "23:22:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "110",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.392746,
+          "longitude": -71.0805,
+          "bearing": 341.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "52713",
+        "vehicle": {
+          "id": "y2068",
+          "label": "2068"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10114",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75334259",
+          "start_time": "22:54:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-B",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35037,
+          "longitude": -71.1098,
+          "bearing": 135.0,
+          "speed": 8.1
+        },
+        "current_stop_sequence": 150,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555767",
+        "stop_id": "70144",
+        "vehicle": {
+          "id": "G-10114",
+          "label": "3646-3853"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3646",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3853",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1816",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206635",
+          "start_time": "22:57:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "1",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.34766,
+          "longitude": -71.08801,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 12,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555735",
+        "stop_id": "79",
+        "vehicle": {
+          "id": "y1816",
+          "label": "1816"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 40
+      }
+    },
+    {
+      "id": "y1673",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75762411",
+          "start_time": "23:11:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "32",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.24492,
+          "longitude": -71.12939,
+          "bearing": 17.0
+        },
+        "current_stop_sequence": 4,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "46467",
+        "vehicle": {
+          "id": "y1673",
+          "label": "1673"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1330",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75646518",
+          "start_time": "23:07:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "741",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.36922,
+          "longitude": -71.027534,
+          "bearing": 235.0
+        },
+        "current_stop_sequence": 6,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "17096",
+        "vehicle": {
+          "id": "y1330",
+          "label": "1330"
+        },
+        "occupancy_status": "FEW_SEATS_AVAILABLE",
+        "occupancy_percentage": 40
+      }
+    },
+    {
+      "id": "y2117",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75610050",
+          "start_time": "23:33:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "104",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.42662,
+          "longitude": -71.07381,
+          "bearing": 225.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "53270",
+        "vehicle": {
+          "id": "y2117",
+          "label": "2117"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1909",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206374",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "57",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.350883,
+          "longitude": -71.11263,
+          "bearing": 278.0
+        },
+        "current_stop_sequence": 6,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555769",
+        "stop_id": "956",
+        "vehicle": {
+          "id": "y1909",
+          "label": "1909"
+        },
+        "occupancy_status": "FEW_SEATS_AVAILABLE",
+        "occupancy_percentage": 40
+      }
+    },
+    {
+      "id": "y2109",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75610292",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "90",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.39083,
+          "longitude": -71.079315,
+          "bearing": 141.0
+        },
+        "current_stop_sequence": 3,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555765",
+        "stop_id": "2714",
+        "vehicle": {
+          "id": "y2109",
+          "label": "2109"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2113",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75523189",
+          "start_time": "23:09:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "73",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.382175,
+          "longitude": -71.17954,
+          "bearing": 127.0
+        },
+        "current_stop_sequence": 6,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "2104",
+        "vehicle": {
+          "id": "y2113",
+          "label": "2113"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1900",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206882",
+          "start_time": "23:03:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "57",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35304,
+          "longitude": -71.13891,
+          "bearing": 68.0
+        },
+        "current_stop_sequence": 23,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555769",
+        "stop_id": "925",
+        "vehicle": {
+          "id": "y1900",
+          "label": "1900"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10271",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333818",
+          "start_time": "22:07:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.37695,
+          "longitude": -71.09396,
+          "bearing": 120.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555718",
+        "stop_id": "Union Square-02",
+        "vehicle": {
+          "id": "G-10271",
+          "label": "3819-3684"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3819",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3684",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1775",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205945",
+          "start_time": "23:13:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "44",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.31365,
+          "longitude": -71.09552,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 4,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "10413",
+        "vehicle": {
+          "id": "y1775",
+          "label": "1775"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1272",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75645591",
+          "start_time": "23:16:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "39",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.30001,
+          "longitude": -71.11417,
+          "bearing": 45.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "10642",
+        "vehicle": {
+          "id": "y1272",
+          "label": "1272"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2028",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75610045",
+          "start_time": "22:48:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "104",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.37808,
+          "longitude": -71.02588,
+          "bearing": 225.0
+        },
+        "current_stop_sequence": 34,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "70961",
+        "vehicle": {
+          "id": "y2028",
+          "label": "2028"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y4214",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75523153",
+          "start_time": "23:24:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "73",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.387253,
+          "longitude": -71.19049
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555755",
+        "stop_id": "2134",
+        "vehicle": {
+          "id": "y4214",
+          "label": "4214"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "O-548985E1",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75565677",
+          "start_time": "22:47:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Orange",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.31209,
+          "longitude": -71.10663,
+          "bearing": 210.0
+        },
+        "current_stop_sequence": 180,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555765",
+        "stop_id": "70002",
+        "vehicle": {
+          "id": "O-548985E1",
+          "label": "1432"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1432",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 0,
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1433",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 8,
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1412",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 8,
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1413",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 10,
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1507",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 1,
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1506",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 11,
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1903",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206666",
+          "start_time": "23:12:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "22",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.330173,
+          "longitude": -71.09584,
+          "bearing": 212.0
+        },
+        "current_stop_sequence": 4,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "1260",
+        "vehicle": {
+          "id": "y1903",
+          "label": "1903"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y0767",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75812294",
+          "start_time": "23:13:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "240",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.156906,
+          "longitude": -71.04407,
+          "bearing": 17.0
+        },
+        "current_stop_sequence": 17,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "4247",
+        "vehicle": {
+          "id": "y0767",
+          "label": "0767"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1787",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206773",
+          "start_time": "23:03:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "23",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.322243,
+          "longitude": -71.082214,
+          "bearing": 161.0
+        },
+        "current_stop_sequence": 9,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555769",
+        "stop_id": "404",
+        "vehicle": {
+          "id": "y1787",
+          "label": "1787"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y3102",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75791783",
+          "start_time": "22:56:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "116",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.41456,
+          "longitude": -71.00938
+        },
+        "current_stop_sequence": 23,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "35765",
+        "vehicle": {
+          "id": "y3102",
+          "label": "3102"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10321",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333638",
+          "start_time": "22:54:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-E",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35157,
+          "longitude": -71.07167,
+          "bearing": 60.0
+        },
+        "current_stop_sequence": 580,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555743",
+        "stop_id": "70156",
+        "vehicle": {
+          "id": "G-10321",
+          "label": "3674-3842"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3674",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3842",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1285",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75646050",
+          "start_time": "23:02:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "751",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.343662,
+          "longitude": -71.06619,
+          "bearing": 197.0
+        },
+        "current_stop_sequence": 5,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555767",
+        "stop_id": "5098",
+        "vehicle": {
+          "id": "y1285",
+          "label": "1285"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "R-54898DAC",
+      "vehicle": {
+        "trip": {
+          "trip_id": "NONREV-1580774203",
+          "start_time": "22:46:25",
+          "start_date": "20260511",
+          "schedule_relationship": "ADDED",
+          "route_id": "Red",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.3567,
+          "longitude": -71.0632,
+          "bearing": 310.0
+        },
+        "current_stop_sequence": 190,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555766",
+        "stop_id": "70068",
+        "vehicle": {
+          "id": "R-54898DAC",
+          "label": "1848"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1848",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1849",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1803",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1802",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1873",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1872",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y2039",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75522065",
+          "start_time": "23:30:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "86",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.37727,
+          "longitude": -71.12005,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555769",
+        "stop_id": "22549",
+        "vehicle": {
+          "id": "y2039",
+          "label": "2039"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2086",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609475",
+          "start_time": "23:18:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "111",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.36236,
+          "longitude": -71.05697,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "8309",
+        "vehicle": {
+          "id": "y2086",
+          "label": "2086"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y3340",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75792056",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "455",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.52475,
+          "longitude": -70.89728,
+          "bearing": 225.0
+        },
+        "current_stop_sequence": 2,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "4453",
+        "vehicle": {
+          "id": "y3340",
+          "label": "3340"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y3120",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75791614",
+          "start_time": "23:00:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "435",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.54814,
+          "longitude": -70.94463,
+          "bearing": 260.0
+        },
+        "current_stop_sequence": 21,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555767",
+        "stop_id": "4561",
+        "vehicle": {
+          "id": "y3120",
+          "label": "3120"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "G-10354",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75334271",
+          "start_time": "23:23:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-B",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.34018,
+          "longitude": -71.16709,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555737",
+        "stop_id": "70106",
+        "vehicle": {
+          "id": "G-10354",
+          "label": "3624-3885"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3624",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3885",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "G-10257",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333815",
+          "start_time": "22:48:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.34672,
+          "longitude": -71.10182,
+          "bearing": 230.0
+        },
+        "current_stop_sequence": 450,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555741",
+        "stop_id": "70187",
+        "vehicle": {
+          "id": "G-10257",
+          "label": "3713-3804"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3713",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3804",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y2002",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75523654",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "77",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.386623,
+          "longitude": -71.118744
+        },
+        "current_stop_sequence": 5,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "23151",
+        "vehicle": {
+          "id": "y2002",
+          "label": "2002"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y1287",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75645407",
+          "start_time": "23:09:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "749",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.34432,
+          "longitude": -71.06571,
+          "bearing": 45.0
+        },
+        "current_stop_sequence": 8,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "5095",
+        "vehicle": {
+          "id": "y1287",
+          "label": "1287"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "ynk222",
+      "vehicle": {
+        "trip": {
+          "trip_id": "BL-117294302",
+          "schedule_relationship": "ADDED",
+          "route_id": "Shuttle-Generic"
+        },
+        "position": {
+          "latitude": 42.201748,
+          "longitude": -71.064476
+        },
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555612",
+        "vehicle": {
+          "id": "ynk222",
+          "label": "222"
+        }
+      }
+    },
+    {
+      "id": "G-10334",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75334263",
+          "start_time": "23:03:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-B",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.35013,
+          "longitude": -71.13158,
+          "bearing": 45.0,
+          "speed": 4.3
+        },
+        "current_stop_sequence": 90,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555713",
+        "stop_id": "70130",
+        "vehicle": {
+          "id": "G-10334",
+          "label": "3668-3859"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3668",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3859",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1250",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75644804",
+          "start_time": "22:51:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "28",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.319263,
+          "longitude": -71.08144,
+          "bearing": 14.0
+        },
+        "current_stop_sequence": 26,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "393",
+        "vehicle": {
+          "id": "y1250",
+          "label": "1250"
+        }
+      }
+    },
+    {
+      "id": "G-10148",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75334275",
+          "start_time": "23:32:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-B",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.34018,
+          "longitude": -71.16709,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555746",
+        "stop_id": "70106",
+        "vehicle": {
+          "id": "G-10148",
+          "label": "3649-3827"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3649",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3827",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1894",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75204617",
+          "start_time": "23:00:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "45",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.330395,
+          "longitude": -71.087364,
+          "bearing": 305.0
+        },
+        "current_stop_sequence": 23,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555767",
+        "stop_id": "11149",
+        "vehicle": {
+          "id": "y1894",
+          "label": "1894"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "ynk234",
+      "vehicle": {
+        "trip": {
+          "trip_id": "BL-44123456",
+          "schedule_relationship": "ADDED",
+          "route_id": "Shuttle-Generic"
+        },
+        "position": {
+          "latitude": 42.201843,
+          "longitude": -71.064445
+        },
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555741",
+        "vehicle": {
+          "id": "ynk234",
+          "label": "234"
+        }
+      }
+    },
+    {
+      "id": "y1832",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75204479",
+          "start_time": "23:02:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "66",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.33186,
+          "longitude": -71.11604,
+          "bearing": 237.0
+        },
+        "current_stop_sequence": 13,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555769",
+        "stop_id": "1526",
+        "vehicle": {
+          "id": "y1832",
+          "label": "1832"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y1453",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609711",
+          "start_time": "23:18:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "108",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.4026,
+          "longitude": -71.07616,
+          "bearing": 135.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "52715",
+        "vehicle": {
+          "id": "y1453",
+          "label": "1453"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1911",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206834",
+          "start_time": "23:23:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "15",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.29992,
+          "longitude": -71.06139,
+          "bearing": 270.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "32302",
+        "vehicle": {
+          "id": "y1911",
+          "label": "1911"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2112",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75523291",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "88",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.38016,
+          "longitude": -71.08931,
+          "bearing": 0.0
+        },
+        "current_stop_sequence": 4,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555769",
+        "stop_id": "2659",
+        "vehicle": {
+          "id": "y2112",
+          "label": "2112"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1674",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75761866",
+          "start_time": "23:20:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "38",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.27887,
+          "longitude": -71.14817,
+          "bearing": 90.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "5263",
+        "vehicle": {
+          "id": "y1674",
+          "label": "1674"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1629",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75762277",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "29",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.32303,
+          "longitude": -71.09966,
+          "bearing": 180.0
+        },
+        "current_stop_sequence": 2,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555764",
+        "stop_id": "1265",
+        "vehicle": {
+          "id": "y1629",
+          "label": "1629"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1778",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205755",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "8",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.320236,
+          "longitude": -71.05808,
+          "bearing": 244.0
+        },
+        "current_stop_sequence": 7,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555766",
+        "stop_id": "123",
+        "vehicle": {
+          "id": "y1778",
+          "label": "1778"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10230",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333640",
+          "start_time": "22:36:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-E",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.33362,
+          "longitude": -71.10595,
+          "bearing": 225.0,
+          "speed": 5.1
+        },
+        "current_stop_sequence": 640,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555758",
+        "stop_id": "70251",
+        "vehicle": {
+          "id": "G-10230",
+          "label": "3830-3682"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3830",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3682",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1826",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75207164",
+          "start_time": "22:58:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "9",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.345108,
+          "longitude": -71.06937
+        },
+        "current_stop_sequence": 20,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555771",
+        "stop_id": "36539",
+        "vehicle": {
+          "id": "y1826",
+          "label": "1826"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1633",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75761306",
+          "start_time": "23:00:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "24",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.263653,
+          "longitude": -71.10208,
+          "bearing": 241.0
+        },
+        "current_stop_sequence": 21,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555766",
+        "stop_id": "6371",
+        "vehicle": {
+          "id": "y1633",
+          "label": "1633"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y3106",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75791912",
+          "start_time": "23:32:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "116",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.41305,
+          "longitude": -70.99208,
+          "bearing": 0.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "15796",
+        "vehicle": {
+          "id": "y3106",
+          "label": "3106"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10128",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75316299",
+          "start_time": "23:07:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Mattapan",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.27946,
+          "longitude": -71.06026,
+          "bearing": 315.0,
+          "speed": 3.9
+        },
+        "current_stop_sequence": 7,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555768",
+        "stop_id": "70264",
+        "vehicle": {
+          "id": "G-10128",
+          "label": "3234"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3234",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1622",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75762135",
+          "start_time": "23:02:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "21",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.27805,
+          "longitude": -71.07348,
+          "bearing": 97.0
+        },
+        "current_stop_sequence": 17,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "510",
+        "vehicle": {
+          "id": "y1622",
+          "label": "1622"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1206",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75645719",
+          "start_time": "22:55:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "39",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.319847,
+          "longitude": -71.11175,
+          "bearing": 165.0
+        },
+        "current_stop_sequence": 18,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555758",
+        "stop_id": "1160",
+        "vehicle": {
+          "id": "y1206",
+          "label": "1206"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y1974",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75523633",
+          "start_time": "22:55:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "77",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.384995,
+          "longitude": -71.11955,
+          "bearing": 198.0
+        },
+        "current_stop_sequence": 30,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555767",
+        "stop_id": "2304",
+        "vehicle": {
+          "id": "y1974",
+          "label": "1974"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "1868",
+      "vehicle": {
+        "trip": {
+          "trip_id": "BasewUpdatedWalpoleTurns-774195-1046",
+          "start_time": "22:55:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Kingston",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.089622,
+          "longitude": -70.927826,
+          "bearing": 344.0,
+          "speed": 19.2
+        },
+        "current_stop_sequence": 40,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555741",
+        "stop_id": "PB-0194-S",
+        "vehicle": {
+          "id": "1868",
+          "label": "1868"
+        }
+      }
+    },
+    {
+      "id": "G-10310",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333837",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.36599,
+          "longitude": -71.06321,
+          "bearing": 50.0,
+          "speed": 1.3
+        },
+        "current_stop_sequence": 20,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555746",
+        "stop_id": "70206",
+        "vehicle": {
+          "id": "G-10310",
+          "label": "3627-3816"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3627",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3816",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1885",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205252",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "44",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.33399,
+          "longitude": -71.09068,
+          "bearing": 245.0
+        },
+        "current_stop_sequence": 2,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555771",
+        "stop_id": "11257",
+        "vehicle": {
+          "id": "y1885",
+          "label": "1885"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10273",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333838",
+          "start_time": "23:23:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.37517,
+          "longitude": -71.08336,
+          "bearing": 305.0,
+          "speed": 10.4
+        },
+        "current_stop_sequence": 9,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555763",
+        "stop_id": "70502",
+        "vehicle": {
+          "id": "G-10273",
+          "label": "3813-3688"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3813",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3688",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "O-54898957",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75565727",
+          "start_time": "23:16:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Orange",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.43773,
+          "longitude": -71.07093,
+          "bearing": 185.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555580",
+        "stop_id": "Oak Grove-02",
+        "vehicle": {
+          "id": "O-54898957",
+          "label": "1456"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1456",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 3,
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1457",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 2,
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1533",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 10,
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1532",
+            "occupancy_status": "FEW_SEATS_AVAILABLE",
+            "occupancy_percentage": 8,
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1525",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 1,
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1524",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 4,
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "ynk338",
+      "vehicle": {
+        "trip": {
+          "trip_id": "BL-39059700",
+          "schedule_relationship": "ADDED",
+          "route_id": "Shuttle-Generic"
+        },
+        "position": {
+          "latitude": 42.33827,
+          "longitude": -71.0443
+        },
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555578",
+        "vehicle": {
+          "id": "ynk338",
+          "label": "338"
+        }
+      }
+    },
+    {
+      "id": "y3201",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206614",
+          "start_time": "22:48:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "1",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.364853,
+          "longitude": -71.10273,
+          "bearing": 310.0
+        },
+        "current_stop_sequence": 18,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555768",
+        "stop_id": "102",
+        "vehicle": {
+          "id": "y3201",
+          "label": "3201"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "1839",
+      "vehicle": {
+        "trip": {
+          "trip_id": "BasewUpdatedWalpoleTurns-772689-585",
+          "start_time": "22:00:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Worcester",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.259144,
+          "longitude": -71.66284,
+          "bearing": 219.0,
+          "speed": 22.4
+        },
+        "current_stop_sequence": 160,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555748",
+        "stop_id": "WML-0364-01",
+        "vehicle": {
+          "id": "1839",
+          "label": "1839"
+        }
+      }
+    },
+    {
+      "id": "y1924",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75205253",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "43",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.33478,
+          "longitude": -71.08974,
+          "bearing": 142.0
+        },
+        "current_stop_sequence": 2,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555768",
+        "stop_id": "1227",
+        "vehicle": {
+          "id": "y1924",
+          "label": "1924"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "O-54898996",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75565707",
+          "start_time": "23:04:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Orange",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.36516,
+          "longitude": -71.06004,
+          "bearing": 150.0
+        },
+        "current_stop_sequence": 60,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555761",
+        "stop_id": "70026",
+        "vehicle": {
+          "id": "O-54898996",
+          "label": "1482"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1482",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1483",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 2,
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1469",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 3,
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1468",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 4,
+            "carriage_sequence": 4
+          },
+          {
+            "label": "1439",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 6,
+            "carriage_sequence": 5
+          },
+          {
+            "label": "1438",
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "occupancy_percentage": 6,
+            "carriage_sequence": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1327",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75645813",
+          "start_time": "23:33:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "742",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.347,
+          "longitude": -71.03723,
+          "bearing": 270.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555765",
+        "stop_id": "30250",
+        "vehicle": {
+          "id": "y1327",
+          "label": "1327"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "1716",
+      "vehicle": {
+        "trip": {
+          "trip_id": "ERMLTieJob-819604-448",
+          "start_time": "22:55:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Fitchburg",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.522232,
+          "longitude": -71.7133,
+          "speed": 21.5
+        },
+        "current_stop_sequence": 30,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555755",
+        "stop_id": "FR-0394-02",
+        "vehicle": {
+          "id": "1716",
+          "label": "1716"
+        }
+      }
+    },
+    {
+      "id": "y0906",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75811860",
+          "start_time": "23:35:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "225",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.25183,
+          "longitude": -71.00509,
+          "bearing": 225.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555763",
+        "stop_id": "32001",
+        "vehicle": {
+          "id": "y0906",
+          "label": "0906"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "R-54895669",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75861430",
+          "start_time": "23:33:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Red",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.20749,
+          "longitude": -71.00173,
+          "bearing": 10.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555727",
+        "stop_id": "Braintree-02",
+        "vehicle": {
+          "id": "R-54895669",
+          "label": "1807"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "1830",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "1831",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          },
+          {
+            "label": "1806",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 3
+          },
+          {
+            "label": "1807",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": "y2062",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609797",
+          "start_time": "23:20:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "95",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.38492,
+          "longitude": -71.07589,
+          "bearing": 315.0
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555769",
+        "stop_id": "29008",
+        "vehicle": {
+          "id": "y2062",
+          "label": "2062"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2089",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609084",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "99",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.409233,
+          "longitude": -71.062195,
+          "bearing": 351.0
+        },
+        "current_stop_sequence": 6,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555768",
+        "stop_id": "5408",
+        "vehicle": {
+          "id": "y2089",
+          "label": "2089"
+        },
+        "occupancy_status": "FEW_SEATS_AVAILABLE",
+        "occupancy_percentage": 60
+      }
+    },
+    {
+      "id": "G-10083",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333828",
+          "start_time": "22:39:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-D",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.33653,
+          "longitude": -71.11262,
+          "bearing": 225.0,
+          "speed": 17.0
+        },
+        "current_stop_sequence": 470,
+        "current_status": "INCOMING_AT",
+        "timestamp": "1778555770",
+        "stop_id": "70181",
+        "vehicle": {
+          "id": "G-10083",
+          "label": "3871-3639"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3871",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3639",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "1815",
+      "vehicle": {
+        "trip": {
+          "trip_id": "ERMLTieJob-819574-389",
+          "start_time": "22:45:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Lowell",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.574593,
+          "longitude": -71.22427,
+          "speed": 35.3
+        },
+        "current_stop_sequence": 60,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555756",
+        "stop_id": "NHRML-0218-01",
+        "vehicle": {
+          "id": "1815",
+          "label": "1815"
+        }
+      }
+    },
+    {
+      "id": "y0760",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75812428",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "220",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.242542,
+          "longitude": -70.957565,
+          "bearing": 91.0
+        },
+        "current_stop_sequence": 13,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555769",
+        "stop_id": "3533",
+        "vehicle": {
+          "id": "y0760",
+          "label": "0760"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y2092",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609445",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "111",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.38082,
+          "longitude": -71.07164,
+          "bearing": 315.0
+        },
+        "current_stop_sequence": 3,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555767",
+        "stop_id": "5611",
+        "vehicle": {
+          "id": "y2092",
+          "label": "2092"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1812",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75206625",
+          "start_time": "23:03:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "1",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.341667,
+          "longitude": -71.083046
+        },
+        "current_stop_sequence": 10,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555770",
+        "stop_id": "188",
+        "vehicle": {
+          "id": "y1812",
+          "label": "1812"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "y1917",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75207174",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "9",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.34877,
+          "longitude": -71.06948,
+          "bearing": 180.0
+        },
+        "current_stop_sequence": 5,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555764",
+        "stop_id": "146",
+        "vehicle": {
+          "id": "y1917",
+          "label": "1917"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "G-10007",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75333788",
+          "start_time": "23:26:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "Green-E",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.33311,
+          "longitude": -71.11,
+          "bearing": 45.0,
+          "speed": 4.8
+        },
+        "current_stop_sequence": 470,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555763",
+        "stop_id": "70254",
+        "vehicle": {
+          "id": "G-10007",
+          "label": "3647-3881"
+        },
+        "multi_carriage_details": [
+          {
+            "label": "3647",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 1
+          },
+          {
+            "label": "3881",
+            "occupancy_status": "NO_DATA_AVAILABLE",
+            "carriage_sequence": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "y1916",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75207185",
+          "start_time": "23:13:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "9",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.33576,
+          "longitude": -71.03254,
+          "bearing": 270.0
+        },
+        "current_stop_sequence": 5,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555770",
+        "stop_id": "895",
+        "vehicle": {
+          "id": "y1916",
+          "label": "1916"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1603",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75762406",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "32",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.255466,
+          "longitude": -71.12418,
+          "bearing": 189.0
+        },
+        "current_stop_sequence": 18,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555767",
+        "stop_id": "2819",
+        "vehicle": {
+          "id": "y1603",
+          "label": "1603"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1943",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609748",
+          "start_time": "23:10:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "106",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.433838,
+          "longitude": -71.0461
+        },
+        "current_stop_sequence": 10,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555767",
+        "stop_id": "5436",
+        "vehicle": {
+          "id": "y1943",
+          "label": "1943"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1333",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75646426",
+          "start_time": "23:15:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "741",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.352253,
+          "longitude": -71.05561
+        },
+        "current_stop_sequence": 1,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555734",
+        "stop_id": "84611",
+        "vehicle": {
+          "id": "y1333",
+          "label": "1333"
+        },
+        "occupancy_status": "FEW_SEATS_AVAILABLE",
+        "occupancy_percentage": 60
+      }
+    },
+    {
+      "id": "y1936",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75609052",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "91",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.381947,
+          "longitude": -71.08246,
+          "bearing": 72.0
+        },
+        "current_stop_sequence": 14,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555768",
+        "stop_id": "2777",
+        "vehicle": {
+          "id": "y1936",
+          "label": "1936"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 0
+      }
+    },
+    {
+      "id": "y1987",
+      "vehicle": {
+        "trip": {
+          "trip_id": "75522109",
+          "start_time": "23:05:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "86",
+          "direction_id": 1
+        },
+        "position": {
+          "latitude": 42.36161,
+          "longitude": -71.145226,
+          "bearing": 254.0
+        },
+        "current_stop_sequence": 10,
+        "current_status": "STOPPED_AT",
+        "timestamp": "1778555767",
+        "stop_id": "1077",
+        "vehicle": {
+          "id": "y1987",
+          "label": "1987"
+        },
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    },
+    {
+      "id": "1708",
+      "vehicle": {
+        "trip": {
+          "trip_id": "ERMLTieJob-819601-445",
+          "start_time": "22:30:00",
+          "start_date": "20260511",
+          "schedule_relationship": "SCHEDULED",
+          "route_id": "CR-Fitchburg",
+          "direction_id": 0
+        },
+        "position": {
+          "latitude": 42.45563,
+          "longitude": -71.41388,
+          "bearing": 276.0,
+          "speed": 16.5
+        },
+        "current_stop_sequence": 100,
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": "1778555720",
+        "stop_id": "FR-0253-01",
+        "vehicle": {
+          "id": "1708",
+          "label": "1708"
+        }
+      }
+    }
+  ]
+}

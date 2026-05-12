@@ -20,8 +20,8 @@ This spec replaces what the originating issue called `F-004-servicealerts-parser
 
 - `feed_message: gtfs_realtime_pb2.FeedMessage` — the decoded RT envelope from F-002.
 - `now: datetime` — wall-clock anchor for the active-period filter. Required (no ambient `datetime.now()` read).
-- `scope_routes: frozenset[str]` — defaults to `gtfs_dleung.scope.SCOPE_ROUTES`.
-- `scope_stops: frozenset[str]` — defaults to `gtfs_dleung.scope.ALL_CORRIDOR_PARENT_STATIONS`.
+- `scope_routes: frozenset[str]` — defaults to `gtfs_demo.scope.SCOPE_ROUTES`.
+- `scope_stops: frozenset[str]` — defaults to `gtfs_demo.scope.ALL_CORRIDOR_PARENT_STATIONS`.
 
 ## Properties
 
@@ -75,9 +75,9 @@ Manual:
 
 ```bash
 uv run python -c "from datetime import UTC, datetime; \
-                  from gtfs_dleung.fetcher.realtime import fetch_feed; \
-                  from gtfs_dleung.feeds import SERVICE_ALERTS_URL; \
-                  from gtfs_dleung.parser.alerts import parse; \
+                  from gtfs_demo.fetcher.realtime import fetch_feed; \
+                  from gtfs_demo.feeds import SERVICE_ALERTS_URL; \
+                  from gtfs_demo.parser.alerts import parse; \
                   alerts = parse(fetch_feed(SERVICE_ALERTS_URL), now=datetime.now(tz=UTC)); \
                   print(len(alerts), 'active in-scope alerts'); \
                   [print(' -', a.header_text) for a in alerts]"

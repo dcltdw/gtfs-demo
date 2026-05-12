@@ -12,7 +12,7 @@ IDs, time ranges), more validators land here.
 
 from __future__ import annotations
 
-from gtfs_dleung.scope import ALL_CORRIDOR_PARENT_STATIONS
+from gtfs_demo.scope import ALL_CORRIDOR_PARENT_STATIONS
 
 
 def validate_stop_id(stop_id: str) -> str:

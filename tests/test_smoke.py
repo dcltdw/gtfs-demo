@@ -4,23 +4,23 @@ from __future__ import annotations
 
 
 def test_package_imports() -> None:
-    import gtfs_dleung
+    import gtfs_demo
 
-    assert gtfs_dleung.__version__ == "0.1.0"
+    assert gtfs_demo.__version__ == "0.1.0"
 
 
 def test_subpackages_import() -> None:
-    import gtfs_dleung.cli
-    import gtfs_dleung.fetcher
-    import gtfs_dleung.parser
-    import gtfs_dleung.presenter
-    import gtfs_dleung.store
+    import gtfs_demo.cli
+    import gtfs_demo.fetcher
+    import gtfs_demo.parser
+    import gtfs_demo.presenter
+    import gtfs_demo.store
 
     for sub in (
-        gtfs_dleung.fetcher,
-        gtfs_dleung.parser,
-        gtfs_dleung.store,
-        gtfs_dleung.presenter,
-        gtfs_dleung.cli,
+        gtfs_demo.fetcher,
+        gtfs_demo.parser,
+        gtfs_demo.store,
+        gtfs_demo.presenter,
+        gtfs_demo.cli,
     ):
         assert sub.__doc__ is not None

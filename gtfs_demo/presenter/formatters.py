@@ -11,9 +11,9 @@ from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import Any, Final
 
-from gtfs_dleung.models.alert import Effect, ServiceAlert
-from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
-from gtfs_dleung.models.feed_health import FeedHealth
+from gtfs_demo.models.alert import Effect, ServiceAlert
+from gtfs_demo.models.arrival import Arrival, ScheduleRelationship
+from gtfs_demo.models.feed_health import FeedHealth
 
 # Color thresholds for the delay badge. Numbers from the AC.
 _DELAY_GREEN_S = 30.0

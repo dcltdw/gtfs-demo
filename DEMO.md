@@ -2,8 +2,8 @@
 
 This is the screen-share script for the recruiter call. Reads top-to-bottom; total target time ~15 minutes including Q&A.
 
-**Tiny URL for the project**: <https://dcltdw.github.io/gtfs-dleung/>
-**Source repo**: <https://github.com/dcltdw/gtfs-dleung>
+**Tiny URL for the project**: <https://dcltdw.github.io/gtfs-demo/>
+**Source repo**: <https://github.com/dcltdw/gtfs-demo>
 
 ## Pre-flight (do before the call, don't show)
 
@@ -60,14 +60,14 @@ If you want to demonstrate the **hard-snapshot tier** (#13): kill the Streamlit 
 
 Open the source in the editor. Hit the four things from [docs/RECRUITER-NOTES.md](docs/RECRUITER-NOTES.md):
 
-1. **Partial-update propagation** — [gtfs_dleung/parser/tripupdates.py](gtfs_dleung/parser/tripupdates.py) `_arrivals_for_scheduled_trip`. The `current_delay_seconds` accumulator walks `static_stop_times` in `stop_sequence` order; an explicit RT update sets it, and downstream stops inherit until the next explicit update appears.
-2. **Polite-consumer / dual rate limit** — point at [gtfs_dleung/fetcher/rate_limit.py](gtfs_dleung/fetcher/rate_limit.py) (outbound — protects MBTA's CDN from us) and [gtfs_dleung/security/rate_limit.py](gtfs_dleung/security/rate_limit.py) (inbound — protects us from a misbehaving session). Different threats; different modules.
-3. **Three-tier data path** — live fetch (F-002) → soft cache (F-006) → hard snapshot (#13). Show [gtfs_dleung/fetcher/health.py](gtfs_dleung/fetcher/health.py) `fetch()` — the try/except, the `is_degraded` set, the snapshot-loader fallback.
+1. **Partial-update propagation** — [gtfs_demo/parser/tripupdates.py](gtfs_demo/parser/tripupdates.py) `_arrivals_for_scheduled_trip`. The `current_delay_seconds` accumulator walks `static_stop_times` in `stop_sequence` order; an explicit RT update sets it, and downstream stops inherit until the next explicit update appears.
+2. **Polite-consumer / dual rate limit** — point at [gtfs_demo/fetcher/rate_limit.py](gtfs_demo/fetcher/rate_limit.py) (outbound — protects MBTA's CDN from us) and [gtfs_demo/security/rate_limit.py](gtfs_demo/security/rate_limit.py) (inbound — protects us from a misbehaving session). Different threats; different modules.
+3. **Three-tier data path** — live fetch (F-002) → soft cache (F-006) → hard snapshot (#13). Show [gtfs_demo/fetcher/health.py](gtfs_demo/fetcher/health.py) `fetch()` — the try/except, the `is_degraded` set, the snapshot-loader fallback.
 4. **The conventions doc** — [docs/AI-COLLABORATION-CONVENTIONS.md](docs/AI-COLLABORATION-CONVENTIONS.md). Mention: every PR followed §4a–§4e. Same shape across 14 PRs. This is *how* the work landed at this pace, not *what* the work was.
 
 ### 5. What I'd build next (~2 min)
 
-The [open issues](https://github.com/dcltdw/gtfs-dleung/issues?q=is%3Aopen+label%3Apost-demo) are the post-demo backlog — 27 tickets, all sized to one PR each. The high-leverage ones to call out:
+The [open issues](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apost-demo) are the post-demo backlog — 27 tickets, all sized to one PR each. The high-leverage ones to call out:
 
 - **#15 — Live vehicle map** (folium + VehiclePositions). The parser is already shipping typed rows; it's mostly UI work.
 - **#26 — DuckDB persistence of RT snapshots** + **#27 / #34 — historical delay analytics**. Unlocks the "what's typical at 8 a.m.?" question riders actually ask.

@@ -16,7 +16,7 @@ without inflating the repo. The committed JSON twin is larger but stays well
 under the cap.
 
 The script is the source of truth for the ``examples/`` snapshots; the fallback
-loader (``gtfs_dleung.fetcher.fallback.load_snapshot_fallback``) consumes the
+loader (``gtfs_demo.fetcher.fallback.load_snapshot_fallback``) consumes the
 files this script writes.
 """
 
@@ -30,14 +30,14 @@ from pathlib import Path
 from google.protobuf.json_format import MessageToJson
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.config import get_settings
-from gtfs_dleung.feeds import (
+from gtfs_demo.config import get_settings
+from gtfs_demo.feeds import (
     SERVICE_ALERTS_URL,
     TRIP_UPDATES_URL,
     VEHICLE_POSITIONS_URL,
 )
-from gtfs_dleung.fetcher.realtime import fetch_feed
-from gtfs_dleung.models.feed_health import FeedType
+from gtfs_demo.fetcher.realtime import fetch_feed
+from gtfs_demo.models.feed_health import FeedType
 
 _MAX_ENTITIES = 100
 

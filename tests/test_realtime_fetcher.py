@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.fetcher.realtime.fetch_feed``."""
+"""Tests for ``gtfs_demo.fetcher.realtime.fetch_feed``."""
 
 from __future__ import annotations
 
@@ -9,9 +9,9 @@ from typing import Any, cast
 import pytest
 import requests
 
-from gtfs_dleung.config import Settings
-from gtfs_dleung.fetcher.rate_limit import OutboundRateLimiter
-from gtfs_dleung.fetcher.realtime import (
+from gtfs_demo.config import Settings
+from gtfs_demo.fetcher.rate_limit import OutboundRateLimiter
+from gtfs_demo.fetcher.realtime import (
     PermanentFeedError,
     TransientFeedError,
     fetch_feed,
@@ -22,7 +22,7 @@ FIXTURE_URL = "https://example.invalid/realtime/TripUpdates.pb"
 
 def _settings() -> Settings:
     return Settings(
-        gtfs_user_agent="gtfs-dleung-test/0.0.1 (David Leung; claude.unraveled663@simplelogin.com)",
+        gtfs_user_agent="gtfs-demo-test/0.0.1 (David Leung; claude.unraveled663@simplelogin.com)",
         gtfs_rt_fetch_interval_seconds=10,
     )
 
@@ -86,7 +86,7 @@ def test_outbound_rate_limit_blocks_second_call(
     session = _SessionStub([_Resp(tripupdates_pb), _Resp(tripupdates_pb)])
 
     slept: list[float] = []
-    monkeypatch.setattr("gtfs_dleung.fetcher.rate_limit.time.sleep", slept.append)
+    monkeypatch.setattr("gtfs_demo.fetcher.rate_limit.time.sleep", slept.append)
 
     fetch_feed(
         FIXTURE_URL,
@@ -213,7 +213,7 @@ def test_timeout_is_transient(monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_rate_limiter_per_url_independence(monkeypatch: pytest.MonkeyPatch) -> None:
     """Two distinct URLs share no quota."""
-    monkeypatch.setattr("gtfs_dleung.fetcher.rate_limit.time.sleep", lambda _s: None)
+    monkeypatch.setattr("gtfs_demo.fetcher.rate_limit.time.sleep", lambda _s: None)
     limiter = OutboundRateLimiter(interval_seconds=10)
 
     base = time.monotonic()

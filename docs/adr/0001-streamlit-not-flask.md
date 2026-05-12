@@ -10,14 +10,14 @@ A 4–6h spike has a budget problem: every hour spent on web-app plumbing (templ
 
 ## Decision
 
-Use [Streamlit](https://streamlit.io/) as the presenter layer. The Streamlit page is the single entrypoint (`gtfs_dleung/app.py`) and composes the existing typed-Python surface with no HTML, no JS, no separate API tier.
+Use [Streamlit](https://streamlit.io/) as the presenter layer. The Streamlit page is the single entrypoint (`gtfs_demo/app.py`) and composes the existing typed-Python surface with no HTML, no JS, no separate API tier.
 
 ## Consequences
 
 **Gained:**
 
 - Zero scaffolding cost for the auth widget, layout, sidebar, and live-refresh — `streamlit_authenticator.Authenticate(...)` + `st.columns(...)` + `st_autorefresh(interval=15_000)` is the whole UI shell.
-- Pure-Python testability is preserved because every helper the page calls into is Streamlit-free. `gtfs_dleung.presenter.formatters` has 41 unit tests; the Streamlit page itself only has an import-smoke + a `@pytest.mark.live` subprocess test.
+- Pure-Python testability is preserved because every helper the page calls into is Streamlit-free. `gtfs_demo.presenter.formatters` has 41 unit tests; the Streamlit page itself only has an import-smoke + a `@pytest.mark.live` subprocess test.
 - The recruiter sees the live data path during a screen share — no demo deploy required.
 
 **Lost:**

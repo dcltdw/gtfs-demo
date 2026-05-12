@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.parser.alerts.parse``."""
+"""Tests for ``gtfs_demo.parser.alerts.parse``."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ from pathlib import Path
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.alert import Cause, Effect
-from gtfs_dleung.parser.alerts import parse
+from gtfs_demo.models.alert import Cause, Effect
+from gtfs_demo.parser.alerts import parse
 from tests.helpers import make_alerts_feed
 
 NOW = datetime(2026, 5, 11, 14, 0, tzinfo=UTC)

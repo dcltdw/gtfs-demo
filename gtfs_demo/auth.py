@@ -32,9 +32,9 @@ from typing import Any
 
 import bcrypt
 
-from gtfs_dleung.config import Settings, get_settings
+from gtfs_demo.config import Settings, get_settings
 
-logger = logging.getLogger("gtfs_dleung.auth")
+logger = logging.getLogger("gtfs_demo.auth")
 
 
 def verify_credentials(
@@ -99,7 +99,7 @@ def build_authenticator_config(settings: Settings | None = None) -> dict[str, An
             }
         },
         "cookie": {
-            "name": "gtfs_dleung_auth",
+            "name": "gtfs_demo_auth",
             "key": settings.gtfs_cookie_key,
             "expiry_days": settings.gtfs_cookie_expiry_days,
         },

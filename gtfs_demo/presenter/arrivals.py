@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
-from gtfs_dleung.parser.tripupdates import MBTA_TZ
+from gtfs_demo.models.arrival import Arrival, ScheduleRelationship
+from gtfs_demo.parser.tripupdates import MBTA_TZ
 
 _BOARD_VISIBLE = (ScheduleRelationship.SCHEDULED, ScheduleRelationship.ADDED)
 
@@ -37,7 +37,7 @@ def next_n_arrivals(
     - ``0`` or ``1`` — return only arrivals whose ``Arrival.direction_id`` matches.
       For Davis (Red Line) and Ball Sq (Green-E), use ``0`` for inbound (toward
       downtown) and ``1`` for outbound. See
-      :func:`gtfs_dleung.presenter.formatters.direction_label`.
+      :func:`gtfs_demo.presenter.formatters.direction_label`.
 
     Other filters:
 

@@ -19,7 +19,7 @@ This spec absorbs what the originating issue (#5) called `F-002b-tripupdates-par
 ## Inputs
 
 - `feed_message: gtfs_realtime_pb2.FeedMessage` — the decoded RT envelope from F-002's `fetch_feed`.
-- `static_feed: gtfs_dleung.models.static.StaticFeed` — the parsed + scope-filtered static bundle from F-001.
+- `static_feed: gtfs_demo.models.static.StaticFeed` — the parsed + scope-filtered static bundle from F-001.
 - Optional `now: datetime` — injectable wall-clock anchor for tests.
 
 ## Properties
@@ -29,8 +29,8 @@ This spec absorbs what the originating issue (#5) called `F-002b-tripupdates-par
 3. **Partial StopTimeUpdate propagation.** When stop K has an explicit delay, every subsequent stop on the same trip inherits K's delay until the next explicit update appears. Stops *upstream* of the first explicit update receive `delay_seconds=None` (no propagation backward). Implementation walks static `stop_times` in `stop_sequence` order and threads a `current_delay_seconds` accumulator.
 4. **ADDED trips.** If RT references a `trip_id` not in the static feed, the parser still emits one `Arrival` per stop in the RT `StopTimeUpdate` list, with `is_added=True`, `scheduled_at=None`, and `schedule_relationship=ADDED`. The stop name is looked up in `static_feed.stops` if available.
 5. **Parent-station name preference.** When a platform-level stop has a parent station, the parent's `stop_name` is used for the `Arrival.stop_name` (riders look up "Park Street," not "Park Street — Red Line — Alewife").
-5a. **Parent-station ID surfaced for filtering.** `Arrival.parent_station` carries the parent station's `stop_id` (or `None` for stops with no parent). `next_n_arrivals(arrivals, "place-davis", n=5)` matches when either `a.stop_id == stop_id` or `a.parent_station == stop_id` — without this, the Streamlit page's "filter by parent station" call would never match real-feed Arrival rows whose `stop_id` is a platform-level ID like `70063` / `70064`. See [#60](https://github.com/dcltdw/gtfs-dleung/issues/60).
-5b. **Direction split.** `next_n_arrivals` accepts an optional `direction_id` parameter. The Streamlit board renders each station as **two subsections** (Inbound + Outbound) by calling `next_n_arrivals` twice with `direction_id=0` and `direction_id=1` respectively. For Davis (Red) and Ball Sq (Green-E) — both north of Park St — `0` is inbound (toward downtown) and `1` is outbound; see :func:`gtfs_dleung.presenter.formatters.direction_label`.
+5a. **Parent-station ID surfaced for filtering.** `Arrival.parent_station` carries the parent station's `stop_id` (or `None` for stops with no parent). `next_n_arrivals(arrivals, "place-davis", n=5)` matches when either `a.stop_id == stop_id` or `a.parent_station == stop_id` — without this, the Streamlit page's "filter by parent station" call would never match real-feed Arrival rows whose `stop_id` is a platform-level ID like `70063` / `70064`. See [#60](https://github.com/dcltdw/gtfs-demo/issues/60).
+5b. **Direction split.** `next_n_arrivals` accepts an optional `direction_id` parameter. The Streamlit board renders each station as **two subsections** (Inbound + Outbound) by calling `next_n_arrivals` twice with `direction_id=0` and `direction_id=1` respectively. For Davis (Red) and Ball Sq (Green-E) — both north of Park St — `0` is inbound (toward downtown) and `1` is outbound; see :func:`gtfs_demo.presenter.formatters.direction_label`.
 5c. **`trip_headsign` propagated.** `Arrival.trip_headsign` carries the static trip's `trip_headsign` (e.g. `"Alewife"` for Red Line northbound). The Streamlit row template renders it as `— toward Alewife` so the user sees the specific destination, not just the inbound/outbound bucket. `None` for ADDED trips that have no static counterpart.
 6. **tz-aware times.** All `scheduled_at` / `predicted_at` are `datetime` objects with `tzinfo=ZoneInfo("America/New_York")`. GTFS static times that exceed 24h roll into the next calendar day with the same tz. The `start_date` field on the RT trip descriptor (`YYYYMMDD`) selects the service date; when absent, the wall-clock date is used as a fallback.
 7. **Pure functions.** No I/O, no logging, no module-level state. Callers feed in `FeedMessage` + `StaticFeed`; the parser returns a list. The presenter's `next_n_arrivals` is similarly pure.
@@ -82,12 +82,12 @@ Manual:
 
 ```bash
 uv run python - <<'PY'
-from gtfs_dleung.fetcher.realtime import fetch_feed
-from gtfs_dleung.fetcher.static import fetch_static_feed
-from gtfs_dleung.parser.static import filter_to_scope, load_feed_from_dir
-from gtfs_dleung.parser.tripupdates import parse
-from gtfs_dleung.feeds import TRIP_UPDATES_URL
-from gtfs_dleung.presenter.arrivals import next_n_arrivals
+from gtfs_demo.fetcher.realtime import fetch_feed
+from gtfs_demo.fetcher.static import fetch_static_feed
+from gtfs_demo.parser.static import filter_to_scope, load_feed_from_dir
+from gtfs_demo.parser.tripupdates import parse
+from gtfs_demo.feeds import TRIP_UPDATES_URL
+from gtfs_demo.presenter.arrivals import next_n_arrivals
 
 static = filter_to_scope(load_feed_from_dir(fetch_static_feed()))
 rt = fetch_feed(TRIP_UPDATES_URL)

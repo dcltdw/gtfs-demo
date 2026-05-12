@@ -26,14 +26,14 @@ from datetime import UTC, datetime
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.alert import (
+from gtfs_demo.models.alert import (
     ActivePeriod,
     Cause,
     Effect,
     InformedEntity,
     ServiceAlert,
 )
-from gtfs_dleung.scope import ALL_CORRIDOR_PARENT_STATIONS, SCOPE_ROUTES
+from gtfs_demo.scope import ALL_CORRIDOR_PARENT_STATIONS, SCOPE_ROUTES
 
 _PREFERRED_LANGUAGE = "en"
 
