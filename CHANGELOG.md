@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- **Demo scope header + delay color legend** ([#61](https://github.com/dcltdw/gtfs-dleung/issues/61)): a persistent `st.info` block at the top of the Streamlit page names the scope (arrivals at Davis + Ball Sq in both directions; alerts cover the full Park St ↔ Alewife and Park St ↔ Medford/Tufts corridors) and prints the delay color legend (`🟢 ≤30s on time · 🟠 ≤120s slightly off · 🔴 >120s significantly off`).
+- **Alert corridor extended to each line's northern terminus**: `RED_LINE_CORRIDOR` gains `place-alfcl` (Alewife) and `GREEN_E_CORRIDOR` gains `place-mdftf` (Medford/Tufts). Terminus-only alerts (e.g. "elevator out at Alewife", "weekend shuttle to Medford/Tufts") now surface for Davis / Ball Sq riders even though those stops aren't rendered on the arrivals board.
+
+### Changed
+
+- **Delay text is now color-wrapped, not just the leading dot**: `_render_arrival_row` wraps the delay string in `:green[…]` / `:orange[…]` / `:red[…]` matching `delay_color_class`. A train running 6 minutes late now renders its `+6m 0s` in red instead of default text color, so the visual signal isn't dependent on the small leading emoji.
+
 ### Fixed
 
 - **Arrivals board no longer empty against real MBTA feeds** ([#60](https://github.com/dcltdw/gtfs-dleung/issues/60)): the parser now populates `Arrival.parent_station` from the static feed's `parent_station` column, and `next_n_arrivals` matches against either `stop_id` OR `parent_station`. Previously the Streamlit page filtered by `place-davis` while the parser produced rows with platform-level `stop_id`s like `70063`/`70064`, so no rows ever matched. Pre-fix the test suite was green only because fixtures use parent-station IDs as `stop_id` directly.

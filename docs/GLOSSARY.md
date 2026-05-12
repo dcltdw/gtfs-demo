@@ -34,8 +34,8 @@ Terms specific to the GTFS ecosystem, the MBTA's flavour of it, and the conventi
 
 ## MBTA-specific terms
 
-- **Red Line**: heavy rail, branches to Ashmont and Braintree. Spike scope: Park St ↔ Davis Sq (downtown to Cambridge/Somerville).
-- **Green Line E branch**: light rail, the only Green Line branch that runs through Lechmere on the Medford/Tufts extension. Spike scope: Park St ↔ Ball Sq.
+- **Red Line**: heavy rail, branches to Ashmont and Braintree. Spike scope: Park St ↔ Davis Sq for the arrivals board; alert corridor extends to Alewife (the northern terminus) so terminus-only alerts still surface for Davis riders.
+- **Green Line E branch**: light rail, the only Green Line branch that runs through Lechmere on the Medford/Tufts extension. Spike scope: Park St ↔ Ball Sq for the arrivals board; alert corridor extends to Medford/Tufts (the northern terminus) for the same reason.
 - **Trunk overlap**: the four Green Line branches (B/C/D/E) share platforms downtown — Park Street, Boylston, Arlington, Copley. A scope filter using only stop IDs would incorrectly keep B/C/D trips; route-id filtering is required.
 - **MBTA V3 API**: the REST-shaped API that wraps GTFS-RT (`https://api-v3.mbta.com/`). The spike intentionally does NOT use it; see [docs/UPGRADE-PATH.md](UPGRADE-PATH.md) and [ADR 0003](adr/0003-strict-gtfs-rt.md) for the trade-off.
 
