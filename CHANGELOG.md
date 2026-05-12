@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- **GitHub Pages nav trimmed from 13 auto-listed pages to a 4-page allow-list.** Minima (the theme set in `_config.yml`) defaults to listing every `.md` file in the rendered site, so the nav bar at the top of <https://dcltdw.github.io/gtfs-dleung/> had links to every agent-spec page (F-001 through NF-012) plus CHANGELOG / DEMO / RETROSPECTIVE — wide and noisy. Explicit `header_pages` in `_config.yml` limits the bar to DEMO, CHANGELOG, RETROSPECTIVE, and the docs index; the agent specs remain reachable via the README's inline links.
 - **Hidden Streamlit component wrappers no longer take vertical space.** `extra_streamlit_components.CookieManager` (key `"init"`, used internally by streamlit-authenticator for cookie I/O) and `streamlit-autorefresh` (our `key="data-refresh"`) both render hidden iframes for side effects — but Streamlit still wraps each in a block-level `<div class="st-key-…">`. A one-shot `<style>` in `main()` sets `display:none` on both, eliminating two stretches of dead space between the title and the data panels.
 
 ### Changed

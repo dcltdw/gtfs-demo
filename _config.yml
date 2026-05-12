@@ -9,6 +9,16 @@ description: GTFS-RT exploration spike for the MBTA Red Line (Park ↔ Davis) an
 # explicit for clarity.
 theme: minima
 
+# By default minima lists every `.md` in the rendered repo in its top-nav bar —
+# that's 13+ links once the agent specs are included, which crowds the page.
+# Explicit allow-list keeps the bar trimmed to the recruiter-facing landing
+# pages. The agent specs remain reachable via the README's inline links.
+header_pages:
+  - DEMO.md
+  - CHANGELOG.md
+  - RETROSPECTIVE.md
+  - docs/index.md
+
 # Files / directories excluded from the rendered site. These are either
 # implementation noise (tooling configs), too large to be useful (uv.lock),
 # or already exposed via the source repo where appropriate.
