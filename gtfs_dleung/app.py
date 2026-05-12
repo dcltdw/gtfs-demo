@@ -243,18 +243,45 @@ def _render_arrivals_board(arrivals: list[Arrival]) -> None:
             _render_direction_subsection(arrivals, stop_id, direction_id=1)
 
 
+_VISIBLE_ARRIVALS = 3
+"""How many arrivals each direction subsection shows before the rest collapse.
+
+A rider boarding 'soon' mostly cares about the next two or three; rows 4+
+push the second station / alerts panel below the fold. Anything past this
+goes into a single ``st.expander`` so the data isn't lost — just out of the way.
+"""
+
+
 def _render_direction_subsection(
     arrivals: list[Arrival], stop_id: str, *, direction_id: int
 ) -> None:
-    """Render one direction's next-5 arrivals at a station."""
-    st.markdown(f"_{direction_label(direction_id)}_")
+    """Render one direction's upcoming arrivals at a station.
+
+    The first ``_VISIBLE_ARRIVALS`` rows render inline; any remainder lives
+    inside a single collapsed ``st.expander`` labelled with the hidden count.
+    """
+    # Streamlit's pure-markdown surface has no center alignment, so a one-line
+    # HTML wrapper is the lightest fix. The text is constant (Inbound / Outbound /
+    # Unknown), so the unsafe_allow_html surface area is bounded.
+    st.markdown(
+        f"<div style='text-align: center'><em>{direction_label(direction_id)}</em></div>",
+        unsafe_allow_html=True,
+    )
     picks = next_n_arrivals(arrivals, stop_id, n=5, direction_id=direction_id)
     if not picks:
         st.caption("No upcoming arrivals in this direction. (Waiting for refresh.)")
         return
-    for arr in picks:
-        row = format_arrival_row(arr)
-        _render_arrival_row(row)
+
+    visible = picks[:_VISIBLE_ARRIVALS]
+    hidden = picks[_VISIBLE_ARRIVALS:]
+
+    for arr in visible:
+        _render_arrival_row(format_arrival_row(arr))
+
+    if hidden:
+        with st.expander(f"More arrivals ({len(hidden)})", expanded=False):
+            for arr in hidden:
+                _render_arrival_row(format_arrival_row(arr))
 
 
 def _render_arrival_row(row: dict[str, str | None]) -> None:
@@ -273,8 +300,10 @@ def _render_arrival_row(row: dict[str, str | None]) -> None:
     text_color = _color_to_emoji(color)
     delay_md = f":{text_color}: :{text_color}[{row['delay']}]"
     headsign_md = f" — _toward {row['headsign']}_" if row.get("headsign") else ""
+    # No leading `**Route** —` prefix: every row in a given column is the same
+    # route (Davis = Red, Ball Sq = Green-E), so the times line up across rows.
     st.markdown(
-        f"**{row['route']}** — sched **{row['scheduled'] or '?'}** → "
+        f"sched **{row['scheduled'] or '?'}** → "
         f"pred **{row['predicted'] or '?'}** {delay_md}{badge_md}{headsign_md}"
     )
 
