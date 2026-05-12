@@ -50,6 +50,7 @@ from gtfs_demo.presenter.formatters import (
     direction_label,
     feed_health_icon,
     format_alert_row,
+    format_arrival_markdown,
     format_arrival_row,
     format_feed_age,
     should_show_stale_banner,
@@ -175,7 +176,11 @@ def _render_data_app() -> None:
             "refresh. The page will resume normal refreshes in under a minute."
         )
 
-    arrivals, alerts, healths = _refresh_data(allowed=allowed)
+    if st.session_state.get("boot_done"):
+        arrivals, alerts, healths = _refresh_data(allowed=allowed)
+    else:
+        arrivals, alerts, healths = _boot_with_status(allowed=allowed)
+        st.session_state["boot_done"] = True
 
     _render_scope_header()
 
@@ -190,6 +195,36 @@ def _render_data_app() -> None:
     _render_alerts_panel(alerts)
     st.divider()
     _render_feed_health_panel(healths)
+
+
+def _boot_with_status(
+    *, allowed: bool
+) -> tuple[list[Arrival], list[ServiceAlert], dict[FeedType, FeedHealth]]:
+    """First-paint variant of the data load that narrates progress via ``st.status``.
+
+    Streamlit dims the page during every rerun, and the cold-start path stacks
+    several reruns (cache_resource priming, CookieManager iframe roundtrip,
+    first autorefresh tick) — without narration the dim feels mysterious. The
+    block is gated on ``st.session_state["boot_done"]`` by the caller so warm
+    reruns skip it; flashing "Loading…" every 15s on the autorefresh tick would
+    look worse than the brief unexplained dim it replaces.
+    """
+    with st.status("Booting demo…", expanded=False) as status:
+        status.update(label="Loading static GTFS bundle…")
+        _ = _static_feed()
+        status.update(label="Initializing realtime fetcher…")
+        _ = _health_fetcher()
+        if not allowed:
+            status.update(
+                label="Inbound rate limit reached — serving cached data",
+                state="error",
+            )
+            result = _refresh_data(allowed=False)
+        else:
+            status.update(label="Fetching realtime feeds…")
+            result = _refresh_data(allowed=True)
+            status.update(label="Ready", state="complete", expanded=False)
+    return result
 
 
 def _refresh_data(
@@ -300,45 +335,12 @@ def _render_direction_subsection(
     show_hs = show_headsign(stop_id, direction_id)
 
     for arr in visible:
-        _render_arrival_row(format_arrival_row(arr), show_headsign=show_hs)
+        st.markdown(format_arrival_markdown(format_arrival_row(arr), show_headsign=show_hs))
 
     if hidden:
         with st.expander(f"More arrivals ({len(hidden)})", expanded=False):
             for arr in hidden:
-                _render_arrival_row(format_arrival_row(arr), show_headsign=show_hs)
-
-
-def _render_arrival_row(row: dict[str, str | None], *, show_headsign: bool) -> None:
-    color = row["color"]
-    badge = row["badge"]
-    badge_md = ""
-    if badge == "CANCELED":
-        badge_md = " ~~CANCELED~~"
-    elif badge == "ADDED":
-        badge_md = " :violet[ADDED]"
-    elif badge == "SKIPPED":
-        badge_md = " :gray[SKIPPED]"
-    elif badge == "UNSCHED":
-        badge_md = " :gray[UNSCHEDULED]"
-
-    text_color = _color_to_emoji(color)
-    delay_md = f":{text_color}: :{text_color}[{row['delay']}]"
-    headsign_md = f" — _toward {row['headsign']}_" if show_headsign and row.get("headsign") else ""
-    # No leading `**Route** —` prefix: every row in a given column is the same
-    # route (Davis = Red, Ball Sq = Green-E), so the times line up across rows.
-    st.markdown(
-        f"sched **{row['scheduled'] or '?'}** → "
-        f"pred **{row['predicted'] or '?'}** {delay_md}{badge_md}{headsign_md}"
-    )
-
-
-def _color_to_emoji(color: str | None) -> str:
-    return {
-        "green": "green",
-        "yellow": "orange",
-        "red": "red",
-        "neutral": "gray",
-    }.get(color or "neutral", "gray")
+                st.markdown(format_arrival_markdown(format_arrival_row(arr), show_headsign=show_hs))
 
 
 def _render_alerts_panel(alerts: list[ServiceAlert]) -> None:
