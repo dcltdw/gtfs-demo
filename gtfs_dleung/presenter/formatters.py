@@ -37,6 +37,27 @@ def delay_color_class(delay_seconds: int | float | None) -> str:
     return "red"
 
 
+def direction_label(direction_id: int | None) -> str:
+    """Return a human-readable label for a GTFS ``direction_id``.
+
+    The mapping is **scoped to the demo's two stations** (Davis on the Red Line
+    and Ball Square on the Green-E branch), both of which sit north of Park St:
+
+    - ``0`` → ``"Inbound"``  (south toward Park St / downtown)
+    - ``1`` → ``"Outbound"``  (north toward Alewife / Medford-Tufts)
+    - ``None`` → ``"Unknown direction"``
+
+    A station south of Park St would invert this mapping. If the demo ever
+    extends to a southern station (Quincy Center, Heath St, etc.), this helper
+    needs a route-+-station-aware variant. Pinned to "north of Park" today.
+    """
+    if direction_id == 0:
+        return "Inbound"
+    if direction_id == 1:
+        return "Outbound"
+    return "Unknown direction"
+
+
 def schedule_relationship_badge(sr: ScheduleRelationship) -> str | None:
     """Return a short, user-facing badge label for unusual ``schedule_relationship`` values.
 
@@ -67,6 +88,7 @@ def format_arrival_row(arrival: Arrival) -> dict[str, str | None]:
         "color": delay_color_class(arrival.delay_seconds),
         "badge": schedule_relationship_badge(arrival.schedule_relationship),
         "trip_id": arrival.trip_id,
+        "headsign": arrival.trip_headsign,
     }
 
 
@@ -173,6 +195,7 @@ def _effect_short_label(effect: Effect) -> str:
 
 __all__ = (
     "delay_color_class",
+    "direction_label",
     "feed_health_icon",
     "format_alert_row",
     "format_arrival_row",

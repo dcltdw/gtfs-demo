@@ -40,10 +40,30 @@ class Arrival(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     stop_id: str
+    """Platform-level ``stop_id`` straight from the static feed (e.g. ``70063`` for
+    Davis-southbound). The Streamlit page typically filters by ``parent_station``
+    instead — see :attr:`parent_station`."""
+
+    parent_station: str | None = None
+    """The parent station ID (e.g. ``place-davis``) when ``stop_id`` is a
+    platform-level stop. ``None`` when the stop has no parent (the stop itself is
+    a top-level station). Populated by the parser via a static-feed lookup; lets
+    the presenter filter by station name without having to enumerate platform IDs."""
+
     stop_name: str | None
     route_id: str
     trip_id: str
     direction_id: int | None = None
+    """Per the GTFS spec, ``0`` and ``1`` identify the two directions of a route;
+    the *meaning* (north/south/inbound/outbound) is per-route and lives in MBTA's
+    ``directions.txt`` extension. For the demo's two stations (Davis and Ball Sq,
+    both north of Park St), ``0`` is inbound (toward downtown) and ``1`` is
+    outbound — see :func:`gtfs_dleung.presenter.formatters.direction_label`."""
+
+    trip_headsign: str | None = None
+    """The rider-facing destination label from the static feed
+    (e.g. ``"Alewife"`` for Red Line northbound). ``None`` for ADDED trips that
+    don't appear in the static feed."""
 
     scheduled_at: datetime | None
     """Static schedule time for this stop, in America/New_York. ``None`` for ADDED

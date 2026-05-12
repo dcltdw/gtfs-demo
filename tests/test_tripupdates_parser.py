@@ -187,3 +187,141 @@ def test_parent_station_name_preferred_over_platform_name() -> None:
 
     arrivals = parse(rt, static)
     assert arrivals[0].stop_name == "Park Street"
+
+
+def test_arrival_carries_parent_station() -> None:
+    """For a platform-level stop with a parent in static, ``Arrival.parent_station`` is populated.
+
+    Pins the fix for #60 — without ``parent_station``, ``next_n_arrivals(..., "place-davis")``
+    can't match Arrival rows whose ``stop_id`` is a platform-level ID like ``70064``.
+    """
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+            {
+                "stop_id": "70064",
+                "stop_name": "Davis - Red Line - Alewife",
+                "parent_station": "place-davis",
+            },
+        ],
+        trips=[{"route_id": "Red", "service_id": "S1", "trip_id": "T1"}],
+        stop_times=[
+            {"trip_id": "T1", "arrival_time": "08:00:00", "stop_id": "70064", "stop_sequence": 1},
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].stop_id == "70064"
+    assert arrivals[0].parent_station == "place-davis"
+
+
+def test_arrival_carries_trip_headsign() -> None:
+    """The static trip's ``trip_headsign`` is propagated onto every Arrival row."""
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+            {
+                "stop_id": "70064",
+                "stop_name": "Davis - Red Line - Alewife",
+                "parent_station": "place-davis",
+            },
+        ],
+        trips=[
+            {
+                "route_id": "Red",
+                "service_id": "S1",
+                "trip_id": "T1",
+                "direction_id": 1,
+                "trip_headsign": "Alewife",
+            }
+        ],
+        stop_times=[
+            {"trip_id": "T1", "arrival_time": "08:00:00", "stop_id": "70064", "stop_sequence": 1},
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].direction_id == 1
+    assert arrivals[0].trip_headsign == "Alewife"
+
+
+def test_parse_drops_out_of_scope_route_entities() -> None:
+    """Bus / CR / other-branch TripUpdates are dropped before any per-trip work.
+
+    Without this filter, the parser would treat them as ADDED trips (since
+    the static feed is scope-filtered to Red + Green-E) and surface bus
+    arrivals on the Davis board.
+    """
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[{"stop_id": "place-davis", "stop_name": "Davis"}],
+        trips=[{"route_id": "Red", "service_id": "S1", "trip_id": "T-RED-1"}],
+        stop_times=[
+            {
+                "trip_id": "T-RED-1",
+                "arrival_time": "08:00:00",
+                "stop_id": "place-davis",
+                "stop_sequence": 1,
+            },
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[
+            # In-scope: should produce one Arrival.
+            {"trip_id": "T-RED-1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)},
+            # Out-of-scope (the 39 bus): should be dropped entirely, not surfaced as ADDED.
+            {
+                "trip_id": "T-BUS-39-1",
+                "route_id": "39",
+                "start_date": yyyymmdd(SERVICE_DATE),
+                "stop_time_updates": [{"stop_id": "place-davis", "delay": 60}],
+            },
+            # Out-of-scope (Green-B): same.
+            {
+                "trip_id": "T-GREEN-B-1",
+                "route_id": "Green-B",
+                "start_date": yyyymmdd(SERVICE_DATE),
+                "stop_time_updates": [{"stop_id": "place-davis", "delay": 60}],
+            },
+        ]
+    )
+
+    arrivals = parse(rt, static)
+
+    kept_routes = {a.route_id for a in arrivals}
+    assert kept_routes == {"Red"}, f"unexpected routes leaked through: {kept_routes}"
+
+
+def test_arrival_parent_station_none_for_top_level_stop() -> None:
+    """A stop with no parent (the parent station itself) reports ``parent_station=None``."""
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            # No parent_station field on this stop — it's the top-level station.
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+        ],
+        trips=[{"route_id": "Red", "service_id": "S1", "trip_id": "T1"}],
+        stop_times=[
+            {
+                "trip_id": "T1",
+                "arrival_time": "08:00:00",
+                "stop_id": "place-davis",
+                "stop_sequence": 1,
+            },
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].stop_id == "place-davis"
+    assert arrivals[0].parent_station is None

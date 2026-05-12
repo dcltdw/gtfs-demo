@@ -27,6 +27,7 @@ from google.transit import gtfs_realtime_pb2
 
 from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
 from gtfs_dleung.models.static import StaticFeed, Stop, StopTime, Trip
+from gtfs_dleung.scope import SCOPE_ROUTES
 
 MBTA_TZ = ZoneInfo("America/New_York")
 
@@ -49,12 +50,20 @@ def parse(
     static_feed: StaticFeed,
     *,
     now: datetime | None = None,
+    scope_routes: frozenset[str] = SCOPE_ROUTES,
 ) -> list[Arrival]:
-    """Return one :class:`Arrival` per stop on every trip in ``feed_message``.
+    """Return one :class:`Arrival` per stop on every in-scope trip in ``feed_message``.
 
     ``now`` is injectable for tests; defaults to the wall clock in ``MBTA_TZ``.
     It only affects the fallback service date when the RT message doesn't carry
     a ``start_date``.
+
+    ``scope_routes`` filters entities to a subset of route IDs. The default
+    (``SCOPE_ROUTES`` = {"Red", "Green-E"}) drops buses, commuter rail, and other
+    Green branches before any per-trip work — otherwise the parser would treat
+    every out-of-scope trip as an ADDED trip (since the static feed is already
+    scope-filtered) and surface bus arrivals at Davis. Pass a wider frozenset
+    in tests if you want the broader view.
     """
     if now is None:
         now = datetime.now(tz=MBTA_TZ)
@@ -71,9 +80,14 @@ def parse(
     for entity in feed_message.entity:
         if not entity.HasField("trip_update"):
             continue
+        tu = entity.trip_update
+        # Drop out-of-scope routes before any per-trip work — otherwise an
+        # ADDED-trip code path produces bus/CR arrivals at Davis.
+        if tu.trip.route_id and tu.trip.route_id not in scope_routes:
+            continue
         out.extend(
             _parse_trip_update(
-                entity.trip_update,
+                tu,
                 trips_by_id=trips_by_id,
                 stops_by_id=stops_by_id,
                 static_stop_times_by_trip=static_stop_times_by_trip,
@@ -183,10 +197,12 @@ def _arrivals_for_scheduled_trip(
         out.append(
             Arrival(
                 stop_id=st.stop_id,
+                parent_station=_lookup_parent_station(stops_by_id, st.stop_id),
                 stop_name=_lookup_stop_name(stops_by_id, st.stop_id),
                 route_id=static_trip.route_id,
                 trip_id=static_trip.trip_id,
                 direction_id=static_trip.direction_id,
+                trip_headsign=static_trip.trip_headsign,
                 scheduled_at=scheduled_at,
                 predicted_at=predicted_at,
                 delay_seconds=delay,
@@ -206,16 +222,19 @@ def _arrivals_for_added_trip(
 ) -> list[Arrival]:
     """Build arrivals for an ADDED trip — stop sequence comes from RT itself."""
     out: list[Arrival] = []
+    rt_direction_id = int(tu.trip.direction_id) if tu.trip.HasField("direction_id") else None
     for stu in tu.stop_time_update:
         _, explicit_time = _extract_delay_and_time(stu)
         predicted_at = explicit_time
         out.append(
             Arrival(
                 stop_id=stu.stop_id,
+                parent_station=_lookup_parent_station(stops_by_id, stu.stop_id),
                 stop_name=_lookup_stop_name(stops_by_id, stu.stop_id),
                 route_id=tu.trip.route_id,
                 trip_id=tu.trip.trip_id,
-                direction_id=None,
+                direction_id=rt_direction_id,
+                trip_headsign=None,  # ADDED trips have no static trip to read this from
                 scheduled_at=None,
                 predicted_at=predicted_at,
                 delay_seconds=None,
@@ -314,6 +333,20 @@ def _lookup_stop_name(stops_by_id: Mapping[str, Stop], stop_id: str) -> str | No
         if parent_name:
             return parent_name
     return stop.stop_name
+
+
+def _lookup_parent_station(stops_by_id: Mapping[str, Stop], stop_id: str) -> str | None:
+    """Return ``stop_id``'s parent station, or ``None`` when the stop has no parent.
+
+    GTFS static represents platform-level stops with a ``parent_station`` field
+    pointing at the station ID (``place-*`` in MBTA's convention). The Streamlit
+    page filters by station — ``next_n_arrivals`` needs this populated so it can
+    match without enumerating platform IDs.
+    """
+    stop = stops_by_id.get(stop_id)
+    if stop is None:
+        return None
+    return stop.parent_station
 
 
 __all__ = ("MBTA_TZ", "parse")

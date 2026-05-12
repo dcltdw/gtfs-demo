@@ -47,6 +47,7 @@ from gtfs_dleung.parser.static import filter_to_scope, load_feed_from_dir
 from gtfs_dleung.parser.tripupdates import parse as parse_tripupdates
 from gtfs_dleung.presenter.arrivals import next_n_arrivals
 from gtfs_dleung.presenter.formatters import (
+    direction_label,
     feed_health_icon,
     format_alert_row,
     format_arrival_row,
@@ -103,7 +104,11 @@ def _rate_limiter() -> SessionRateLimiter:
 def main() -> None:
     """Page entrypoint. Streamlit calls this every rerun."""
     st.set_page_config(page_title="gtfs-dleung", page_icon="🚇", layout="wide")
-    st.title("🚇 MBTA GTFS-RT — Red Line + Green Line E")
+    st.title("🚇 MBTA GTFS-RT")
+    st.markdown(
+        "_Dave lives between Davis Sq and Ball Sq, and wants to know when trains "
+        "are arriving at those stations._"
+    )
 
     config = build_authenticator_config(_settings())
     authenticator = stauth.Authenticate(
@@ -214,13 +219,25 @@ def _render_arrivals_board(arrivals: list[Arrival]) -> None:
     for col, (label, stop_id) in zip(columns, _BOARD_STOPS, strict=True):
         with col:
             st.markdown(f"**{label}** (`{stop_id}`)")
-            picks = next_n_arrivals(arrivals, stop_id, n=5)
-            if not picks:
-                st.caption("No upcoming arrivals in scope. (Waiting for refresh.)")
-                continue
-            for arr in picks:
-                row = format_arrival_row(arr)
-                _render_arrival_row(row)
+            # Two subsections per station: Inbound (direction_id=0) and Outbound
+            # (direction_id=1) — see `direction_label` for the convention. Both
+            # of the demo's stations are north of Park St, so 0 = south = inbound.
+            _render_direction_subsection(arrivals, stop_id, direction_id=0)
+            _render_direction_subsection(arrivals, stop_id, direction_id=1)
+
+
+def _render_direction_subsection(
+    arrivals: list[Arrival], stop_id: str, *, direction_id: int
+) -> None:
+    """Render one direction's next-5 arrivals at a station."""
+    st.markdown(f"_{direction_label(direction_id)}_")
+    picks = next_n_arrivals(arrivals, stop_id, n=5, direction_id=direction_id)
+    if not picks:
+        st.caption("No upcoming arrivals in this direction. (Waiting for refresh.)")
+        return
+    for arr in picks:
+        row = format_arrival_row(arr)
+        _render_arrival_row(row)
 
 
 def _render_arrival_row(row: dict[str, str | None]) -> None:
@@ -237,9 +254,10 @@ def _render_arrival_row(row: dict[str, str | None]) -> None:
         badge_md = " :gray[UNSCHEDULED]"
 
     delay_md = f":{_color_to_emoji(color)}: {row['delay']}"
+    headsign_md = f" — _toward {row['headsign']}_" if row.get("headsign") else ""
     st.markdown(
         f"**{row['route']}** — sched **{row['scheduled'] or '?'}** → "
-        f"pred **{row['predicted'] or '?'}** {delay_md}{badge_md}"
+        f"pred **{row['predicted'] or '?'}** {delay_md}{badge_md}{headsign_md}"
     )
 
 

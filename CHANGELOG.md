@@ -8,11 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- **Arrivals board no longer empty against real MBTA feeds** ([#60](https://github.com/dcltdw/gtfs-dleung/issues/60)): the parser now populates `Arrival.parent_station` from the static feed's `parent_station` column, and `next_n_arrivals` matches against either `stop_id` OR `parent_station`. Previously the Streamlit page filtered by `place-davis` while the parser produced rows with platform-level `stop_id`s like `70063`/`70064`, so no rows ever matched. Pre-fix the test suite was green only because fixtures use parent-station IDs as `stop_id` directly.
+
+### Added (in #60's expanded scope)
+
+- **Arrivals board now splits by direction** — each station column renders Inbound (toward downtown) and Outbound (away from downtown) as two subsections, each with its own top-5. `next_n_arrivals` gains an optional `direction_id` parameter.
+- `Arrival.trip_headsign: str | None` — propagated from the static trip; rendered as `— toward Alewife` (or similar) on each board row so the user sees the specific destination.
+- `gtfs_dleung.presenter.formatters.direction_label(direction_id)` — pure helper that returns the Inbound / Outbound / Unknown label. Scoped to stations north of Park St (the demo's two stops); documented for future generalisation.
 - GitHub Pages source switched from `main/docs` to `main/` (root) so the recruiter-facing docs at the repo root — `README.md`, `DEMO.md`, `RETROSPECTIVE.md` — render at predictable URLs (`https://dcltdw.github.io/gtfs-dleung/`, `.../DEMO.html`, `.../RETROSPECTIVE.html`). Previously a 404 because `/docs` source can't reach parent directories. See [#58](https://github.com/dcltdw/gtfs-dleung/issues/58).
 
 ### Added
 
 - `_config.yml` at the repo root — Jekyll config for the Pages site. Sets a title + description and an `exclude:` list that hides implementation noise (`tests/`, `.github/`, `scripts/`, `uv.lock`, the binary snapshot `.pb` + `.json` files, etc.) from the rendered site.
+- `Arrival.parent_station: str | None` field — the GTFS parent-station ID for platform-level Arrival rows. Populated by the parser; consumed by `next_n_arrivals` for filtering by station.
 
 ### Changed
 
