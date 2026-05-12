@@ -23,10 +23,15 @@ def next_n_arrivals(
 ) -> list[Arrival]:
     """Return the next ``n`` arrivals at ``stop_id``, sorted by predicted time.
 
-    Filters:
+    Matching is **either-or**:
 
-    - The stop's ``stop_id`` matches (no parent-station rollup yet — callers
-      pass the corridor-platform stop_id).
+    - If ``a.stop_id == stop_id`` (caller passed a platform-level ID), match.
+    - If ``a.parent_station == stop_id`` (caller passed a station ID like
+      ``place-davis``), also match — this catches both directions at a station
+      whose platforms each have a different ``stop_id``.
+
+    Other filters:
+
     - ``predicted_at`` is in the future relative to ``now``.
     - ``schedule_relationship`` is SCHEDULED or ADDED. CANCELED + SKIPPED + UNSCHEDULED
       are returned by the parser but excluded from the default board view (alerts
@@ -38,7 +43,7 @@ def next_n_arrivals(
     eligible = [
         a
         for a in arrivals
-        if a.stop_id == stop_id
+        if (a.stop_id == stop_id or a.parent_station == stop_id)
         and a.schedule_relationship in _BOARD_VISIBLE
         and a.predicted_at is not None
         and a.predicted_at >= now

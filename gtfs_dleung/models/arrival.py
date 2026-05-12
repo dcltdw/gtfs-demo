@@ -40,6 +40,16 @@ class Arrival(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     stop_id: str
+    """Platform-level ``stop_id`` straight from the static feed (e.g. ``70063`` for
+    Davis-southbound). The Streamlit page typically filters by ``parent_station``
+    instead — see :attr:`parent_station`."""
+
+    parent_station: str | None = None
+    """The parent station ID (e.g. ``place-davis``) when ``stop_id`` is a
+    platform-level stop. ``None`` when the stop has no parent (the stop itself is
+    a top-level station). Populated by the parser via a static-feed lookup; lets
+    the presenter filter by station name without having to enumerate platform IDs."""
+
     stop_name: str | None
     route_id: str
     trip_id: str

@@ -29,6 +29,7 @@ This spec absorbs what the originating issue (#5) called `F-002b-tripupdates-par
 3. **Partial StopTimeUpdate propagation.** When stop K has an explicit delay, every subsequent stop on the same trip inherits K's delay until the next explicit update appears. Stops *upstream* of the first explicit update receive `delay_seconds=None` (no propagation backward). Implementation walks static `stop_times` in `stop_sequence` order and threads a `current_delay_seconds` accumulator.
 4. **ADDED trips.** If RT references a `trip_id` not in the static feed, the parser still emits one `Arrival` per stop in the RT `StopTimeUpdate` list, with `is_added=True`, `scheduled_at=None`, and `schedule_relationship=ADDED`. The stop name is looked up in `static_feed.stops` if available.
 5. **Parent-station name preference.** When a platform-level stop has a parent station, the parent's `stop_name` is used for the `Arrival.stop_name` (riders look up "Park Street," not "Park Street — Red Line — Alewife").
+5a. **Parent-station ID surfaced for filtering.** `Arrival.parent_station` carries the parent station's `stop_id` (or `None` for stops with no parent). `next_n_arrivals(arrivals, "place-davis", n=5)` matches when either `a.stop_id == stop_id` or `a.parent_station == stop_id` — without this, the Streamlit page's "filter by parent station" call would never match real-feed Arrival rows whose `stop_id` is a platform-level ID like `70063` / `70064`. See [#60](https://github.com/dcltdw/gtfs-dleung/issues/60).
 6. **tz-aware times.** All `scheduled_at` / `predicted_at` are `datetime` objects with `tzinfo=ZoneInfo("America/New_York")`. GTFS static times that exceed 24h roll into the next calendar day with the same tz. The `start_date` field on the RT trip descriptor (`YYYYMMDD`) selects the service date; when absent, the wall-clock date is used as a fallback.
 7. **Pure functions.** No I/O, no logging, no module-level state. Callers feed in `FeedMessage` + `StaticFeed`; the parser returns a list. The presenter's `next_n_arrivals` is similarly pure.
 
@@ -63,6 +64,9 @@ This spec absorbs what the originating issue (#5) called `F-002b-tripupdates-par
 - `tests/test_tripupdates_parser.py::test_added_trip_surfaces_with_flag` — ADDED trip with unknown `trip_id` produces `is_added=True` rows.
 - `tests/test_tripupdates_parser.py::test_skipped_stop_is_flagged_individually` — SKIPPED on stop D doesn't infect P or B.
 - `tests/test_tripupdates_parser.py::test_parent_station_name_preferred_over_platform_name` — `Arrival.stop_name` resolves to the parent station's name.
+- `tests/test_tripupdates_parser.py::test_arrival_carries_parent_station` — Arrival rows for platform-level stops carry their parent station ID.
+- `tests/test_tripupdates_parser.py::test_arrival_parent_station_none_for_top_level_stop` — Arrival rows for top-level stations (no parent) report `parent_station=None`.
+- `tests/test_arrivals_presenter.py::test_next_n_matches_by_parent_station` — `next_n_arrivals(..., "place-davis")` matches Arrival rows with platform-level `stop_id` whose `parent_station == "place-davis"`.
 - `tests/test_arrivals_presenter.py::test_next_n_at_davis` — top-5 future arrivals at `place-davis`, sorted, other stops excluded.
 - `tests/test_arrivals_presenter.py::test_next_n_at_ball_sq` — same for `place-balsq`; past arrivals filtered.
 - `tests/test_arrivals_presenter.py::test_canceled_and_skipped_excluded_from_board` — CANCELED, SKIPPED, UNSCHEDULED filtered; SCHEDULED + ADDED retained.

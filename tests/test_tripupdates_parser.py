@@ -187,3 +187,60 @@ def test_parent_station_name_preferred_over_platform_name() -> None:
 
     arrivals = parse(rt, static)
     assert arrivals[0].stop_name == "Park Street"
+
+
+def test_arrival_carries_parent_station() -> None:
+    """For a platform-level stop with a parent in static, ``Arrival.parent_station`` is populated.
+
+    Pins the fix for #60 — without ``parent_station``, ``next_n_arrivals(..., "place-davis")``
+    can't match Arrival rows whose ``stop_id`` is a platform-level ID like ``70064``.
+    """
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+            {
+                "stop_id": "70064",
+                "stop_name": "Davis - Red Line - Alewife",
+                "parent_station": "place-davis",
+            },
+        ],
+        trips=[{"route_id": "Red", "service_id": "S1", "trip_id": "T1"}],
+        stop_times=[
+            {"trip_id": "T1", "arrival_time": "08:00:00", "stop_id": "70064", "stop_sequence": 1},
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].stop_id == "70064"
+    assert arrivals[0].parent_station == "place-davis"
+
+
+def test_arrival_parent_station_none_for_top_level_stop() -> None:
+    """A stop with no parent (the parent station itself) reports ``parent_station=None``."""
+    static = make_static_feed(
+        routes=[{"route_id": "Red", "route_type": 1}],
+        stops=[
+            # No parent_station field on this stop — it's the top-level station.
+            {"stop_id": "place-davis", "stop_name": "Davis"},
+        ],
+        trips=[{"route_id": "Red", "service_id": "S1", "trip_id": "T1"}],
+        stop_times=[
+            {
+                "trip_id": "T1",
+                "arrival_time": "08:00:00",
+                "stop_id": "place-davis",
+                "stop_sequence": 1,
+            },
+        ],
+    )
+    rt = make_tripupdate_feed(
+        trips=[{"trip_id": "T1", "route_id": "Red", "start_date": yyyymmdd(SERVICE_DATE)}]
+    )
+
+    arrivals = parse(rt, static)
+    assert arrivals[0].stop_id == "place-davis"
+    assert arrivals[0].parent_station is None

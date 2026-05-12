@@ -82,3 +82,61 @@ def test_n_caps_result_size() -> None:
     arrivals = [_arr("place-davis", m) for m in range(1, 21)]
     out = next_n_arrivals(arrivals, "place-davis", n=3, now=NOW)
     assert len(out) == 3
+
+
+def _arr_with_parent(
+    stop_id: str,
+    parent_station: str | None,
+    minutes_from_now: int,
+) -> Arrival:
+    predicted = NOW + timedelta(minutes=minutes_from_now)
+    return Arrival(
+        stop_id=stop_id,
+        parent_station=parent_station,
+        stop_name="Davis",
+        route_id="Red",
+        trip_id=f"T-{stop_id}-{minutes_from_now}",
+        scheduled_at=predicted,
+        predicted_at=predicted,
+        delay_seconds=0,
+        schedule_relationship=ScheduleRelationship.SCHEDULED,
+    )
+
+
+def test_next_n_matches_by_parent_station() -> None:
+    """Filtering by parent station ID matches platform-level Arrival rows.
+
+    This is the production case: the parser produces Arrival rows whose
+    ``stop_id`` is the platform-level ID (e.g. ``70063``) from static
+    ``stop_times.txt``; the Streamlit page passes the parent station ID
+    (``place-davis``). Without the parent-station match, the board renders empty.
+    """
+    arrivals = [
+        _arr_with_parent("70063", "place-davis", 3),  # Davis-southbound
+        _arr_with_parent("70064", "place-davis", 5),  # Davis-northbound
+        _arr_with_parent("70075", "place-pktrm", 4),  # different parent — filtered out
+    ]
+
+    out = next_n_arrivals(arrivals, "place-davis", n=5, now=NOW)
+
+    assert [a.stop_id for a in out] == ["70063", "70064"]
+
+
+def test_next_n_matches_by_direct_stop_id_backward_compat() -> None:
+    """Existing test-style fixtures (Arrival.stop_id is the parent ID directly) still match."""
+    arrivals = [
+        _arr("place-davis", 3),
+        _arr("place-davis", 7),
+    ]
+    out = next_n_arrivals(arrivals, "place-davis", n=5, now=NOW)
+    assert len(out) == 2
+
+
+def test_next_n_handles_arrival_with_no_parent() -> None:
+    """A row whose ``parent_station`` is ``None`` doesn't crash the match logic."""
+    arrivals = [
+        _arr_with_parent("place-davis", None, 3),  # the parent station itself
+        _arr_with_parent("70063", "place-davis", 5),  # a platform under it
+    ]
+    out = next_n_arrivals(arrivals, "place-davis", n=5, now=NOW)
+    assert len(out) == 2

@@ -183,6 +183,7 @@ def _arrivals_for_scheduled_trip(
         out.append(
             Arrival(
                 stop_id=st.stop_id,
+                parent_station=_lookup_parent_station(stops_by_id, st.stop_id),
                 stop_name=_lookup_stop_name(stops_by_id, st.stop_id),
                 route_id=static_trip.route_id,
                 trip_id=static_trip.trip_id,
@@ -212,6 +213,7 @@ def _arrivals_for_added_trip(
         out.append(
             Arrival(
                 stop_id=stu.stop_id,
+                parent_station=_lookup_parent_station(stops_by_id, stu.stop_id),
                 stop_name=_lookup_stop_name(stops_by_id, stu.stop_id),
                 route_id=tu.trip.route_id,
                 trip_id=tu.trip.trip_id,
@@ -314,6 +316,20 @@ def _lookup_stop_name(stops_by_id: Mapping[str, Stop], stop_id: str) -> str | No
         if parent_name:
             return parent_name
     return stop.stop_name
+
+
+def _lookup_parent_station(stops_by_id: Mapping[str, Stop], stop_id: str) -> str | None:
+    """Return ``stop_id``'s parent station, or ``None`` when the stop has no parent.
+
+    GTFS static represents platform-level stops with a ``parent_station`` field
+    pointing at the station ID (``place-*`` in MBTA's convention). The Streamlit
+    page filters by station — ``next_n_arrivals`` needs this populated so it can
+    match without enumerating platform IDs.
+    """
+    stop = stops_by_id.get(stop_id)
+    if stop is None:
+        return None
+    return stop.parent_station
 
 
 __all__ = ("MBTA_TZ", "parse")
