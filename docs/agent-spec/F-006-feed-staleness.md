@@ -19,7 +19,10 @@ This spec absorbs what the originating issue called `NF-008-feed-staleness` and 
 ## Inputs
 
 - `feed_url: str` — one of `gtfs_dleung.feeds.{TRIP_UPDATES_URL, VEHICLE_POSITIONS_URL, SERVICE_ALERTS_URL}`.
-- `Settings.gtfs_stale_threshold_s` (env: `GTFS_STALE_THRESHOLD_S`; default 30) — seconds above which data is considered stale. MBTA publishes ~5s, so 30s is a real publisher problem.
+- **Per-feed staleness thresholds** (introduced in #62 — replaces the previous uniform `gtfs_stale_threshold_s`):
+  - `Settings.gtfs_trip_updates_stale_s` (env: `GTFS_TRIP_UPDATES_STALE_S`; default `30`) — MBTA publishes TripUpdates every ~5s, so >30s is a real publisher problem.
+  - `Settings.gtfs_vehicle_positions_stale_s` (env: `GTFS_VEHICLE_POSITIONS_STALE_S`; default `30`) — same cadence as TripUpdates.
+  - `Settings.gtfs_service_alerts_stale_s` (env: `GTFS_SERVICE_ALERTS_STALE_S`; default `300`, i.e. 5 min) — MBTA only rebuilds the Alerts feed when an alert is added/removed, so the message timestamp is routinely tens of minutes old by design. A 5-minute threshold prevents the stale banner from firing on every refresh while still catching an actual alert-pipeline outage.
 - Optional injectable `fetch_fn` and `now_fn` for tests.
 
 ## Properties
@@ -45,7 +48,7 @@ This spec absorbs what the originating issue called `NF-008-feed-staleness` and 
 - **First fetch fails**: no cache → the underlying exception propagates. This is intentional — degradation only makes sense when there's a known-good prior.
 - **`header.timestamp` missing**: `age_seconds=None`, `is_stale=False`. The Streamlit panel can show "no timestamp" rather than a misleading "stale" badge.
 - **Feed published in the future** (clock skew): `age_seconds` goes negative; `is_stale` stays False. Acceptable for the spike; a future hardening could clamp to zero.
-- **Threshold reconfigured at runtime**: `_compute_health` reads `self._settings.gtfs_stale_threshold_s` every call, so a new setting takes effect on the next health computation without restart.
+- **Threshold reconfigured at runtime**: `_compute_health` reads the per-feed `Settings.gtfs_{trip_updates,vehicle_positions,service_alerts}_stale_s` on every call (via `_threshold_for`), so a new setting takes effect on the next health computation without restart.
 - **Singleton state leaks between tests**: `reset_tracker_for_tests()` clears the module-level singleton. Tests are expected to instantiate their own :class:`HealthTrackedFetcher` to avoid the singleton entirely.
 
 ## Out of scope
@@ -60,6 +63,8 @@ This spec absorbs what the originating issue called `NF-008-feed-staleness` and 
 
 - `tests/test_feed_health.py::test_stale_when_timestamp_older_than_threshold` — `age_seconds=60` with `threshold=30` → `is_stale=True`.
 - `tests/test_feed_health.py::test_fresh_when_timestamp_within_threshold` — `age_seconds=5` → `is_stale=False`.
+- `tests/test_feed_health.py::test_alerts_threshold_independent_of_trip_updates` — a 60s-old message reads `is_stale=True` against TripUpdates' 30s but `is_stale=False` against Alerts' 300s.
+- `tests/test_feed_health.py::test_alerts_stale_above_5_minutes` — 400s-old Alerts message flips to `is_stale=True`.
 - `tests/test_feed_health.py::test_falls_back_to_cache_on_fetch_failure` — success-then-failure returns the cached message + `is_degraded=True`.
 - `tests/test_feed_health.py::test_raises_when_first_fetch_fails_with_no_cache` — no-cache + failure propagates the error.
 - `tests/test_feed_health.py::test_metrics_counters_increment` — four fetches (2 ok + 2 failure) → `fetches_total=4, fetch_errors_total=2`.

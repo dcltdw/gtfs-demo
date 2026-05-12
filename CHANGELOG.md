@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed (breaking config)
+
+- **Per-feed staleness thresholds** ([#62](https://github.com/dcltdw/gtfs-dleung/issues/62)): the single `Settings.gtfs_stale_threshold_s` (env `GTFS_STALE_THRESHOLD_S`) is **removed** and replaced by three per-feed settings: `gtfs_trip_updates_stale_s` (default 30), `gtfs_vehicle_positions_stale_s` (default 30), and `gtfs_service_alerts_stale_s` (default 300). Rationale: MBTA only rebuilds the Alerts feed when an alert changes, so its `header.timestamp` is routinely tens of minutes old by design — under the uniform 30s threshold the stale banner fired on most refreshes, drowning out real fetch problems. **Migration**: anyone running a local `.env` that sets `GTFS_STALE_THRESHOLD_S` should replace it with the three new env vars (see `.env.example`). The spike has no production deployments, so this is acceptable as a breaking change.
+
 ### Added
 
 - **Demo scope header + delay color legend** ([#61](https://github.com/dcltdw/gtfs-dleung/issues/61)): a persistent `st.info` block at the top of the Streamlit page names the scope (arrivals at Davis + Ball Sq in both directions; alerts cover the full Park St ↔ Alewife and Park St ↔ Medford/Tufts corridors) and prints the delay color legend (`🟢 ≤30s on time · 🟠 ≤120s slightly off · 🔴 >120s significantly off`).

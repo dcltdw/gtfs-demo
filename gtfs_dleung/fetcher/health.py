@@ -180,15 +180,16 @@ class HealthTrackedFetcher:
         return {"fetches_total": 0, "fetch_errors_total": 0, "feed_age_seconds": 0.0}
 
     def _compute_health(self, feed_url: str) -> FeedHealth:
+        feed_type = _URL_TO_FEED_TYPE.get(feed_url, FeedType.TRIP_UPDATES)
         ts = self._last_message_timestamp.get(feed_url)
         if ts is None:
             age_seconds: float | None = None
             is_stale = False
         else:
             age_seconds = (self._now_fn() - ts).total_seconds()
-            is_stale = age_seconds > self._settings.gtfs_stale_threshold_s
+            is_stale = age_seconds > self._threshold_for(feed_type)
         return FeedHealth(
-            feed_type=_URL_TO_FEED_TYPE.get(feed_url, FeedType.TRIP_UPDATES),
+            feed_type=feed_type,
             feed_url=feed_url,
             age_seconds=age_seconds,
             is_stale=is_stale,
@@ -196,6 +197,14 @@ class HealthTrackedFetcher:
             is_degraded=self._is_degraded.get(feed_url, False),
             is_snapshot=self._serving_from_snapshot.get(feed_url, False),
         )
+
+    def _threshold_for(self, feed_type: FeedType) -> int:
+        """Pick the per-feed staleness threshold. See ``Settings`` for the rationale."""
+        if feed_type is FeedType.SERVICE_ALERTS:
+            return self._settings.gtfs_service_alerts_stale_s
+        if feed_type is FeedType.VEHICLE_POSITIONS:
+            return self._settings.gtfs_vehicle_positions_stale_s
+        return self._settings.gtfs_trip_updates_stale_s
 
     def _log_staleness_transition(self, feed_url: str, is_stale_now: bool) -> None:
         was_stale = self._stale_state.get(feed_url, False)
