@@ -1,8 +1,16 @@
-"""Demo scope constants — Red Line (Park ↔ Davis) and Green Line E (Park ↔ Ball Sq).
+"""Demo scope constants — Red Line (Park ↔ Alewife) and Green Line E (Park ↔ Medford/Tufts).
 
 Parent station IDs (``place-*``) define the corridor membership. A stop is in scope
 if its ``stop_id`` is one of these IDs OR its ``parent_station`` is one of these
 IDs (platform-level stops live under their parent station).
+
+**Scope vs board scope**: the arrivals board itself only renders Davis (Red)
+and Ball Sq (Green-E). The corridor sets are deliberately **wider** — they
+include the northern termini (Alewife on Red, Medford/Tufts on Green-E) so
+that service alerts affecting only those termini still surface for riders
+boarding at Davis / Ball Sq who plan to travel there. Without the termini,
+"elevator outage at Medford/Tufts" or "weekend shuttle Park ↔ Alewife" would
+be silently filtered out.
 
 **Trunk-overlap concern**: Park Street's Green Line platforms are shared by
 the B / C / D / E branches; route filtering — not just stop filtering — is required
@@ -22,6 +30,7 @@ RED_LINE_CORRIDOR: Final[frozenset[str]] = frozenset(
         "place-harsq",  # Harvard
         "place-portr",  # Porter
         "place-davis",  # Davis
+        "place-alfcl",  # Alewife — northern terminus, included for alert relevance
     }
 )
 
@@ -37,6 +46,7 @@ GREEN_E_CORRIDOR: Final[frozenset[str]] = frozenset(
         "place-gilmn",  # Gilman Square
         "place-mgngl",  # Magoun Square
         "place-balsq",  # Ball Square
+        "place-mdftf",  # Medford/Tufts — northern terminus, included for alert relevance
     }
 )
 

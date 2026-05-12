@@ -158,6 +158,8 @@ def _render_data_app() -> None:
 
     arrivals, alerts, healths = _refresh_data(allowed=allowed)
 
+    _render_scope_header()
+
     if should_show_stale_banner(healths):
         st.warning(
             "⚠️ At least one upstream feed is stale or degraded — see the **Feed health** "
@@ -213,6 +215,21 @@ def _refresh_data(
 # ---- panels --------------------------------------------------------------------
 
 
+def _render_scope_header() -> None:
+    """Top-of-page banner explaining the demo's scope + the delay-color legend.
+
+    Sits above the stale/degraded warning so a first-time visitor reads it before
+    anything else. Phrasing mirrors ``DEMO.md``'s scope talking-point.
+    """
+    st.info(
+        "**Scope** — Arrivals at **Davis** (Red Line) and **Ball Square** (Green-E), "
+        "both directions. Service alerts cover the full Park St ↔ Alewife and "
+        "Park St ↔ Medford/Tufts corridors so terminus-only alerts still surface.\n\n"
+        "**Delay legend** — 🟢 ≤30s on time · 🟠 ≤120s slightly off · "
+        "🔴 >120s significantly off (magnitude — early arrivals use the same bands)."
+    )
+
+
 def _render_arrivals_board(arrivals: list[Arrival]) -> None:
     st.subheader("Arrivals")
     columns = st.columns(len(_BOARD_STOPS))
@@ -253,7 +270,8 @@ def _render_arrival_row(row: dict[str, str | None]) -> None:
     elif badge == "UNSCHED":
         badge_md = " :gray[UNSCHEDULED]"
 
-    delay_md = f":{_color_to_emoji(color)}: {row['delay']}"
+    text_color = _color_to_emoji(color)
+    delay_md = f":{text_color}: :{text_color}[{row['delay']}]"
     headsign_md = f" — _toward {row['headsign']}_" if row.get("headsign") else ""
     st.markdown(
         f"**{row['route']}** — sched **{row['scheduled'] or '?'}** → "

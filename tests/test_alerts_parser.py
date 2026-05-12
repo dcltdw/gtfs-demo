@@ -219,6 +219,44 @@ def test_cause_and_effect_enum_mapping() -> None:
     assert by_header["Accessibility issue at Ball Sq elevator"].effect == Effect.ACCESSIBILITY_ISSUE
 
 
+def test_alewife_only_alert_is_kept() -> None:
+    """An alert touching only ``place-alfcl`` (Red Line northern terminus) is in scope.
+
+    Pins #61: corridor extends to Alewife so terminus-only alerts (e.g. "elevator
+    out at Alewife") still surface to Davis-boarding riders.
+    """
+    feed = make_alerts_feed(
+        alerts=[
+            {
+                "header_text": "Elevator outage at Alewife",
+                "informed_entities": [{"stop_id": "place-alfcl"}],
+                "active_periods": [{"start": _ts(NOW - timedelta(hours=1))}],
+            }
+        ]
+    )
+
+    alerts = parse(feed, now=NOW)
+    assert len(alerts) == 1
+    assert alerts[0].header_text == "Elevator outage at Alewife"
+
+
+def test_medford_only_alert_is_kept() -> None:
+    """An alert touching only ``place-mdftf`` (Green-E northern terminus) is in scope."""
+    feed = make_alerts_feed(
+        alerts=[
+            {
+                "header_text": "Weekend shuttle terminating at Medford/Tufts",
+                "informed_entities": [{"stop_id": "place-mdftf"}],
+                "active_periods": [{"start": _ts(NOW - timedelta(hours=1))}],
+            }
+        ]
+    )
+
+    alerts = parse(feed, now=NOW)
+    assert len(alerts) == 1
+    assert alerts[0].header_text == "Weekend shuttle terminating at Medford/Tufts"
+
+
 def test_parses_real_fixture() -> None:
     """The committed real-feed fixture decodes; all kept alerts touch scope."""
     fixture = Path(__file__).parent / "fixtures" / "alerts_sample.pb"
@@ -244,6 +282,7 @@ def test_parses_real_fixture() -> None:
                 "place-harsq",
                 "place-portr",
                 "place-davis",
+                "place-alfcl",
                 "place-gover",
                 "place-haecl",
                 "place-north",
@@ -253,6 +292,7 @@ def test_parses_real_fixture() -> None:
                 "place-gilmn",
                 "place-mgngl",
                 "place-balsq",
+                "place-mdftf",
             }
         )
         assert in_scope, f"kept alert {a.header_text!r} did not touch scope"
