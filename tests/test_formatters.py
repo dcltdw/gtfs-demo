@@ -85,8 +85,8 @@ def test_schedule_relationship_badge_returns_none_for_scheduled() -> None:
 @pytest.mark.parametrize(
     "direction_id,expected",
     [
-        (0, "Inbound (toward downtown)"),
-        (1, "Outbound (away from downtown)"),
+        (0, "Inbound"),
+        (1, "Outbound"),
         (None, "Unknown direction"),
         (2, "Unknown direction"),
     ],

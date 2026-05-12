@@ -43,8 +43,8 @@ def direction_label(direction_id: int | None) -> str:
     The mapping is **scoped to the demo's two stations** (Davis on the Red Line
     and Ball Square on the Green-E branch), both of which sit north of Park St:
 
-    - ``0`` → ``"Inbound (toward downtown)"``  (south to Park St)
-    - ``1`` → ``"Outbound (away from downtown)"``  (north toward Alewife / Medford-Tufts)
+    - ``0`` → ``"Inbound"``  (south toward Park St / downtown)
+    - ``1`` → ``"Outbound"``  (north toward Alewife / Medford-Tufts)
     - ``None`` → ``"Unknown direction"``
 
     A station south of Park St would invert this mapping. If the demo ever
@@ -52,9 +52,9 @@ def direction_label(direction_id: int | None) -> str:
     needs a route-+-station-aware variant. Pinned to "north of Park" today.
     """
     if direction_id == 0:
-        return "Inbound (toward downtown)"
+        return "Inbound"
     if direction_id == 1:
-        return "Outbound (away from downtown)"
+        return "Outbound"
     return "Unknown direction"
 
 

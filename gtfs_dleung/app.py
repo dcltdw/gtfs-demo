@@ -104,7 +104,11 @@ def _rate_limiter() -> SessionRateLimiter:
 def main() -> None:
     """Page entrypoint. Streamlit calls this every rerun."""
     st.set_page_config(page_title="gtfs-dleung", page_icon="🚇", layout="wide")
-    st.title("🚇 MBTA GTFS-RT — Red Line + Green Line E")
+    st.title("🚇 MBTA GTFS-RT")
+    st.markdown(
+        "_Dave lives between Davis Sq and Ball Sq, and wants to know when trains "
+        "are arriving at those stations._"
+    )
 
     config = build_authenticator_config(_settings())
     authenticator = stauth.Authenticate(

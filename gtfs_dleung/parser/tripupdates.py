@@ -27,6 +27,7 @@ from google.transit import gtfs_realtime_pb2
 
 from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
 from gtfs_dleung.models.static import StaticFeed, Stop, StopTime, Trip
+from gtfs_dleung.scope import SCOPE_ROUTES
 
 MBTA_TZ = ZoneInfo("America/New_York")
 
@@ -49,12 +50,20 @@ def parse(
     static_feed: StaticFeed,
     *,
     now: datetime | None = None,
+    scope_routes: frozenset[str] = SCOPE_ROUTES,
 ) -> list[Arrival]:
-    """Return one :class:`Arrival` per stop on every trip in ``feed_message``.
+    """Return one :class:`Arrival` per stop on every in-scope trip in ``feed_message``.
 
     ``now`` is injectable for tests; defaults to the wall clock in ``MBTA_TZ``.
     It only affects the fallback service date when the RT message doesn't carry
     a ``start_date``.
+
+    ``scope_routes`` filters entities to a subset of route IDs. The default
+    (``SCOPE_ROUTES`` = {"Red", "Green-E"}) drops buses, commuter rail, and other
+    Green branches before any per-trip work — otherwise the parser would treat
+    every out-of-scope trip as an ADDED trip (since the static feed is already
+    scope-filtered) and surface bus arrivals at Davis. Pass a wider frozenset
+    in tests if you want the broader view.
     """
     if now is None:
         now = datetime.now(tz=MBTA_TZ)
@@ -71,9 +80,14 @@ def parse(
     for entity in feed_message.entity:
         if not entity.HasField("trip_update"):
             continue
+        tu = entity.trip_update
+        # Drop out-of-scope routes before any per-trip work — otherwise an
+        # ADDED-trip code path produces bus/CR arrivals at Davis.
+        if tu.trip.route_id and tu.trip.route_id not in scope_routes:
+            continue
         out.extend(
             _parse_trip_update(
-                entity.trip_update,
+                tu,
                 trips_by_id=trips_by_id,
                 stops_by_id=stops_by_id,
                 static_stop_times_by_trip=static_stop_times_by_trip,
