@@ -104,6 +104,16 @@ def _rate_limiter() -> SessionRateLimiter:
 def main() -> None:
     """Page entrypoint. Streamlit calls this every rerun."""
     st.set_page_config(page_title="gtfs-dleung", page_icon="🚇", layout="wide")
+    # Hide two hidden-iframe components that Streamlit still wraps in a block-level
+    # div, eating vertical space between the title and the data panels:
+    #   - st-key-init: extra_streamlit_components.CookieManager (used by
+    #     streamlit-authenticator for cookie I/O — no visible UI).
+    #   - st-key-data-refresh: our streamlit-autorefresh timer (key="data-refresh").
+    # Both are side-effect-only, so display:none is safe.
+    st.markdown(
+        "<style>.st-key-init, .st-key-data-refresh { display: none; }</style>",
+        unsafe_allow_html=True,
+    )
     st.title("🚇 MBTA GTFS-RT")
     st.markdown(
         "_Dave lives between Davis Sq and Ball Sq, and wants to know when trains "

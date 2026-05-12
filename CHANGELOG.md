@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- **Hidden Streamlit component wrappers no longer take vertical space.** `extra_streamlit_components.CookieManager` (key `"init"`, used internally by streamlit-authenticator for cookie I/O) and `streamlit-autorefresh` (our `key="data-refresh"`) both render hidden iframes for side effects — but Streamlit still wraps each in a block-level `<div class="st-key-…">`. A one-shot `<style>` in `main()` sets `display:none` on both, eliminating two stretches of dead space between the title and the data panels.
+
 ### Changed
 
 - **Arrivals board UI polish + alert filter tightening** ([#64](https://github.com/dcltdw/gtfs-dleung/issues/64)): four small tweaks.
