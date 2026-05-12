@@ -58,7 +58,7 @@ class Arrival(BaseModel):
     the *meaning* (north/south/inbound/outbound) is per-route and lives in MBTA's
     ``directions.txt`` extension. For the demo's two stations (Davis and Ball Sq,
     both north of Park St), ``0`` is inbound (toward downtown) and ``1`` is
-    outbound — see :func:`gtfs_dleung.presenter.formatters.direction_label`."""
+    outbound — see :func:`gtfs_demo.presenter.formatters.direction_label`."""
 
     trip_headsign: str | None = None
     """The rider-facing destination label from the static feed

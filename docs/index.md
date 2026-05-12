@@ -1,8 +1,8 @@
-# gtfs-dleung — curated docs index
+# gtfs-demo — curated docs index
 
 > The site landing page is the rendered [README](../README.md) — start there for the full overview, architecture diagram, and quickstart. This page is the curated link list across every doc in the repo.
 
-**Source repo**: <https://github.com/dcltdw/gtfs-dleung>
+**Source repo**: <https://github.com/dcltdw/gtfs-demo>
 **Live app**: run `just demo` after `just install` — opens at `http://localhost:8501`.
 
 ## Start here
@@ -51,5 +51,5 @@ The spec contract is in [agent-spec/schema.md](agent-spec/schema.md).
 
 ## Open work
 
-- [Pre-demo issues](https://github.com/dcltdw/gtfs-dleung/issues?q=is%3Aopen+label%3Apre-demo) — should all be closed by demo time.
-- [Post-demo issues](https://github.com/dcltdw/gtfs-dleung/issues?q=is%3Aopen+label%3Apost-demo) — the natural follow-on backlog (27 tickets at last count).
+- [Pre-demo issues](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apre-demo) — should all be closed by demo time.
+- [Post-demo issues](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apost-demo) — the natural follow-on backlog (27 tickets at last count).

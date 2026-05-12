@@ -1,6 +1,6 @@
 """Health-aware wrapper around ``fetch_feed`` — staleness + degradation + metrics.
 
-The bare :func:`gtfs_dleung.fetcher.realtime.fetch_feed` is stateless: it returns
+The bare :func:`gtfs_demo.fetcher.realtime.fetch_feed` is stateless: it returns
 a ``FeedMessage`` or raises. The Streamlit page needs more: when a fetch fails,
 keep serving the last good message; when the feed's header timestamp drifts
 behind, flag the data as stale.
@@ -29,15 +29,15 @@ from typing import Any
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.config import Settings, get_settings
-from gtfs_dleung.feeds import (
+from gtfs_demo.config import Settings, get_settings
+from gtfs_demo.feeds import (
     SERVICE_ALERTS_URL,
     TRIP_UPDATES_URL,
     VEHICLE_POSITIONS_URL,
 )
-from gtfs_dleung.fetcher.fallback import load_snapshot_fallback
-from gtfs_dleung.fetcher.realtime import FeedFetchError, fetch_feed
-from gtfs_dleung.models.feed_health import FeedHealth, FeedType
+from gtfs_demo.fetcher.fallback import load_snapshot_fallback
+from gtfs_demo.fetcher.realtime import FeedFetchError, fetch_feed
+from gtfs_demo.models.feed_health import FeedHealth, FeedType
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ class HealthTrackedFetcher:
         ``fetch_fn`` overrides the default :func:`fetch_feed` (useful in tests).
         ``now_fn`` overrides ``datetime.now(tz=UTC)`` (useful in tests).
         ``snapshot_loader`` overrides the default
-        :func:`gtfs_dleung.fetcher.fallback.load_snapshot_fallback`. Pass
+        :func:`gtfs_demo.fetcher.fallback.load_snapshot_fallback`. Pass
         ``lambda _url: None`` to disable hard-snapshot fallback entirely.
         """
         self._settings = settings or get_settings()

@@ -2,7 +2,7 @@
 # Source: this repo's `main` branch, root path.
 # See https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
 
-title: gtfs-dleung
+title: gtfs-demo
 description: GTFS-RT exploration spike for the MBTA Red Line (Park ↔ Davis) and Green Line E branch (Park ↔ Ball Sq).
 
 # Render with one of GH's supported themes. `minima` is the default if omitted;

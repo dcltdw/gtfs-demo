@@ -2,9 +2,9 @@
 
 The data path has three tiers, top to bottom:
 
-1. **Live fetch** (:mod:`gtfs_dleung.fetcher.realtime`) — the happy path. Fresh
+1. **Live fetch** (:mod:`gtfs_demo.fetcher.realtime`) — the happy path. Fresh
    bytes from MBTA's CDN.
-2. **Soft cache** (:class:`gtfs_dleung.fetcher.health.HealthTrackedFetcher`) —
+2. **Soft cache** (:class:`gtfs_demo.fetcher.health.HealthTrackedFetcher`) —
    the last successful `FeedMessage` per feed URL, in memory. Survives
    transient network failure during a session; lost on process restart.
 3. **Hard snapshot** (this module) — committed `.pb` snapshots under
@@ -29,12 +29,12 @@ from pathlib import Path
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.feeds import (
+from gtfs_demo.feeds import (
     SERVICE_ALERTS_URL,
     TRIP_UPDATES_URL,
     VEHICLE_POSITIONS_URL,
 )
-from gtfs_dleung.models.feed_health import FeedType
+from gtfs_demo.models.feed_health import FeedType
 
 logger = logging.getLogger(__name__)
 

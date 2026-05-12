@@ -16,7 +16,7 @@ Throttle data-fetching handlers in the Streamlit app on a per-session basis: 30 
 
 This spec replaces what the originating issue called `NF-002-inbound-rate-limit`. `NF-002` is already used in `REQUIREMENTS.md` (`Type safety`); the correct slot for inbound RL is `F-008`, matching the REQUIREMENTS row. Same numbering-deviation pattern as F-002 / F-003 / F-005 / F-006 / F-007.
 
-This pairs with [F-002 §Properties.2](./F-002-gtfs-rt-fetcher.md) (the outbound polite-consumer limiter): inbound = our-app-side abuse protection, outbound = MBTA-side neighbour politeness. The two live in separate modules by intent (`gtfs_dleung.security.rate_limit` vs `gtfs_dleung.fetcher.rate_limit`).
+This pairs with [F-002 §Properties.2](./F-002-gtfs-rt-fetcher.md) (the outbound polite-consumer limiter): inbound = our-app-side abuse protection, outbound = MBTA-side neighbour politeness. The two live in separate modules by intent (`gtfs_demo.security.rate_limit` vs `gtfs_demo.fetcher.rate_limit`).
 
 ## Inputs
 
@@ -77,8 +77,8 @@ This pairs with [F-002 §Properties.2](./F-002-gtfs-rt-fetcher.md) (the outbound
 Manual (in #11's Streamlit page):
 
 ```python
-from gtfs_dleung.security.rate_limit import SessionRateLimiter
-from gtfs_dleung.config import get_settings
+from gtfs_demo.security.rate_limit import SessionRateLimiter
+from gtfs_demo.config import get_settings
 
 s = get_settings()
 limiter = SessionRateLimiter(s.gtfs_inbound_limit_per_min, s.gtfs_inbound_window_s)

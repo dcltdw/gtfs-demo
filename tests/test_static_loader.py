@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.fetcher.static.fetch_static_feed``."""
+"""Tests for ``gtfs_demo.fetcher.static.fetch_static_feed``."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ from typing import Any
 
 import pytest
 
-from gtfs_dleung.config import Settings
-from gtfs_dleung.fetcher.static import StaticFeedError, fetch_static_feed
+from gtfs_demo.config import Settings
+from gtfs_demo.fetcher.static import StaticFeedError, fetch_static_feed
 
 
 def _settings_with_cache(cache_dir: Path) -> Settings:
@@ -19,7 +19,7 @@ def _settings_with_cache(cache_dir: Path) -> Settings:
         gtfs_static_feed_url="https://example.invalid/MBTA_GTFS.zip",
         gtfs_cache_dir=cache_dir,
         gtfs_static_ttl_days=7,
-        gtfs_user_agent="gtfs-dleung-test/0.0.1",
+        gtfs_user_agent="gtfs-demo-test/0.0.1",
     )
 
 
@@ -38,7 +38,7 @@ def test_fetch_uses_cache_when_fresh(
     def boom(*_args: Any, **_kwargs: Any) -> Any:
         raise AssertionError("Network call attempted despite fresh cache")
 
-    monkeypatch.setattr("gtfs_dleung.fetcher.static.requests.get", boom)
+    monkeypatch.setattr("gtfs_demo.fetcher.static.requests.get", boom)
 
     result = fetch_static_feed(settings=settings)
 
@@ -67,10 +67,10 @@ def test_fetch_force_refresh_bypasses_cache(
 
     def fake_get(url: str, headers: dict[str, str], timeout: int) -> FakeResponse:
         assert "User-Agent" in headers
-        assert headers["User-Agent"].startswith("gtfs-dleung-test/")
+        assert headers["User-Agent"].startswith("gtfs-demo-test/")
         return FakeResponse()
 
-    monkeypatch.setattr("gtfs_dleung.fetcher.static.requests.get", fake_get)
+    monkeypatch.setattr("gtfs_demo.fetcher.static.requests.get", fake_get)
 
     result = fetch_static_feed(settings=settings, force_refresh=True)
 
@@ -92,7 +92,7 @@ def test_fetch_raises_on_stale_cache_and_network_failure(
     def fake_get(*_args: Any, **_kwargs: Any) -> Any:
         raise requests.ConnectionError("network down")
 
-    monkeypatch.setattr("gtfs_dleung.fetcher.static.requests.get", fake_get)
+    monkeypatch.setattr("gtfs_demo.fetcher.static.requests.get", fake_get)
 
     with pytest.raises(StaticFeedError, match="Failed to fetch"):
         fetch_static_feed(settings=settings)
@@ -112,7 +112,7 @@ def test_fetch_raises_on_corrupt_zip(
             pass
 
     monkeypatch.setattr(
-        "gtfs_dleung.fetcher.static.requests.get",
+        "gtfs_demo.fetcher.static.requests.get",
         lambda *_a, **_k: CorruptResponse(),
     )
 
@@ -150,7 +150,7 @@ def test_fetch_redownloads_when_cache_is_stale(
         call_count["n"] += 1
         return FreshResponse()
 
-    monkeypatch.setattr("gtfs_dleung.fetcher.static.requests.get", fake_get)
+    monkeypatch.setattr("gtfs_demo.fetcher.static.requests.get", fake_get)
 
     fetch_static_feed(settings=settings)
 

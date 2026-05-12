@@ -12,12 +12,12 @@ last_updated: 2026-05-11
 
 ## Summary
 
-Download the MBTA static GTFS bundle from `cdn.mbta.com`, cache the unzipped CSVs under a configurable directory (default `~/.cache/gtfs-dleung/`), and parse the rows into Pydantic v2 models. A separate `filter_to_scope` step trims the parsed feed to the demo corridors — Red Line (Park ↔ Davis) and Green Line E (Park ↔ Ball Square) — using both route-id and parent-station membership. The Pydantic models are the canonical typed boundary; CSV/dict shapes live only inside the loader.
+Download the MBTA static GTFS bundle from `cdn.mbta.com`, cache the unzipped CSVs under a configurable directory (default `~/.cache/gtfs-demo/`), and parse the rows into Pydantic v2 models. A separate `filter_to_scope` step trims the parsed feed to the demo corridors — Red Line (Park ↔ Davis) and Green Line E (Park ↔ Ball Square) — using both route-id and parent-station membership. The Pydantic models are the canonical typed boundary; CSV/dict shapes live only inside the loader.
 
 ## Inputs
 
 - `Settings.gtfs_static_feed_url` (env-backed; default `https://cdn.mbta.com/MBTA_GTFS.zip`).
-- `Settings.gtfs_cache_dir` (env-backed; default `~/.cache/gtfs-dleung/`).
+- `Settings.gtfs_cache_dir` (env-backed; default `~/.cache/gtfs-demo/`).
 - `Settings.gtfs_static_ttl_days` (env-backed; default `7`).
 - `Settings.gtfs_user_agent` (env-backed; identifies the app + URL to the project).
 - The committed test fixture at `tests/fixtures/mbta-mini.zip` (~7 KB).
@@ -52,7 +52,7 @@ Download the MBTA static GTFS bundle from `cdn.mbta.com`, cache the unzipped CSV
 
 - Conditional GET via `If-Modified-Since` / `ETag` (post-demo #16).
 - Stale-cache graceful degradation (pre-demo #8).
-- GTFS-RT (`gtfs_dleung.parser.static` is for the static bundle only).
+- GTFS-RT (`gtfs_demo.parser.static` is for the static bundle only).
 - Real-time arrival-board logic (#5).
 - Anything beyond the Red Line + Green-E corridors.
 
@@ -72,8 +72,8 @@ Download the MBTA static GTFS bundle from `cdn.mbta.com`, cache the unzipped CSV
 Manual:
 
 ```bash
-uv run python -c "from gtfs_dleung.fetcher.static import fetch_static_feed; \
-                  from gtfs_dleung.parser.static import load_feed_from_dir, filter_to_scope; \
+uv run python -c "from gtfs_demo.fetcher.static import fetch_static_feed; \
+                  from gtfs_demo.parser.static import load_feed_from_dir, filter_to_scope; \
                   feed = filter_to_scope(load_feed_from_dir(fetch_static_feed())); \
                   print(len(feed.routes), 'routes,', len(feed.stops), 'stops,', \
                         len(feed.stop_times), 'stop_times,', len(feed.shapes), 'shape points')"

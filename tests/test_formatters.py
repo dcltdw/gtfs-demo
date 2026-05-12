@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.presenter.formatters`` — pure-function display helpers."""
+"""Tests for ``gtfs_demo.presenter.formatters`` — pure-function display helpers."""
 
 from __future__ import annotations
 
@@ -7,16 +7,16 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from gtfs_dleung.models.alert import (
+from gtfs_demo.models.alert import (
     ActivePeriod,
     Cause,
     Effect,
     InformedEntity,
     ServiceAlert,
 )
-from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
-from gtfs_dleung.models.feed_health import FeedHealth, FeedType
-from gtfs_dleung.presenter.formatters import (
+from gtfs_demo.models.arrival import Arrival, ScheduleRelationship
+from gtfs_demo.models.feed_health import FeedHealth, FeedType
+from gtfs_demo.presenter.formatters import (
     delay_color_class,
     direction_label,
     feed_health_icon,

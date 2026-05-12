@@ -19,7 +19,7 @@ This spec replaces what the originating issue called `F-003-vehiclepositions-par
 ## Inputs
 
 - `feed_message: gtfs_realtime_pb2.FeedMessage` — the decoded RT envelope from F-002's `fetch_feed`.
-- `scope_routes: frozenset[str]` — defaults to `gtfs_dleung.scope.SCOPE_ROUTES`; injectable for tests.
+- `scope_routes: frozenset[str]` — defaults to `gtfs_demo.scope.SCOPE_ROUTES`; injectable for tests.
 
 ## Properties
 
@@ -60,9 +60,9 @@ This spec replaces what the originating issue called `F-003-vehiclepositions-par
 Manual:
 
 ```bash
-uv run python -c "from gtfs_dleung.fetcher.realtime import fetch_feed; \
-                  from gtfs_dleung.feeds import VEHICLE_POSITIONS_URL; \
-                  from gtfs_dleung.parser.vehicles import parse; \
+uv run python -c "from gtfs_demo.fetcher.realtime import fetch_feed; \
+                  from gtfs_demo.feeds import VEHICLE_POSITIONS_URL; \
+                  from gtfs_demo.parser.vehicles import parse; \
                   vps = parse(fetch_feed(VEHICLE_POSITIONS_URL)); \
                   print(len(vps), 'in-scope vehicles')"
 ```

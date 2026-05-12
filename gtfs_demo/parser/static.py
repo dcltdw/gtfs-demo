@@ -11,7 +11,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from gtfs_dleung.models.static import (
+from gtfs_demo.models.static import (
     Route,
     Shape,
     StaticFeed,
@@ -19,7 +19,7 @@ from gtfs_dleung.models.static import (
     StopTime,
     Trip,
 )
-from gtfs_dleung.scope import (
+from gtfs_demo.scope import (
     ALL_CORRIDOR_PARENT_STATIONS,
     SCOPE_ROUTES,
 )

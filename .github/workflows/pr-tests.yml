@@ -48,7 +48,7 @@ jobs:
       - name: Install deps
         run: uv sync --extra dev
       - name: mypy --strict
-        run: uv run mypy gtfs_dleung tests
+        run: uv run mypy gtfs_demo tests
 
   test:
     name: test

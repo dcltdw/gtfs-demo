@@ -1,10 +1,10 @@
-"""Tests for ``gtfs_dleung.security.rate_limit.SessionRateLimiter``."""
+"""Tests for ``gtfs_demo.security.rate_limit.SessionRateLimiter``."""
 
 from __future__ import annotations
 
 import pytest
 
-from gtfs_dleung.security.rate_limit import SessionRateLimiter
+from gtfs_demo.security.rate_limit import SessionRateLimiter
 
 
 def test_under_limit_allows() -> None:
@@ -85,7 +85,7 @@ def test_remaining_for_unknown_session() -> None:
 def test_throttle_emits_structured_log(caplog: pytest.LogCaptureFixture) -> None:
     """A throttled call emits a structured INFO record naming session + limit."""
     limiter = SessionRateLimiter(limit=1, window_s=60)
-    caplog.set_level("INFO", logger="gtfs_dleung.security.rate_limit")
+    caplog.set_level("INFO", logger="gtfs_demo.security.rate_limit")
     limiter.acquire("session-A", now=0.0)
     limiter.acquire("session-A", now=1.0)  # over limit
 

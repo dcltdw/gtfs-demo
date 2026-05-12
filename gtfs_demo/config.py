@@ -23,10 +23,10 @@ class Settings(BaseSettings):
     )
 
     gtfs_static_feed_url: str = Field(default="https://cdn.mbta.com/MBTA_GTFS.zip")
-    gtfs_cache_dir: Path = Field(default_factory=lambda: Path.home() / ".cache" / "gtfs-dleung")
+    gtfs_cache_dir: Path = Field(default_factory=lambda: Path.home() / ".cache" / "gtfs-demo")
     gtfs_static_ttl_days: int = Field(default=7, ge=1)
     gtfs_user_agent: str = Field(
-        default="gtfs-dleung/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)"
+        default="gtfs-demo/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)"
     )
     gtfs_rt_fetch_interval_seconds: int = Field(default=10, ge=1)
 
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     )
     """Bcrypt hash of the demo password (default is the public placeholder; production .env overrides)."""
 
-    gtfs_cookie_key: str = Field(default="gtfs-dleung-demo-cookie-key-rotate-me")
+    gtfs_cookie_key: str = Field(default="gtfs-demo-cookie-key-rotate-me")
     """HMAC key for streamlit-authenticator's session cookie. Rotate alongside the password."""
 
     gtfs_cookie_expiry_days: int = Field(default=1, ge=0)

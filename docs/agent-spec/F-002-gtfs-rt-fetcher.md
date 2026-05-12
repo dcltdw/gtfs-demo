@@ -20,8 +20,8 @@ This spec absorbs what the originating issue (#4) called `NF-001-outbound-rate-l
 
 ## Inputs
 
-- `feed_url` (one of `gtfs_dleung.feeds.TRIP_UPDATES_URL`, `VEHICLE_POSITIONS_URL`, `SERVICE_ALERTS_URL`).
-- `Settings.gtfs_user_agent` (env: `GTFS_USER_AGENT`; default: `gtfs-dleung/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)`).
+- `feed_url` (one of `gtfs_demo.feeds.TRIP_UPDATES_URL`, `VEHICLE_POSITIONS_URL`, `SERVICE_ALERTS_URL`).
+- `Settings.gtfs_user_agent` (env: `GTFS_USER_AGENT`; default: `gtfs-demo/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)`).
 - `Settings.gtfs_rt_fetch_interval_seconds` (env: `GTFS_RT_FETCH_INTERVAL_SECONDS`; default: 10).
 - Optional injectable `rate_limiter` and `session` for tests.
 
@@ -45,7 +45,7 @@ This spec absorbs what the originating issue (#4) called `NF-001-outbound-rate-l
 
 - **Process-level limiter sharing**: the default singleton `OutboundRateLimiter` is module-level. Tests inject their own to avoid cross-test contamination. Reset is intentional: production code paths share one limiter instance per process.
 - **Empty / zero-byte response**: protobuf decode succeeds (a zero-entity `FeedMessage` is valid) and the caller sees an empty `entity` list. This is treated as a successful fetch, not an error — the realtime feed is allowed to be empty between events.
-- **Feed URL not in the project's constants**: `fetch_feed` accepts any URL string. Useful for tests; production callers should use the constants from `gtfs_dleung.feeds`.
+- **Feed URL not in the project's constants**: `fetch_feed` accepts any URL string. Useful for tests; production callers should use the constants from `gtfs_demo.feeds`.
 - **`requests.Timeout` on every attempt**: classified as transient, retried up to 3 times, then `TransientFeedError`.
 - **HTTPS connection refused (e.g. invalid hostname)**: surfaces as `requests.ConnectionError` → `TransientFeedError` after 3 attempts. The "stale fallback" logic for this case lives in F-006 (#8), not here.
 
@@ -72,8 +72,8 @@ This spec absorbs what the originating issue (#4) called `NF-001-outbound-rate-l
 Manual:
 
 ```bash
-uv run python -c "from gtfs_dleung.fetcher.realtime import fetch_feed; \
-                  from gtfs_dleung.feeds import TRIP_UPDATES_URL; \
+uv run python -c "from gtfs_demo.fetcher.realtime import fetch_feed; \
+                  from gtfs_demo.feeds import TRIP_UPDATES_URL; \
                   feed = fetch_feed(TRIP_UPDATES_URL); \
                   print(len(feed.entity), 'entities')"
 ```

@@ -1,6 +1,6 @@
 # Contributing
 
-This is a personal recruiter-demo spike; the work is sequenced in [GitHub issues](https://github.com/dcltdw/gtfs-dleung/issues). External contributions are not solicited during the spike phase, but constructive review comments and security reports are welcome.
+This is a personal recruiter-demo spike; the work is sequenced in [GitHub issues](https://github.com/dcltdw/gtfs-demo/issues). External contributions are not solicited during the spike phase, but constructive review comments and security reports are welcome.
 
 If you want to engage anyway:
 

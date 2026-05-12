@@ -1,12 +1,12 @@
-"""Tests for ``gtfs_dleung.presenter.arrivals.next_n_arrivals``."""
+"""Tests for ``gtfs_demo.presenter.arrivals.next_n_arrivals``."""
 
 from __future__ import annotations
 
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
-from gtfs_dleung.presenter.arrivals import next_n_arrivals
+from gtfs_demo.models.arrival import Arrival, ScheduleRelationship
+from gtfs_demo.presenter.arrivals import next_n_arrivals
 
 TZ = ZoneInfo("America/New_York")
 NOW = datetime(2026, 5, 11, 8, 0, tzinfo=TZ)

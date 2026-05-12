@@ -18,7 +18,7 @@ This spec absorbs what the originating issue called `NF-008-feed-staleness` and 
 
 ## Inputs
 
-- `feed_url: str` — one of `gtfs_dleung.feeds.{TRIP_UPDATES_URL, VEHICLE_POSITIONS_URL, SERVICE_ALERTS_URL}`.
+- `feed_url: str` — one of `gtfs_demo.feeds.{TRIP_UPDATES_URL, VEHICLE_POSITIONS_URL, SERVICE_ALERTS_URL}`.
 - **Per-feed staleness thresholds** (introduced in #62 — replaces the previous uniform `gtfs_stale_threshold_s`):
   - `Settings.gtfs_trip_updates_stale_s` (env: `GTFS_TRIP_UPDATES_STALE_S`; default `30`) — MBTA publishes TripUpdates every ~5s, so >30s is a real publisher problem.
   - `Settings.gtfs_vehicle_positions_stale_s` (env: `GTFS_VEHICLE_POSITIONS_STALE_S`; default `30`) — same cadence as TripUpdates.
@@ -76,8 +76,8 @@ Manual:
 
 ```bash
 uv run python - <<'PY'
-from gtfs_dleung.feeds import TRIP_UPDATES_URL
-from gtfs_dleung.fetcher.health import fetch_with_health, get_metrics
+from gtfs_demo.feeds import TRIP_UPDATES_URL
+from gtfs_demo.fetcher.health import fetch_with_health, get_metrics
 for _ in range(3):
     msg, health = fetch_with_health(TRIP_UPDATES_URL)
     print(health)

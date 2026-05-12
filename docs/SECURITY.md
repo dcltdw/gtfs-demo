@@ -1,6 +1,6 @@
 # Threat model and security notes
 
-This document covers the security posture of the gtfs-dleung spike. It complements the project-root [SECURITY.md](../SECURITY.md), which is the public disclosure entry point.
+This document covers the security posture of the gtfs-demo spike. It complements the project-root [SECURITY.md](../SECURITY.md), which is the public disclosure entry point.
 
 ## Scope
 
@@ -52,13 +52,13 @@ Out of scope: anything not exercised by the spike (real user accounts, multi-ten
 
 ## Auth event logging
 
-The `gtfs_dleung.auth` module emits structured records via the stdlib logger named `gtfs_dleung.auth`. Three events at INFO:
+The `gtfs_demo.auth` module emits structured records via the stdlib logger named `gtfs_demo.auth`. Three events at INFO:
 
 - `auth.login.success` — `username`, plus stdlib's auto-attached timestamp.
 - `auth.login.failure` — `username`, `reason` (one of `unknown_user`, `wrong_password`, `invalid_hash`).
 - `auth.logout` — emitted by the Streamlit page (#11) on the logout button.
 
-**The password is never written to any log record.** :func:`gtfs_dleung.auth.log_auth_event` raises `ValueError` if a caller passes `password=` as an extra; the test `test_failure_log_does_not_contain_password` is a backstop that scans every produced record for the password substring. A durable audit log (post-demo #38) replaces the stdout sink with a database table.
+**The password is never written to any log record.** :func:`gtfs_demo.auth.log_auth_event` raises `ValueError` if a caller passes `password=` as an extra; the test `test_failure_log_does_not_contain_password` is a backstop that scans every produced record for the password substring. A durable audit log (post-demo #38) replaces the stdout sink with a database table.
 
 ## Public-repo posture
 

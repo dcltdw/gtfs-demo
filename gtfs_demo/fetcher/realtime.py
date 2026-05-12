@@ -25,8 +25,8 @@ from tenacity import (
     wait_exponential,
 )
 
-from gtfs_dleung.config import Settings, get_settings
-from gtfs_dleung.fetcher.rate_limit import OutboundRateLimiter
+from gtfs_demo.config import Settings, get_settings
+from gtfs_demo.fetcher.rate_limit import OutboundRateLimiter
 
 logger = logging.getLogger(__name__)
 

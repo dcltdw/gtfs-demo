@@ -16,7 +16,7 @@ from pathlib import Path
 
 import requests
 
-from gtfs_dleung.config import Settings, get_settings
+from gtfs_demo.config import Settings, get_settings
 
 
 class StaticFeedError(Exception):

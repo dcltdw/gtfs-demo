@@ -1,4 +1,4 @@
-# gtfs-dleung — task recipes.
+# gtfs-demo — task recipes.
 # Run `just` with no args for the list.
 
 # Default: show the list.
@@ -29,7 +29,7 @@ fix:
 
 # Run mypy in strict mode against the package + tests.
 typecheck:
-    uv run mypy gtfs_dleung tests
+    uv run mypy gtfs_demo tests
 
 # Run all pre-commit hooks against every file (matches CI's lint + typecheck minus pytest).
 precommit:
@@ -42,7 +42,7 @@ secrets-baseline:
 
 # Run the Streamlit demo app (the recruiter-demo entrypoint).
 demo:
-    uv run streamlit run gtfs_dleung/app.py
+    uv run streamlit run gtfs_demo/app.py
 
 # Capture fresh GTFS-RT snapshots into examples/ (used as the hard-snapshot fallback tier).
 snapshot:

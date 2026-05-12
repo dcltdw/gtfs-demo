@@ -18,14 +18,14 @@ def test_app_imports() -> None:
     # Importing app.py runs the module body but does NOT call main(); calling
     # main() would require a Streamlit runtime. The module body has only
     # imports + decorator-wrapped function definitions, which is safe.
-    import gtfs_dleung.app as app
+    import gtfs_demo.app as app
 
     assert hasattr(app, "main")
 
 
 def test_main_function_exists_and_callable() -> None:
     """main() is the entrypoint Streamlit invokes; verify it's a callable."""
-    from gtfs_dleung.app import main
+    from gtfs_demo.app import main
 
     assert callable(main)
 
@@ -48,7 +48,7 @@ def test_streamlit_app_starts_cleanly() -> None:
         "-m",
         "streamlit",
         "run",
-        "gtfs_dleung/app.py",
+        "gtfs_demo/app.py",
         "--server.headless=true",
         "--server.address=127.0.0.1",
         "--server.port=8765",

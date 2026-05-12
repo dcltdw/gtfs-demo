@@ -30,13 +30,13 @@ This spec absorbs what the originating issue (#9) called `NF-003-auth`, `NF-004-
 3. **Password never leaves the call site.** :func:`log_auth_event` raises immediately if a caller passes `password=` in `**extras` — defensive, asymmetric: easy to add a `password=` kwarg accidentally, hard to leak one through this surface once the guard is in place. The companion test `test_failure_log_does_not_contain_password` is a backstop that scans every record produced during a sample of verify calls for the password substring.
 4. **Streamlit-authenticator config shape.** :func:`build_authenticator_config` returns the credentials/cookie dict the library expects. The cookie key is a **separate setting** from the password hash — keeps "someone read the hash file" and "someone can forge sessions" as different threats. Test asserts this separation.
 5. **Defence-in-depth stop-id validation.** :func:`validate_stop_id` accepts only the 16 parent-station IDs in `ALL_CORRIDOR_PARENT_STATIONS`. Platform-level IDs (e.g. `70075`) are intentionally rejected — callers resolve to the parent first. The error message does **not** enumerate valid IDs (enumeration belongs in docs, not error responses).
-6. **Pure functions, no Streamlit import.** `gtfs_dleung.auth` and `gtfs_dleung.validation` are importable in test contexts without `streamlit` even being installed; the Streamlit page in #11 is responsible for the widget glue.
+6. **Pure functions, no Streamlit import.** `gtfs_demo.auth` and `gtfs_demo.validation` are importable in test contexts without `streamlit` even being installed; the Streamlit page in #11 is responsible for the widget glue.
 
 ## Outputs
 
 - `verify_credentials(username, password, *, settings=None) -> bool`
 - `build_authenticator_config(settings=None) -> dict[str, Any]`
-- `log_auth_event(event, *, username, **extras) -> None` — emits via `logging.getLogger("gtfs_dleung.auth")`
+- `log_auth_event(event, *, username, **extras) -> None` — emits via `logging.getLogger("gtfs_demo.auth")`
 - `validate_stop_id(stop_id) -> str` — returns unchanged or raises `ValueError`
 
 ## Edge cases
@@ -74,7 +74,7 @@ Manual (in #11's Streamlit page, once wired):
 
 ```python
 import streamlit_authenticator as stauth
-from gtfs_dleung.auth import build_authenticator_config
+from gtfs_demo.auth import build_authenticator_config
 authenticator = stauth.Authenticate(**build_authenticator_config())
 name, status, username = authenticator.login("Login", "main")
 ```

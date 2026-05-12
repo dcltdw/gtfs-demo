@@ -1,6 +1,6 @@
 """Parse a GTFS-RT ``FeedMessage`` carrying VehiclePositions into typed rows.
 
-Note the three id-like fields (see ``gtfs_dleung.models.vehicle`` docstring): the
+Note the three id-like fields (see ``gtfs_demo.models.vehicle`` docstring): the
 parser is careful to keep them distinct rather than collapsing one into another.
 
 The feed is scope-filtered to the demo corridor's routes (``SCOPE_ROUTES``):
@@ -16,8 +16,8 @@ from datetime import UTC, datetime
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.vehicle import VehiclePosition, VehicleStatus
-from gtfs_dleung.scope import SCOPE_ROUTES
+from gtfs_demo.models.vehicle import VehiclePosition, VehicleStatus
+from gtfs_demo.scope import SCOPE_ROUTES
 
 # Protobuf enum values for VehiclePosition.VehicleStopStatus.
 _STATUS_INCOMING_AT = 0

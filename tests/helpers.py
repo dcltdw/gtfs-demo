@@ -11,7 +11,7 @@ from typing import Any, Literal
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.static import Route, StaticFeed, Stop, StopTime, Trip
+from gtfs_demo.models.static import Route, StaticFeed, Stop, StopTime, Trip
 
 # Trip-level ScheduleRelationship enum values (gtfs-realtime.proto).
 TripSR = Literal["SCHEDULED", "ADDED", "UNSCHEDULED", "CANCELED"]

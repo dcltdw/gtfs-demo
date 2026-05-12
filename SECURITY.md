@@ -6,7 +6,7 @@ This is a time-boxed exploration project. No version of the software is supporte
 
 ## Reporting a vulnerability
 
-If you find a security issue, please email **claude.unraveled663@simplelogin.com** with the subject `[gtfs-dleung security]`. Please do not open a public issue for unresolved security defects.
+If you find a security issue, please email **claude.unraveled663@simplelogin.com** with the subject `[gtfs-demo security]`. Please do not open a public issue for unresolved security defects.
 
 Expect an acknowledgement within one business week. There is no formal SLA — this is a personal project.
 

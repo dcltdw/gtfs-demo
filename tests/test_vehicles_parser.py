@@ -1,4 +1,4 @@
-"""Tests for ``gtfs_dleung.parser.vehicles.parse``."""
+"""Tests for ``gtfs_demo.parser.vehicles.parse``."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from pathlib import Path
 import pytest
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.vehicle import VehicleStatus
-from gtfs_dleung.parser.vehicles import parse
+from gtfs_demo.models.vehicle import VehicleStatus
+from gtfs_demo.parser.vehicles import parse
 from tests.helpers import make_vehiclepositions_feed
 
 

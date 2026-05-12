@@ -25,9 +25,9 @@ from zoneinfo import ZoneInfo
 
 from google.transit import gtfs_realtime_pb2
 
-from gtfs_dleung.models.arrival import Arrival, ScheduleRelationship
-from gtfs_dleung.models.static import StaticFeed, Stop, StopTime, Trip
-from gtfs_dleung.scope import SCOPE_ROUTES
+from gtfs_demo.models.arrival import Arrival, ScheduleRelationship
+from gtfs_demo.models.static import StaticFeed, Stop, StopTime, Trip
+from gtfs_demo.scope import SCOPE_ROUTES
 
 MBTA_TZ = ZoneInfo("America/New_York")
 

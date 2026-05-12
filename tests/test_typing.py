@@ -1,7 +1,7 @@
 """Marker tests asserting the existence of the type-safety gate.
 
 The actual type-check is performed by the CI ``typecheck`` job (``mypy --strict``
-against ``gtfs_dleung`` and ``tests``). These tests document the gate's existence
+against ``gtfs_demo`` and ``tests``). These tests document the gate's existence
 inside the pytest suite, so a future contributor scanning ``tests/`` sees that
 typing is part of the contract.
 """

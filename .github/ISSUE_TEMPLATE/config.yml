@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security disclosure
-    url: https://github.com/dcltdw/gtfs-dleung/security/policy
+    url: https://github.com/dcltdw/gtfs-demo/security/policy
     about: For security issues, please follow the disclosure process in SECURITY.md rather than filing a public issue.

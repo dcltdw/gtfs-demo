@@ -1,11 +1,11 @@
-"""Tests for ``gtfs_dleung.parser.static`` — load + filter_to_scope."""
+"""Tests for ``gtfs_demo.parser.static`` — load + filter_to_scope."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from gtfs_dleung.parser.static import filter_to_scope, load_feed_from_dir
-from gtfs_dleung.scope import (
+from gtfs_demo.parser.static import filter_to_scope, load_feed_from_dir
+from gtfs_demo.scope import (
     ALL_CORRIDOR_PARENT_STATIONS,
     GREEN_E_CORRIDOR,
     RED_LINE_CORRIDOR,

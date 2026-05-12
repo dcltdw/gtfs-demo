@@ -2,20 +2,20 @@
 
 Run with::
 
-    uv run streamlit run gtfs_dleung/app.py
+    uv run streamlit run gtfs_demo/app.py
 
 The module is the **only** spot in the codebase that imports ``streamlit`` and
 ``streamlit_authenticator``. Every helper this calls into is unit-testable
 without spinning up Streamlit:
 
-- Auth checks: :mod:`gtfs_dleung.auth`
-- Static feed: :mod:`gtfs_dleung.parser.static` (+ :mod:`gtfs_dleung.fetcher.static`)
-- Realtime fetches: :mod:`gtfs_dleung.fetcher.health` (which wraps F-002's
+- Auth checks: :mod:`gtfs_demo.auth`
+- Static feed: :mod:`gtfs_demo.parser.static` (+ :mod:`gtfs_demo.fetcher.static`)
+- Realtime fetches: :mod:`gtfs_demo.fetcher.health` (which wraps F-002's
   ``fetch_feed`` with the F-006 health tracker)
-- Realtime parses: :mod:`gtfs_dleung.parser.{tripupdates, alerts, vehicles}`
-- Per-stop arrival picker: :mod:`gtfs_dleung.presenter.arrivals`
-- Display formatting: :mod:`gtfs_dleung.presenter.formatters`
-- Inbound rate limit: :mod:`gtfs_dleung.security.rate_limit`
+- Realtime parses: :mod:`gtfs_demo.parser.{tripupdates, alerts, vehicles}`
+- Per-stop arrival picker: :mod:`gtfs_demo.presenter.arrivals`
+- Display formatting: :mod:`gtfs_demo.presenter.formatters`
+- Inbound rate limit: :mod:`gtfs_demo.security.rate_limit`
 
 Auto-refresh uses ``streamlit-autorefresh`` (15s by default). The inbound rate
 limiter sits *before* the refresh handler: if a session blows past its budget,
@@ -33,20 +33,20 @@ import streamlit as st
 import streamlit_authenticator as stauth
 from streamlit_autorefresh import st_autorefresh
 
-from gtfs_dleung.auth import build_authenticator_config
-from gtfs_dleung.config import Settings, get_settings
-from gtfs_dleung.feeds import SERVICE_ALERTS_URL, TRIP_UPDATES_URL
-from gtfs_dleung.fetcher.health import HealthTrackedFetcher
-from gtfs_dleung.fetcher.realtime import FeedFetchError
-from gtfs_dleung.fetcher.static import fetch_static_feed
-from gtfs_dleung.models.alert import ServiceAlert
-from gtfs_dleung.models.arrival import Arrival
-from gtfs_dleung.models.feed_health import FeedHealth, FeedType
-from gtfs_dleung.parser.alerts import parse as parse_alerts
-from gtfs_dleung.parser.static import filter_to_scope, load_feed_from_dir
-from gtfs_dleung.parser.tripupdates import parse as parse_tripupdates
-from gtfs_dleung.presenter.arrivals import next_n_arrivals
-from gtfs_dleung.presenter.formatters import (
+from gtfs_demo.auth import build_authenticator_config
+from gtfs_demo.config import Settings, get_settings
+from gtfs_demo.feeds import SERVICE_ALERTS_URL, TRIP_UPDATES_URL
+from gtfs_demo.fetcher.health import HealthTrackedFetcher
+from gtfs_demo.fetcher.realtime import FeedFetchError
+from gtfs_demo.fetcher.static import fetch_static_feed
+from gtfs_demo.models.alert import ServiceAlert
+from gtfs_demo.models.arrival import Arrival
+from gtfs_demo.models.feed_health import FeedHealth, FeedType
+from gtfs_demo.parser.alerts import parse as parse_alerts
+from gtfs_demo.parser.static import filter_to_scope, load_feed_from_dir
+from gtfs_demo.parser.tripupdates import parse as parse_tripupdates
+from gtfs_demo.presenter.arrivals import next_n_arrivals
+from gtfs_demo.presenter.formatters import (
     direction_label,
     feed_health_icon,
     format_alert_row,
@@ -55,7 +55,7 @@ from gtfs_dleung.presenter.formatters import (
     should_show_stale_banner,
     show_headsign,
 )
-from gtfs_dleung.security.rate_limit import SessionRateLimiter
+from gtfs_demo.security.rate_limit import SessionRateLimiter
 
 # Stops the arrivals board renders. Must match scope (#3); change here if the
 # corridor ever extends.
@@ -104,7 +104,7 @@ def _rate_limiter() -> SessionRateLimiter:
 
 def main() -> None:
     """Page entrypoint. Streamlit calls this every rerun."""
-    st.set_page_config(page_title="gtfs-dleung", page_icon="🚇", layout="wide")
+    st.set_page_config(page_title="gtfs-demo", page_icon="🚇", layout="wide")
     # Hide two hidden-iframe components that Streamlit still wraps in a block-level
     # div, eating vertical space between the title and the data panels:
     #   - st-key-init: extra_streamlit_components.CookieManager (used by
