@@ -29,8 +29,18 @@ class Settings(BaseSettings):
         default="gtfs-dleung/0.1.0 (David Leung; claude.unraveled663@simplelogin.com)"
     )
     gtfs_rt_fetch_interval_seconds: int = Field(default=10, ge=1)
-    gtfs_stale_threshold_s: int = Field(default=30, ge=1)
-    """Seconds: data older than this is considered stale. MBTA publishes ~5s; 30s is a real problem."""
+
+    gtfs_trip_updates_stale_s: int = Field(default=30, ge=1)
+    """Seconds: TripUpdates data older than this is considered stale. MBTA publishes ~5s."""
+
+    gtfs_vehicle_positions_stale_s: int = Field(default=30, ge=1)
+    """Seconds: VehiclePositions data older than this is considered stale. MBTA publishes ~5s."""
+
+    gtfs_service_alerts_stale_s: int = Field(default=300, ge=1)
+    """Seconds: ServiceAlerts data older than this is considered stale. MBTA only rebuilds the
+    alerts feed on change (or a much slower cadence than TripUpdates / VehiclePositions),
+    so the feed's ``header.timestamp`` is routinely tens of minutes old by design — 5 min
+    is the tightest threshold that doesn't false-positive every refresh."""
 
     gtfs_demo_username: str = Field(default="demo")
     """Single seeded username for the demo Streamlit app. See ``docs/SECURITY.md``."""
