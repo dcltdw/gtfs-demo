@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- **Arrivals board UI polish + alert filter tightening** ([#64](https://github.com/dcltdw/gtfs-dleung/issues/64)): four small tweaks.
+  - **Direction labels (Inbound / Outbound) are now center-aligned** in their column. Streamlit's pure-markdown surface has no center alignment, so this is a one-line `<div style="text-align: center">` wrapper rendered with `unsafe_allow_html=True`; the wrapped text is constant (`Inbound` / `Outbound` / `Unknown direction`), so the unsafe-HTML surface area is bounded.
+  - **The `**Route** —` prefix is dropped from each arrival row.** Every row in a given column shares a single route (Davis = Red, Ball Sq = Green-E), so suppressing it lets the `sched`/`pred` times line up across rows. `format_arrival_row` still carries `route` in its dict for consumers that want it.
+  - **Each direction subsection now shows the first 3 arrivals inline**, with any remaining arrivals (4th and beyond) inside a single collapsed `st.expander` labelled `More arrivals (N)`. The expander is omitted entirely when ≤3 arrivals are available — no empty `(0)` widget.
+  - **Alert scope filter tightened to respect the corridor when route-tagged**: `parser.alerts._touches_scope` no longer keeps an alert just because one informed entity has `route_id="Red"` — when *any* informed entity carries a `stop_id`, at least one of those `stop_id`s must be in `scope_stops`. The route-only path remains for systemwide alerts that name no stops at all. Pre-fix, MBTA's "elevator outage at Andrew" (south of Park, outside our Park ↔ Alewife corridor) was kept on the board because the alert was also route-tagged with `Red`. This is the southern corollary to #61's northern corridor extension.
+
 ### Changed (breaking config)
 
 - **Per-feed staleness thresholds** ([#62](https://github.com/dcltdw/gtfs-dleung/issues/62)): the single `Settings.gtfs_stale_threshold_s` (env `GTFS_STALE_THRESHOLD_S`) is **removed** and replaced by three per-feed settings: `gtfs_trip_updates_stale_s` (default 30), `gtfs_vehicle_positions_stale_s` (default 30), and `gtfs_service_alerts_stale_s` (default 300). Rationale: MBTA only rebuilds the Alerts feed when an alert changes, so its `header.timestamp` is routinely tens of minutes old by design — under the uniform 30s threshold the stale banner fired on most refreshes, drowning out real fetch problems. **Migration**: anyone running a local `.env` that sets `GTFS_STALE_THRESHOLD_S` should replace it with the three new env vars (see `.env.example`). The spike has no production deployments, so this is acceptable as a breaking change.
