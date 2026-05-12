@@ -121,6 +121,38 @@ def format_arrival_row(arrival: Arrival) -> dict[str, str | None]:
     }
 
 
+_DELAY_TEXT_COLOR: Final[Mapping[str, str]] = {
+    "green": "green",
+    "yellow": "orange",
+    "red": "red",
+    "neutral": "gray",
+}
+
+_BADGE_MARKDOWN: Final[Mapping[str, str]] = {
+    "CANCELED": " ~~CANCELED~~",
+    "ADDED": " :violet[ADDED]",
+    "SKIPPED": " :gray[SKIPPED]",
+    "UNSCHED": " :gray[UNSCHEDULED]",
+}
+
+
+def format_arrival_markdown(row: Mapping[str, str | None], *, show_headsign: bool) -> str:
+    """Build the single-line Streamlit markdown for one arrival row.
+
+    Pure function so the row format is unit-testable without spinning up Streamlit.
+    Consumers pass the dict returned by :func:`format_arrival_row` plus the
+    per-subsection ``show_headsign`` flag from :func:`show_headsign`.
+    """
+    text_color = _DELAY_TEXT_COLOR.get(row.get("color") or "neutral", "gray")
+    delay_md = f":{text_color}[{row['delay']}]"
+    badge_md = _BADGE_MARKDOWN.get(row.get("badge") or "", "")
+    headsign_md = f" — _toward {row['headsign']}_" if show_headsign and row.get("headsign") else ""
+    return (
+        f"sched **{row['scheduled'] or '?'}** → "
+        f"pred **{row['predicted'] or '?'}** {delay_md}{badge_md}{headsign_md}"
+    )
+
+
 def format_feed_age(age_seconds: float | None) -> str:
     """Human-readable feed age (``None`` → ``"unknown"``, ``8.2`` → ``"8s"``, etc.)."""
     if age_seconds is None:
@@ -227,6 +259,7 @@ __all__ = (
     "direction_label",
     "feed_health_icon",
     "format_alert_row",
+    "format_arrival_markdown",
     "format_arrival_row",
     "format_feed_age",
     "schedule_relationship_badge",

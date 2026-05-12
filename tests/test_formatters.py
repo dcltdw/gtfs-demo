@@ -21,6 +21,7 @@ from gtfs_demo.presenter.formatters import (
     direction_label,
     feed_health_icon,
     format_alert_row,
+    format_arrival_markdown,
     format_arrival_row,
     format_feed_age,
     schedule_relationship_badge,
@@ -179,6 +180,117 @@ def test_format_arrival_row_negative_delay_formatted_with_minus() -> None:
     delay = row["delay"]
     assert delay is not None
     assert delay.startswith("−")  # noqa: RUF001 — U+2212 MINUS SIGN, not ASCII hyphen
+
+
+# ---- format_arrival_markdown -------------------------------------------------
+
+
+def _row(
+    *,
+    scheduled: str | None = "8:00:00 AM",
+    predicted: str | None = "8:01:00 AM",
+    delay: str | None = "+1m 0s",
+    color: str | None = "yellow",
+    badge: str | None = None,
+    headsign: str | None = None,
+) -> dict[str, str | None]:
+    return {
+        "scheduled": scheduled,
+        "predicted": predicted,
+        "delay": delay,
+        "color": color,
+        "badge": badge,
+        "headsign": headsign,
+    }
+
+
+def test_format_arrival_markdown_drops_leading_color_emoji() -> None:
+    """The redundant ``:color:`` emoji prefix is dropped — only the colored delay text remains."""
+    md = format_arrival_markdown(_row(color="red", delay="+5m 37s"), show_headsign=False)
+    assert ":red[+5m 37s]" in md
+    # The two-token form ``:red: :red[...]`` must NOT appear.
+    assert ":red: :red[" not in md
+    # No bare leading colored emoji of any flavor.
+    for color_name in ("red", "orange", "green", "gray"):
+        assert f":{color_name}: " not in md
+
+
+@pytest.mark.parametrize(
+    "color,expected_token",
+    [
+        ("green", ":green[+1m 0s]"),
+        ("yellow", ":orange[+1m 0s]"),  # yellow → orange in the Streamlit color palette
+        ("red", ":red[+1m 0s]"),
+        ("neutral", ":gray[+1m 0s]"),
+        (None, ":gray[+1m 0s]"),  # missing color falls back to gray
+    ],
+)
+def test_format_arrival_markdown_colors_delay_text(color: str | None, expected_token: str) -> None:
+    md = format_arrival_markdown(_row(color=color), show_headsign=False)
+    assert expected_token in md
+
+
+@pytest.mark.parametrize(
+    "badge,expected",
+    [
+        ("CANCELED", "~~CANCELED~~"),
+        ("ADDED", ":violet[ADDED]"),
+        ("SKIPPED", ":gray[SKIPPED]"),
+        ("UNSCHED", ":gray[UNSCHEDULED]"),
+        (None, ""),
+    ],
+)
+def test_format_arrival_markdown_renders_badge(badge: str | None, expected: str) -> None:
+    md = format_arrival_markdown(_row(badge=badge), show_headsign=False)
+    if expected:
+        assert expected in md
+    else:
+        # No badge → none of the badge tokens should appear.
+        for token in ("CANCELED", "ADDED", "SKIPPED", "UNSCHEDULED"):
+            assert token not in md
+
+
+def test_format_arrival_markdown_added_uses_em_dash_for_missing_delay() -> None:
+    """ADDED trips have no scheduled delay; the em-dash from ``_fmt_delay(None)`` renders gray."""
+    md = format_arrival_markdown(
+        _row(scheduled=None, delay="—", color="neutral", badge="ADDED"),
+        show_headsign=False,
+    )
+    assert "sched **?**" in md
+    assert ":gray[—]" in md
+    assert ":violet[ADDED]" in md
+    # Critically: no leading gray emoji before the em-dash.
+    assert ":gray: " not in md
+
+
+def test_format_arrival_markdown_includes_headsign_when_flag_true() -> None:
+    md = format_arrival_markdown(_row(headsign="Braintree"), show_headsign=True)
+    assert "_toward Braintree_" in md
+
+
+def test_format_arrival_markdown_omits_headsign_when_flag_false() -> None:
+    md = format_arrival_markdown(_row(headsign="Braintree"), show_headsign=False)
+    assert "Braintree" not in md
+
+
+def test_format_arrival_markdown_omits_headsign_when_value_missing() -> None:
+    md = format_arrival_markdown(_row(headsign=None), show_headsign=True)
+    assert "_toward" not in md
+
+
+def test_format_arrival_markdown_full_shape() -> None:
+    """End-to-end rendering matches the documented row format (no leading emoji)."""
+    md = format_arrival_markdown(
+        _row(
+            scheduled="11:50:00 PM",
+            predicted="11:55:37 PM",
+            delay="+5m 37s",
+            color="red",
+            headsign="Braintree",
+        ),
+        show_headsign=True,
+    )
+    assert md == ("sched **11:50:00 PM** → pred **11:55:37 PM** :red[+5m 37s] — _toward Braintree_")
 
 
 # ---- format_feed_age ---------------------------------------------------------
