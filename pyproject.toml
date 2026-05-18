@@ -18,7 +18,7 @@ classifiers = [
 dependencies = [
     "gtfs-kit>=10.0.0",
     "gtfs-realtime-bindings>=1.0.0",
-    "requests>=2.32.0",
+    "requests>=2.34.2",
     "pandas>=2.2.0",
     "folium>=0.17.0",
     "streamlit>=1.36.0",
@@ -38,7 +38,7 @@ Issues = "https://github.com/dcltdw/gtfs-demo/issues"
 
 [project.optional-dependencies]
 dev = [
-    "ruff>=0.6.0",
+    "ruff>=0.15.13",
     "mypy>=1.11.0",
     "pytest>=8.3.0",
     "pytest-cov>=5.0.0",
