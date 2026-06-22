@@ -1,5 +1,9 @@
 # gtfs-demo
 
+> ## ⏸ Project paused as of 2026-05-13
+>
+> Active development on this repository has stopped. New PRs and issues may not be reviewed or actioned; Dependabot has been disengaged (`pyproject.toml` and `uv.lock` will drift over time); PR CI still runs so any future drive-by PR still gets a green-check signal. The site, the demo, and the docs all remain — see [#87](https://github.com/dcltdw/gtfs-demo/issues/87) for the full standing notice and what the repo is for now.
+
 A focused GTFS-RT exploration of the MBTA Red Line (Park St ↔ Davis Sq) and the Green Line E branch (Park St ↔ Ball Sq), built as a 4–6 hour spike to demonstrate transit-data competence.
 
 **Docs site**: <https://dcltdw.github.io/gtfs-demo/> (this README, rendered, with the architecture diagram + links to every other doc). Curated link list at <https://dcltdw.github.io/gtfs-demo/docs/>.

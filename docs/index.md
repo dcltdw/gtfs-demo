@@ -56,7 +56,8 @@ The spec contract is in [agent-spec/schema.md](agent-spec/schema.md).
 
 - [AI-COLLABORATION-CONVENTIONS](AI-COLLABORATION-CONVENTIONS.md) — the 9 rules every PR followed. Ported from a prior project; spike-inappropriate rules explicitly dropped.
 
-## Open work
+## Aspirational backlog (not actively scheduled)
 
-- [Pre-demo issues](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apre-demo) — should all be closed by demo time.
-- [Post-demo issues](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apost-demo) — the natural follow-on backlog (27 tickets at last count).
+> **Project paused 2026-05-13** ([#87](https://github.com/dcltdw/gtfs-demo/issues/87)). The open issues below remain as documentation of the natural next steps, not as in-flight work. The [AZURE-PROD-DETAILED](AZURE-PROD-DETAILED.md) doc references each in the relevant production-design context.
+
+- [Post-demo backlog](https://github.com/dcltdw/gtfs-demo/issues?q=is%3Aopen+label%3Apost-demo) — the 28 open follow-on tickets (#15–#41, plus #49 nightly live-feed CI and #57 credential-rotation script). Not scheduled.

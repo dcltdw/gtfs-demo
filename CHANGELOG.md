@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed (project lifecycle)
+
+- **Project paused 2026-05-13** ([#87](https://github.com/dcltdw/gtfs-demo/issues/87)). Active development has stopped; new PRs and issues are not actively monitored. Concrete changes shipped with the pause: README gains a standing-notice banner pointing at #87 (pinned); `.github/dependabot.yml` was removed so the weekly `uv` + `github-actions` update PRs stop arriving; `docs/SECURITY.md`'s "rotate before every demo cycle" cadence is annotated as paused; `docs/index.md`'s "Open work" section is reframed as an aspirational backlog rather than in-flight work. The site, the live-demo recipe, and the captured snapshots are all unchanged; PR CI is preserved so any future drive-by PR still gets the green-check signal.
+
 ### Fixed
 
 - **GitHub Pages nav trimmed from 13 auto-listed pages to a 4-page allow-list.** Minima (the theme set in `_config.yml`) defaults to listing every `.md` file in the rendered site, so the nav bar at the top of <https://dcltdw.github.io/gtfs-demo/> had links to every agent-spec page (F-001 through NF-012) plus CHANGELOG / DEMO / RETROSPECTIVE — wide and noisy. Explicit `header_pages` in `_config.yml` limits the bar to DEMO, CHANGELOG, RETROSPECTIVE, and the docs index; the agent specs remain reachable via the README's inline links.

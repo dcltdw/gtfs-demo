@@ -30,6 +30,8 @@ Out of scope: anything not exercised by the spike (real user accounts, multi-ten
 
 ## Rotation policy
 
+> **Project paused 2026-05-13** ([#87](https://github.com/dcltdw/gtfs-demo/issues/87)) — the "rotate before every demo cycle" cadence below is **suspended** because there are no scheduled future demos. If the project resumes, the cadence resumes with it. Anyone running the demo locally during the pause should still treat the committed values as public placeholders and override them in a local `.env`.
+
 - **Demo credential**: rotate before every demo cycle. Generate the new hash with:
 
   ```bash
