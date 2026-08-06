@@ -117,7 +117,7 @@ The diagram is the data flow per fetch cycle (every 15 s by default — see F-00
 > Locked decisions are tracked in [REQUIREMENTS.md](REQUIREMENTS.md) and refined as ADRs land. Highlights:
 >
 > - Strict GTFS-RT (not the MBTA V3 REST API). Trade-off captured in `docs/UPGRADE-PATH.md` (PR #12).
-> - Python 3.13, uv-managed deps, MIT licence, public repo.
+> - Python 3.13, uv-managed deps, GPL-3.0-or-later licence (originally MIT), public repo.
 > - Two MBTA branches only (Red + Green E).
 
 ## Security
@@ -165,4 +165,10 @@ The published docs site (Mermaid + ADRs + agent specs + glossary) is at <https:/
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE).
+GPL-3.0-or-later — see [LICENSE](LICENSE).
+
+Originally MIT. Every commit published under MIT stays MIT — that grant cannot
+be withdrawn, so anyone may fork from the last MIT commit and continue under
+those terms. The change binds this repo going forward.
+
+Contributions are accepted under the same licence as the project.

@@ -3,14 +3,14 @@ name = "gtfs-demo"
 version = "0.1.0"
 description = "GTFS-RT exploration spike for the MBTA Red Line + Green Line E branch — recruiter-demo deliverable."
 authors = [{ name = "David Leung" }]
-license = { text = "MIT" }
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 keywords = ["gtfs", "gtfs-rt", "mbta", "transit", "streamlit"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: GIS",
@@ -49,7 +49,7 @@ dev = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]  # 1.27 is the PEP 639 floor
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
